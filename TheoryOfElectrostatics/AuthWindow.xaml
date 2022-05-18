@@ -1,0 +1,15 @@
+﻿<Window x:Class="TheoryOfElectrostatics.AuthWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TheoryOfElectrostatics"
+        mc:Ignorable="d"
+        Title="AuthWindow" Height="250" Width="350" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid Background="AliceBlue">
+        <TextBlock HorizontalAlignment="Center" Margin="0,26,0,0" TextWrapping="Wrap" Text="Введите пароль" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
+        <TextBox x:Name="AuthTextBox" HorizontalAlignment="Center" Margin="0,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" FontSize="14" Height="26" VerticalContentAlignment="Center"/>
+        <Button Content="Войти" HorizontalAlignment="Center" Margin="0,142,0,0" VerticalAlignment="Top" Height="27" Width="189" FontSize="16" FontWeight="Bold" Click="AuthButton_Click"/>
+
+    </Grid>
+</Window>

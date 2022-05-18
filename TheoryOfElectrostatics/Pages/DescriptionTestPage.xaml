@@ -1,0 +1,29 @@
+﻿<Page x:Class="TheoryOfElectrostatics.Pages.DescriptionTestPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TheoryOfElectrostatics.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Test">
+
+    <DockPanel Background="AliceBlue">
+        <Grid DockPanel.Dock="Top">
+            <TextBlock x:Name="TitleTextBox" Margin="50,30,50,270" TextWrapping="Wrap" Text="Тест. Тема" TextAlignment="Center" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
+            <TextBlock TextWrapping="Wrap" Margin="50,100,50,0" VerticalAlignment="Top" >
+                Тест состоит из 12 вопросов. Время ответа на вопрос зависит от его вида: 
+                с одним варинтом ответа 30 секунд, с несколькими 60 секунд, с открытым ответом 90 секунд.<LineBreak/><LineBreak/>
+                Принцип оценивания:<LineBreak/>
+                - <Run FontWeight="Bold" FontSize="14" >5: </Run> 85%-100%<LineBreak/>
+                - <Run FontWeight="Bold" FontSize="14" >4: </Run> 75%-84%<LineBreak/>
+                - <Run FontWeight="Bold" FontSize="14" >3: </Run> 60%-74%<LineBreak/>
+                - <Run FontWeight="Bold" FontSize="14" >2: </Run> 0%-59%<LineBreak/>
+            </TextBlock>
+        </Grid>
+
+        <Grid DockPanel.Dock="Bottom" Height="100">
+            <Button Content="Начать" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="40" Width="130" FontSize="16" FontWeight="Bold" Margin="0,0,0,50" Click="StartTestButton_Click"/>
+        </Grid>
+    </DockPanel>
+</Page>

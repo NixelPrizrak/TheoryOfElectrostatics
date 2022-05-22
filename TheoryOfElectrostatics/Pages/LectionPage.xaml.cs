@@ -25,7 +25,7 @@ namespace TheoryOfElectrostatics.Pages
         public LectionPage(int lection)
         {
             InitializeComponent();
-            LectionWebBrowser.Navigate($@"{Environment.CurrentDirectory}/Rezist.htm");
+            LectionWebBrowser.Navigate($@"{Environment.CurrentDirectory}/Lection2.html");
         }
     }
 }

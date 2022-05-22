@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TheoryOfElectrostatics"
-             StartupUri="MainWindow.xaml">
+             StartupUri="TestWindow.xaml">
     <Application.Resources>
         <Style TargetType="{x:Type ToggleButton}">
             <Setter Property="Template">
@@ -20,6 +20,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <Style TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -36,6 +37,69 @@
                                 <Setter Property="Background" Value="#FFADDDFF"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="HeaderButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                            </ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#26FFFFFF"/>
+                                <Setter Property="BorderBrush" Value="#FFB7B7B7"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#4CFFFFFF"/>
+                                <Setter Property="BorderBrush" Value="#FFB7B7B7"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Window}" x:Key="BaseWindowStyleKey">
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome ResizeBorderThickness="10" CaptionHeight="0" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="WindowStyle" Value="None"/>
+            <Setter Property="AllowsTransparency" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Window">
+                        <Border>
+                            <DockPanel>
+                                <Grid x:Name="HeaderGrid" DockPanel.Dock="Top" Height="30" Background="#06476f">
+                                    <Image Source="{TemplateBinding Icon}"/>
+                                    <Label Content="{TemplateBinding Window.Title}"/>
+                                    <Button x:Name="MinButton" Width="40" Height="30" HorizontalAlignment="Right" Margin="0 0 82 0" WindowChrome.IsHitTestVisibleInChrome="True" Style="{DynamicResource HeaderButton}">
+                                        <Image Source="pack://application:,,,/Resources/Curtail.png"/>
+                                    </Button>
+                                    <Button x:Name="MaxButton" Width="40" Height="30" HorizontalAlignment="Right" Margin="0 0 42 0" WindowChrome.IsHitTestVisibleInChrome="True" Style="{DynamicResource HeaderButton}">
+                                        <Image Source="pack://application:,,,/Resources/Expand.png"/>
+                                    </Button>
+                                    <Button x:Name="ExitButton" Width="40" Height="30" HorizontalAlignment="Right" Margin="0 0 2 0" WindowChrome.IsHitTestVisibleInChrome="True" Style="{DynamicResource HeaderButton}">
+                                        <Image Source="pack://application:,,,/Resources/Close.png"/>
+                                    </Button>
+                                </Grid>
+                                <Grid Background="AliceBlue">
+                                    <ContentPresenter
+                                          Content="{TemplateBinding Window.Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                                </Grid>
+                            </DockPanel>
+                        </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

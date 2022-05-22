@@ -83,10 +83,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BaseWindowResource.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="HelpWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -218,6 +214,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Electr5.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CurtailWindow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CurtailWindow2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Expand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Curtail.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

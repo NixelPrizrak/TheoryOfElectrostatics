@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheoryOfElectrostatics", "TheoryOfElectrostatics\TheoryOfElectrostatics.csproj", "{161EEB7E-008B-49ED-BCCB-9D50ED810EEC}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ElectrostaticSetup", "ElectrostaticSetup\ElectrostaticSetup.vdproj", "{4217E728-911B-40E8-A77F-3E45F4B9EB81}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ElectrostaticSetup", "ElectrostaticSetup\ElectrostaticSetup.vdproj", "{CA8514EB-C8AE-4FA4-BD27-A89A4F278A8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +17,10 @@ Global
 		{161EEB7E-008B-49ED-BCCB-9D50ED810EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{161EEB7E-008B-49ED-BCCB-9D50ED810EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{161EEB7E-008B-49ED-BCCB-9D50ED810EEC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4217E728-911B-40E8-A77F-3E45F4B9EB81}.Debug|Any CPU.ActiveCfg = Debug
-		{4217E728-911B-40E8-A77F-3E45F4B9EB81}.Release|Any CPU.ActiveCfg = Release
+		{CA8514EB-C8AE-4FA4-BD27-A89A4F278A8F}.Debug|Any CPU.ActiveCfg = Debug
+		{CA8514EB-C8AE-4FA4-BD27-A89A4F278A8F}.Debug|Any CPU.Build.0 = Debug
+		{CA8514EB-C8AE-4FA4-BD27-A89A4F278A8F}.Release|Any CPU.ActiveCfg = Release
+		{CA8514EB-C8AE-4FA4-BD27-A89A4F278A8F}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

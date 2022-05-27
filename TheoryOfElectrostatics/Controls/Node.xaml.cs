@@ -16,17 +16,13 @@ using System.Windows.Shapes;
 namespace TheoryOfElectrostatics
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для Node.xaml
     /// </summary>
-    public partial class MainWindow : PatternWindow
+    public partial class Node : UserControl
     {
-        public MainWindow()
+        public Node()
         {
             InitializeComponent();
-            DataManager.CheckTempFolder();
-
-            DataManager.MainFrame = MainFrame;
-            DataManager.MainFrame.Navigate(new Pages.MainPage());
         }
     }
 }

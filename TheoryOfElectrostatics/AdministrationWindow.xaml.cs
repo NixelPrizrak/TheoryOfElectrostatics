@@ -17,7 +17,7 @@ namespace TheoryOfElectrostatics
     /// <summary>
     /// Логика взаимодействия для AdministrationWindow.xaml
     /// </summary>
-    public partial class AdministrationWindow : Window
+    public partial class AdministrationWindow : PatternWindow
     {
         public AdministrationWindow()
         {

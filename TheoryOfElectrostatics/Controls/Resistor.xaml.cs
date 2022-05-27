@@ -16,17 +16,20 @@ using System.Windows.Shapes;
 namespace TheoryOfElectrostatics
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для Resistor.xaml
     /// </summary>
-    public partial class MainWindow : PatternWindow
+    public partial class Resistor : UserControl
     {
-        public MainWindow()
+        public Line LeftLine { get; set; }
+        public Line RightLine { get; set; }
+        public Node LeftNode { get; set; }
+        public Node RightNode { get; set; }
+        public Resistor LeftResistor { get; set; }
+        public Resistor RightResistor { get; set; }
+
+        public Resistor()
         {
             InitializeComponent();
-            DataManager.CheckTempFolder();
-
-            DataManager.MainFrame = MainFrame;
-            DataManager.MainFrame.Navigate(new Pages.MainPage());
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<Window x:Class="TheoryOfElectrostatics.AuthWindow"
+﻿<local:PatternWindow x:Class="TheoryOfElectrostatics.AuthWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,4 +12,4 @@
         <Button Content="Войти" HorizontalAlignment="Center" Margin="0,142,0,0" VerticalAlignment="Top" Height="27" Width="189" FontSize="16" FontWeight="Bold" Click="AuthButton_Click"/>
 
     </Grid>
-</Window>
+</local:PatternWindow>

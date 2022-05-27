@@ -20,7 +20,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -35,6 +35,10 @@
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter Property="Background" Value="#FFADDDFF"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#FFEFEFEF"/>
+                                <Setter Property="BorderBrush" Value="#FFCCCCCC"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -67,31 +71,39 @@
             </Setter>
         </Style>
 
-        <Style TargetType="{x:Type Window}" x:Key="BaseWindowStyleKey">
+        <Style TargetType="{x:Type Window}" x:Key="PatternWindowStyleKey">
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
                     <WindowChrome ResizeBorderThickness="10" CaptionHeight="0" />
                 </Setter.Value>
             </Setter>
+            <Setter Property="WindowState" Value="Normal"/>
             <Setter Property="WindowStyle" Value="None"/>
-            <Setter Property="AllowsTransparency" Value="True"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Window">
-                        <Border>
+                        <Border x:Name="MainBorder" BorderThickness="1" BorderBrush="#FF0079FF">
                             <DockPanel>
-                                <Grid x:Name="HeaderGrid" DockPanel.Dock="Top" Height="30" Background="#06476f">
-                                    <Image Source="{TemplateBinding Icon}"/>
-                                    <Label Content="{TemplateBinding Window.Title}"/>
-                                    <Button x:Name="MinButton" Width="40" Height="30" HorizontalAlignment="Right" Margin="0 0 82 0" WindowChrome.IsHitTestVisibleInChrome="True" Style="{DynamicResource HeaderButton}">
-                                        <Image Source="pack://application:,,,/Resources/Curtail.png"/>
-                                    </Button>
-                                    <Button x:Name="MaxButton" Width="40" Height="30" HorizontalAlignment="Right" Margin="0 0 42 0" WindowChrome.IsHitTestVisibleInChrome="True" Style="{DynamicResource HeaderButton}">
-                                        <Image Source="pack://application:,,,/Resources/Expand.png"/>
-                                    </Button>
-                                    <Button x:Name="ExitButton" Width="40" Height="30" HorizontalAlignment="Right" Margin="0 0 2 0" WindowChrome.IsHitTestVisibleInChrome="True" Style="{DynamicResource HeaderButton}">
-                                        <Image Source="pack://application:,,,/Resources/Close.png"/>
-                                    </Button>
+                                <Grid x:Name="HeaderGrid" DockPanel.Dock="Top" Height="30" Background="#FF0079FF">
+                                    <Grid HorizontalAlignment="Left" Height="16" Margin="8,0,0,0">
+                                        <Image Source="/Resources/lightning-bolt.ico"/>
+                                    </Grid>
+                                    <Label Content="{TemplateBinding Window.Title}" HorizontalAlignment="Left" Margin="30,0,0,0" VerticalAlignment="Center"/>
+                                    <WrapPanel Height="30" WindowChrome.IsHitTestVisibleInChrome="True" HorizontalAlignment="Right">
+                                        <Button x:Name="HelpButton" Width="40"  Style="{DynamicResource HeaderButton}">
+                                            <Image Source="pack://application:,,,/Resources/Help.png"/>
+                                        </Button>
+                                        <Button x:Name="MinButton" Width="40" Style="{DynamicResource HeaderButton}">
+                                            <Image Source="pack://application:,,,/Resources/Curtail.png"/>
+                                        </Button>
+                                        <Button x:Name="MaxButton" Width="40" Style="{DynamicResource HeaderButton}">
+                                            <Image Source="pack://application:,,,/Resources/Expand.png"/>
+                                        </Button>
+                                        <Button x:Name="ExitButton" Width="40" Style="{DynamicResource HeaderButton}">
+                                            <Image Source="pack://application:,,,/Resources/Close.png"/>
+                                        </Button>
+                                    </WrapPanel>
+
                                 </Grid>
                                 <Grid Background="AliceBlue">
                                     <ContentPresenter

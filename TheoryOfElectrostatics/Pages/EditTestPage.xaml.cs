@@ -13,20 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TheoryOfElectrostatics
+namespace TheoryOfElectrostatics.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для EditTestPage.xaml
     /// </summary>
-    public partial class MainWindow : PatternWindow
+    public partial class EditTestPage : Page
     {
-        public MainWindow()
+        public EditTestPage()
         {
             InitializeComponent();
-            DataManager.CheckTempFolder();
-
-            DataManager.MainFrame = MainFrame;
-            DataManager.MainFrame.Navigate(new Pages.MainPage());
         }
     }
 }

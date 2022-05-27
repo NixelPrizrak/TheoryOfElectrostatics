@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,18 +13,36 @@ using System.Windows.Media.Imaging;
 
 namespace TheoryOfElectrostatics
 {
-    public class BaseWindow : Window
+    public class PatternWindow : Window
     {
         public bool Maximaze { get; set; }
         public double LeftW { get; set; }
         public double TopW { get; set; }
         public double WidthW { get; set; }
         public double HeightW { get; set; }
-        public BaseWindow()
+        public Button MinButton { get; set; }
+        public Button MaxButton { get; set; }
+        public Button HelpButton { get; set; }
+        public bool ButtonsVisible { get; set; }
+
+        public PatternWindow()
         {
-            Style = FindResource("BaseWindowStyleKey") as Style;
+            Style = FindResource("PatternWindowStyleKey") as Style;
 
             ContentRendered += new EventHandler(BaseWindow_ContentRendered);
+            ButtonsVisible = true;
+            this.Closed += PatternWindow_Closed;
+        }
+
+        private void PatternWindow_Closed(object sender, EventArgs e)
+        {
+            //if (Directory.Exists(Properties.Settings.Default.TempPath))
+            //{
+            //    GC.Collect();
+            //    GC.WaitForPendingFinalizers();
+            //    Directory.Delete(Properties.Settings.Default.TempPath, true);
+            //    Directory.CreateDirectory(Properties.Settings.Default.TempPath);
+            //}
         }
 
         void BaseWindow_ContentRendered(object sender, EventArgs e)
@@ -31,20 +51,23 @@ namespace TheoryOfElectrostatics
             header.MouseLeftButtonDown += Border_MouseLeftButtonDown;
             Button closeButton = Template.FindName("ExitButton", this) as Button;
             closeButton.Click += ExitButton_Click;
-            Button minButton = Template.FindName("MinButton", this) as Button;
-            minButton.Click += MinButton_Click;
-            Button maxButton = Template.FindName("MaxButton", this) as Button;
-            maxButton.Click += MaxButton_Click;
-
-            this.LocationChanged += BaseWindow_LocationChanged;
+            MinButton = Template.FindName("MinButton", this) as Button;
+            MaxButton = Template.FindName("MaxButton", this) as Button;
+            HelpButton = Template.FindName("HelpButton", this) as Button;
+            MinButton.Click += MinButton_Click;
+            MaxButton.Click += MaxButton_Click;
+            HelpButton.Click += HelpButton_Click;
+            if (!ButtonsVisible)
+            {
+                HelpButton.Visibility = Visibility.Collapsed;
+                MaxButton.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!Maximaze)
             {
-
-
                 this.DragMove();
             }
         }
@@ -64,16 +87,17 @@ namespace TheoryOfElectrostatics
             Maximazed(!Maximaze);
         }
 
-        private void BaseWindow_LocationChanged(object sender, EventArgs e)
+        private void HelpButton_Click(object sender, RoutedEventArgs e)
         {
+            new HelpWindow().Show();
         }
 
         private void Maximazed(bool max)
         {
             if (max)
             {
-                Image image = (Template.FindName("MaxButton", this) as Button).Content as Image;
-                image.Source = new BitmapImage(new Uri(@"pack://application:,,,/Resources/CurtailWindow2.png"));
+                Image image = MaxButton.Content as Image;
+                image.Source = new BitmapImage(new Uri(@"pack://application:,,,/Resources/CurtailWindow.png"));
                 LeftW = this.Left;
                 TopW = this.Top;
                 WidthW = this.Width;
@@ -96,7 +120,7 @@ namespace TheoryOfElectrostatics
         private void NormalScreen()
         {
             Maximaze = false;
-            Image image = (Template.FindName("MaxButton", this) as Button).Content as Image;
+            Image image = MaxButton.Content as Image;
             image.Source = new BitmapImage(new Uri(@"pack://application:,,,/Resources/Expand.png"));
             this.ResizeMode = ResizeMode.CanResize;
             this.Width = WidthW;

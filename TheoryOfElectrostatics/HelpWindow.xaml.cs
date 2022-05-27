@@ -17,11 +17,13 @@ namespace TheoryOfElectrostatics
     /// <summary>
     /// Логика взаимодействия для HelpWindow.xaml
     /// </summary>
-    public partial class HelpWindow : Window
+    public partial class HelpWindow : PatternWindow
     {
         public HelpWindow()
         {
             InitializeComponent();
+            ResizeMode = ResizeMode.NoResize;
+            ButtonsVisible = false;
         }
 
         private void AdministrationButton_Click(object sender, RoutedEventArgs e)

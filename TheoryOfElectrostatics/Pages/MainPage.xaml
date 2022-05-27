@@ -12,7 +12,6 @@
         <Grid Background="AliceBlue" Height="80" DockPanel.Dock="Top">
             <Button Content="Лекции" Margin="266,0,0,0" Height="30" HorizontalAlignment="Left" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="LectionsButton_Click"/>
             <Button Content="Тесты" Height="30" HorizontalAlignment="Left" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Margin="565,0,0,0" Click="TestsButton_Click"/>
-            <Button Content="?" HorizontalAlignment="Right" Margin="0,0,30,0" VerticalAlignment="Center" FontSize="26" FontWeight="Bold" Height="40" Width="40" Click="HelpButton_Click"/>
         </Grid>
         <Frame x:Name="DataFrame" NavigationUIVisibility="Hidden"/>
     </DockPanel>

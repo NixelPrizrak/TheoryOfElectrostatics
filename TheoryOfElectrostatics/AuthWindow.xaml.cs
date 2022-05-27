@@ -17,7 +17,7 @@ namespace TheoryOfElectrostatics
     /// <summary>
     /// Логика взаимодействия для AuthWindow.xaml
     /// </summary>
-    public partial class AuthWindow : Window
+    public partial class AuthWindow : PatternWindow
     {
         public AuthWindow()
         {

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 
 namespace TheoryOfElectrostatics
 {
@@ -17,8 +18,12 @@ namespace TheoryOfElectrostatics
         static public Frame HelpFrame { get; set; }
         static public Frame AdministrationFrame { get; set; }
         static public int IdTest { get; set; }
-        static public string LectionsPath { get => $"Data/Lectionss.zip"; }
+        static public string CurrentTheme { get; set; }
+        static public List<string> Themes { get; set; }
+        static public int Section { get; set; }
+        static public string LectionsPath { get => $"Data/Lections.zip"; }
         static public string TestsPath { get => $"Data/Tests.zip"; }
+        static public string ImagesPath { get => $"{CurrentTheme}/Images"; }
 
         static public void CreateTempFolder()
         {
@@ -55,31 +60,20 @@ namespace TheoryOfElectrostatics
             }
         }
 
-        static public void CheckZip()
+        static public ZipFile OpenZip(string zipPath)
         {
-            if (!File.Exists(LectionsPath))
-            {
-                using (File.Create(LectionsPath)) { };
-
-                using (ZipFile zip = OpenZip()) { }
-            }
-
-        }
-
-        static public ZipFile OpenZip()
-        {
-            if (!File.Exists(LectionsPath))
+            if (!File.Exists(zipPath))
             {
                 using (ZipFile zipFile = new ZipFile())
                 {
                     zipFile.Encryption = EncryptionAlgorithm.WinZipAes256;
                     zipFile.Password = "123";
                     zipFile.TempFileFolder = Properties.Settings.Default.TempPath;
-                    zipFile.Save(LectionsPath);
+                    zipFile.Save(zipPath);
                 }
             }
 
-            ZipFile zip = ZipFile.Read(LectionsPath, new ReadOptions { Encoding = Encoding.GetEncoding(866) });
+            ZipFile zip = ZipFile.Read(zipPath, new ReadOptions { Encoding = Encoding.GetEncoding(866) });
             zip.Encryption = EncryptionAlgorithm.WinZipAes256;
             zip.Password = "123";
             zip.TempFileFolder = Properties.Settings.Default.TempPath;
@@ -100,5 +94,77 @@ namespace TheoryOfElectrostatics
             }
         }
 
+        static public List<T> ShuffleList<T>(List<T> list)
+        {
+            Random rand = new Random();
+
+            for (int i = list.Count - 1; i >= 1; i--)
+            {
+                int j = rand.Next(i + 1);
+
+                T tmp = list[j];
+                list[j] = list[i];
+                list[i] = tmp;
+            }
+
+            return list;
+        }
+
+        static public BitmapImage GetImage(string path)
+        {
+            BitmapImage image = null;
+
+            using (ZipFile zip = OpenZip(LectionsPath))
+            {
+                if (zip[path] != null)
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        zip[path].Extract(ms);
+                        ms.Position = 0;
+                        image = new BitmapImage();
+                        image.BeginInit();
+                        image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                        image.CacheOption = BitmapCacheOption.OnLoad;
+                        image.UriSource = null;
+                        image.StreamSource = ms;
+                        image.EndInit();
+                    }
+                }
+            }
+
+            return image;
+        }
+
+        static public string LoadImage(string fileName, string folder)
+        {
+            string name = "";
+            string extension = new FileInfo(fileName).Extension;
+
+            using (ZipFile zip = OpenZip(LectionsPath))
+            {
+                List<string> names = zip.EntryFileNames.ToList();
+
+                do
+                {
+                    name = $"{Guid.NewGuid()}{extension}";
+                }
+                while (names.Contains($"{folder}/{name}"));
+
+                zip.AddEntry($"{folder}/{name}", File.ReadAllBytes(fileName));
+                zip.Save();
+            }
+
+            return name;
+        }
+
+        static public void RemoveImage(string fileName)
+        {
+            using (ZipFile zip = OpenZip(LectionsPath))
+            {
+                zip.RemoveEntry($"{ImagesPath}/{fileName}");
+                zip.Save();
+            }
+        }
     }
 }

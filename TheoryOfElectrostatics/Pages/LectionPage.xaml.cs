@@ -29,12 +29,12 @@ namespace TheoryOfElectrostatics.Pages
             InitializeComponent();
             Directory.Delete(Properties.Settings.Default.TempPath, true);
             DataManager.CheckTempFolder();
-            using (ZipFile zip = DataManager.OpenZip())
+            using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
             {
                 zip.ExtractSelectedEntries("*", lection, Properties.Settings.Default.TempPath);
-                zip.ExtractSelectedEntries("*", $"{lection}/{lection}.files", Properties.Settings.Default.TempPath);
+                zip.ExtractSelectedEntries("*", $"{lection}/Lection.files", Properties.Settings.Default.TempPath);
             }
-            string fileLection = Path.Combine(Properties.Settings.Default.TempPath, lection, $"{lection}.html");
+            string fileLection = Path.Combine(Properties.Settings.Default.TempPath, lection, $"Lection.html");
 
             if (File.Exists(fileLection))
             {

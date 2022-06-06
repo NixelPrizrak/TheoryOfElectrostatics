@@ -5,13 +5,65 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TheoryOfElectrostatics"
         mc:Ignorable="d"
-        Title="AdministrationWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="Администрирование" Height="600" Width="1000" WindowStartupLocation="CenterScreen" MinWidth="1000" MinHeight="600">
+
     <DockPanel Background="AliceBlue">
-        <Grid DockPanel.Dock="Top" Height="60">
-            <Button Content="Лекции" Margin="186,0,0,0" Height="30" HorizontalAlignment="Left" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="LectionsButton_Click"/>
-            <Button Content="Тесты" Height="30" HorizontalAlignment="Left" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Margin="485,0,0,0" Click="TestsButton_Click"/>
+        <DockPanel Background="#FFBADFFF">
+            <Border Background="#FF84C7FF" DockPanel.Dock="Top" Height="60">
+                <Button Content="Удалить тему" Margin="15" Click="DeleteThemeButton_Click"/>
+            </Border>
+            <WrapPanel Orientation="Vertical">
+                <ListView x:Name="ThemesListView" Background="#FFBADFFF" Width="200" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="ThemesListView_SelectionChanged">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border Background="{TemplateBinding Background}" Width="196" Padding="10">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#26000000"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#FF004D67"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Grid.Row="1" Text="{Binding Mode=OneWay}" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontSize="14" FontFamily="Segoe UI Semibold"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Grid Margin="0,20,0,20">
+                    <TextBox x:Name="ThemeTextBox" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="10,0,0,0" Width="150" Height="24"/>
+                    <Button HorizontalAlignment="Left" Margin="165,0,0,0" Width="24" Height="24" FontSize="14" Click="AddThemeButton_Click">
+                        <Button.Content>
+                            <TextBlock Text="+" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="0,0,0,6"/>
+                        </Button.Content>
+                    </Button>
+                </Grid>
+            </WrapPanel>
+        </DockPanel>
+        <Grid Background="#FFBADFFF" DockPanel.Dock="Top" Height="60">
+            <Button Content="Лекции" Margin="-300,0,0,0" Height="30" HorizontalAlignment="Center" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="LectionsButton_Click"/>
+            <Button Content="Тесты" Margin="360,0,0,0" Height="30" HorizontalAlignment="Center" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="TestsButton_Click"/>
         </Grid>
-        <Frame x:Name="AdministrationFrame"/>
+        <Frame x:Name="AdministrationFrame" NavigationUIVisibility="Hidden"/>
 
     </DockPanel>
 </local:PatternWindow>

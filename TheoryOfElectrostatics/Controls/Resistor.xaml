@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TheoryOfElectrostatics"
-             mc:Ignorable="d">
+             mc:Ignorable="d" VerticalAlignment="Top" HorizontalAlignment="Left" Width="160" Height="50">
+    
     <UserControl.Resources>
         <Style TargetType="{x:Type Ellipse}">
             <Setter Property="Fill" Value="#02000000"/>
@@ -16,7 +17,7 @@
         </Style>
     </UserControl.Resources>
     
-    <Grid Width="160" Height="50">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.0625*"/>
             <ColumnDefinition Width="0.0625*"/>
@@ -32,7 +33,8 @@
             <RowDefinition Height="0.30*"/>
         </Grid.RowDefinitions>
         <Image Grid.ColumnSpan="3" Grid.RowSpan="3" />
-        <Rectangle Fill="Transparent" Stroke="Black" StrokeThickness="2" Grid.Column="3" Grid.RowSpan="3" />
+        <Label x:Name="TitleLabel" Content="R1" Grid.Column="3" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" />
+        <Rectangle x:Name="Body" Fill="Transparent" Stroke="Black" StrokeThickness="2" Grid.Column="3" Grid.RowSpan="3" />
         <Rectangle Height="2" StrokeThickness="2" Fill="Black" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"/>
         <Rectangle Height="2" StrokeThickness="2" Fill="Black" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2"/>
         <Ellipse x:Name="LeftEnd" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>

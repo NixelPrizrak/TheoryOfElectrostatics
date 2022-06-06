@@ -41,5 +41,10 @@ namespace TheoryOfElectrostatics.Pages
         {
             new HelpWindow().ShowDialog();
         }
+
+        private void TestWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            new TestWindow().ShowDialog();
+        }
     }
 }

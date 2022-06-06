@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,120 +20,106 @@ namespace TheoryOfElectrostatics
     /// </summary>
     public partial class TestWindow : PatternWindow
     {
-        public UnionLine CurrentLine { get; set; }
-        public Ellipse CurrentEllipse { get; set; }
+        private double startPosition = 0;
+        private double startOffset = 0;
+
         public TestWindow()
         {
             InitializeComponent();
-            foreach (var resistor in SchemeGrid.Children.OfType<Resistor>())
-            {
-                resistor.LeftEnd.PreviewMouseLeftButtonUp += End_MouseLeftButtonUp;
-                resistor.RightEnd.PreviewMouseLeftButtonUp += End_MouseLeftButtonUp;
-            }
-            foreach (var node in SchemeGrid.Children.OfType<Node>())
-            {
-                node.NodeEllipse.PreviewMouseLeftButtonUp += End_MouseLeftButtonUp;
-            }
         }
 
-        private void End_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void PatternWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Ellipse ellipse = sender as Ellipse;
-
-            if (CurrentLine == null)
+            for (int i = 0; i < 40; i++)
             {
-                if (!(ellipse.Parent is Node))
-                {
-                    UnionLine line = new UnionLine();
-
-                    Point position = ellipse.TranslatePoint(new Point(0, 0), SchemeGrid);
-                    line.X1 = line.X2 = position.X + ellipse.ActualWidth / 2;
-                    line.Y1 = line.Y2 = position.Y + ellipse.ActualHeight / 2;
-                    CurrentEllipse = ellipse;
-                    CurrentLine = SchemeGrid.Children[SchemeGrid.Children.Add(line)] as UnionLine;
-                    CurrentLine.IsHitTestVisible = false;
-                }
+                QuestionsListView.Items.Add(i);
             }
-            else
-            {
-                Resistor resistor = (CurrentEllipse.Parent as Grid).Parent as Resistor;
+            //TestScheme.AddResistor(3);
+        }
 
-                if (ellipse.Parent is Node node)
-                {
-                    if (CurrentEllipse.Name == "LeftEnd")
-                    {
-                        resistor.LeftNode = node;
-                    }
-                    else
-                    {
-                        resistor.RightNode = node;
-                    }
-                    Union(ellipse, CurrentLine);
-                    (CurrentEllipse.Parent as Grid).Children.Remove(CurrentEllipse);
-                    CurrentEllipse = null;
-                }
+        private void CheckButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Dictionary<string, Resistor> resistors = TestScheme.SchemeGrid.Children.OfType<Resistor>().ToDictionary(resistor => resistor.Title);
+            //if (Scheme.CheckScheme(resistors, 0))
+            //{
+            //    MessageBox.Show("Правильно");
+            //    return;
+            //}
+
+            //MessageBox.Show("Неправильно");
+        }
+
+        private void SelectionQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("");
+        }
+
+        private void QuestionsListView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ListView lv = sender as ListView;
+            startPosition = e.GetPosition(this).X;
+            ScrollViewer sv = FindVisualChild<ScrollViewer>(lv);
+            startOffset = sv.HorizontalOffset;
+            (sender as ListView).CaptureMouse();
+        }
+
+        private void QuestionsListView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            (sender as ListView).ReleaseMouseCapture();
+        }
+
+        private void QuestionsListView_MouseMove(object sender, MouseEventArgs e)
+        {
+            ListView lv = sender as ListView;
+            if (!lv.IsMouseCaptured)
+            {
+                return;
+            }
+            ScrollViewer sv = FindVisualChild<ScrollViewer>(lv);
+            double mousePosition = e.GetPosition(this).X;
+            sv.ScrollToHorizontalOffset(startOffset - mousePosition + startPosition);
+        }
+
+        public static childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject
+        {
+            // Search immediate children first (breadth-first)
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+
+                if (child != null && child is childItem)
+                    return (childItem)child;
+
                 else
                 {
-                    Resistor endResistor = (ellipse.Parent as Grid).Parent as Resistor;
-                    if (resistor == endResistor)
-                    {
-                        return;
-                    }
+                    childItem childOfChild = FindVisualChild<childItem>(child);
 
-                    if (CurrentEllipse.Name == "LeftEnd")
-                    {
-                        resistor.LeftResistor = endResistor;
-                    }
-                    else
-                    {
-                        resistor.RightResistor = endResistor;
-                    }
-
-                    if (CurrentEllipse.Name != ellipse.Name)
-                    {
-                        Union(ellipse, CurrentLine);
-                        (CurrentEllipse.Parent as Grid).Children.Remove(CurrentEllipse);
-                        (ellipse.Parent as Grid).Children.Remove(ellipse);
-                        CurrentEllipse = null;
-                    }
+                    if (childOfChild != null)
+                        return childOfChild;
                 }
             }
+
+            return null;
         }
 
-        private void Union(Ellipse ellipse, UnionLine line)
+        private void QuestionsListView_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            Point position = ellipse.TranslatePoint(new Point(0, 0), SchemeGrid);
-            line.X2 = position.X + ellipse.ActualWidth / 2;
-            line.Y2 = position.Y + ellipse.ActualHeight / 2;
-            CurrentLine = null;
+            ListView lv = sender as ListView;
+            ScrollViewer sv = FindVisualChild<ScrollViewer>(lv);
+            sv.ScrollToHorizontalOffset(sv.HorizontalOffset + e.Delta);
         }
 
-        private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            //if (CurrentLine == null)
-            //{
-            //    Grid grid = sender as Grid;
-            //    UnionLine line = new UnionLine();
-            //    line.X1 = e.GetPosition(grid).X;
-            //    line.Y1 = e.GetPosition(grid).Y;
-            //    line.X2 = e.GetPosition(grid).X;
-            //    line.Y2 = e.GetPosition(grid).Y;
-            //    CurrentLine = grid.Children[grid.Children.Add(line)] as UnionLine;
-            //}
-            //else
-            //{
-            //    CurrentLine = null;
-            //}
-        }
 
-        private void Grid_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (CurrentLine != null)
-            {
-                Grid grid = sender as Grid;
-                CurrentLine.X2 = e.GetPosition(grid).X;
-                CurrentLine.Y2 = e.GetPosition(grid).Y;
-            }
-        }
+        //public object CheckParallel(Dictionary<string, Resistor> resistors, string ifUnion)
+        //{
+        //    Regex regex = new Regex(@"\(.+\)");
+        //    var matches = regex.Matches(ifUnion);
+        //    foreach (Match match in matches)
+        //    {
+        //        Dictionary
+        //    }
+
+        //    return new Resistor();
+        //}
     }
 }

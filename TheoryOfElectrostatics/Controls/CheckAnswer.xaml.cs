@@ -16,13 +16,14 @@ using System.Windows.Shapes;
 namespace TheoryOfElectrostatics
 {
     /// <summary>
-    /// Логика взаимодействия для Node.xaml
+    /// Логика взаимодействия для CheckAnswer.xaml
     /// </summary>
-    public partial class Node : UserControl
+    public partial class CheckAnswer : UserControl
     {
-        public List<UnionLine> UnionLines { get; set; }
+        public bool Check { get => MainCheckBox.IsChecked.Value; set => MainCheckBox.IsChecked = value; }
+        public string Text { get => MainTextBlock.Text; set => MainTextBlock.Text = value; }
 
-        public Node()
+        public CheckAnswer()
         {
             InitializeComponent();
         }

@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Ionic.Zip;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,21 +22,124 @@ namespace TheoryOfElectrostatics
     /// </summary>
     public partial class AdministrationWindow : PatternWindow
     {
+        private List<string> themes = new List<string>();
+
         public AdministrationWindow()
         {
             InitializeComponent();
             DataManager.AdministrationFrame = AdministrationFrame;
             DataManager.AdministrationFrame.Navigate(new Pages.EditLectionPage());
+
+            using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+            {
+                if (Directory.Exists(Properties.Settings.Default.TempPath))
+                {
+                    Directory.Delete(Properties.Settings.Default.TempPath, true);
+                }
+                DataManager.CheckTempFolder();
+
+                foreach (var entry in zip.Entries)
+                {
+                    themes.Add(entry.FileName.Split('/')[0]);
+                }
+                themes = themes.Distinct().ToList();
+            }
+
+            if (themes.Count > 0)
+            {
+                ThemesListView.ItemsSource = themes;
+                ThemesListView.SelectedIndex = 0;
+            }
         }
 
         private void LectionsButton_Click(object sender, RoutedEventArgs e)
         {
-
+            DataManager.Section = 0;
+            DataManager.AdministrationFrame.Navigate(new Pages.EditLectionPage());
         }
 
         private void TestsButton_Click(object sender, RoutedEventArgs e)
         {
+            DataManager.Section = 1;
+            DataManager.AdministrationFrame.Navigate(new Pages.EditTestPage());
+        }
 
+        private void AddThemeButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string theme = ThemeTextBox.Text.Trim();
+                if (themes.Contains(theme))
+                {
+                    MessageBox.Show("Данная тема уже есть.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+                {
+                    zip.AddDirectoryByName(theme);
+                    zip.Save();
+                }
+                themes.Add(theme);
+                ThemesListView.Items.Refresh();
+
+                ThemesListView.SelectedIndex = ThemesListView.Items.Count - 1;
+                ThemeTextBox.Text = "";
+                MessageBox.Show("Тема добавлена.", "Информация");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void DeleteThemeButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+                {
+                    Regex reg = new Regex($"^{DataManager.CurrentTheme}");
+                    var entries = zip.Entries.ToList();
+                    foreach (var entry in entries)
+                    {
+                        if (reg.IsMatch(entry.FileName))
+                        {
+                            zip.RemoveEntry(entry);
+                        }
+                    }
+                    zip.Save();
+                }
+
+                themes.Remove(DataManager.CurrentTheme);
+                ThemesListView.Items.Refresh();
+                ThemesListView.SelectedIndex = 0;
+
+                MessageBox.Show("Тема удалена.", "Информация");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ThemesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ThemesListView.SelectedItem != null)
+            {
+                DataManager.CurrentTheme = ThemesListView.SelectedItem.ToString();
+
+                switch (DataManager.Section)
+                {
+                    case 0:
+                        AdministrationFrame.Navigate(new Pages.EditLectionPage());
+                        break;
+                    case 1:
+                        AdministrationFrame.Navigate(new Pages.EditTestPage());
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }

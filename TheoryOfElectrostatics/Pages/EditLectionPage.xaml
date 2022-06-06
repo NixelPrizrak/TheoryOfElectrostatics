@@ -7,21 +7,17 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="EditLectionPage">
-
+    
     <Grid Background="AliceBlue">
-        <ComboBox x:Name="LectionsComboBox" HorizontalAlignment="Left" Margin="288,102,0,0" VerticalAlignment="Top" Width="324" SelectionChanged="LectionsComboBox_SelectionChanged"/>
-        <TextBox x:Name="PathTextBox" HorizontalAlignment="Left" Margin="290,140,0,0" VerticalAlignment="Top" Width="296" Height="21" IsReadOnly="True"/>
-        <Button x:Name="LoadButton" Content="Загрузить" HorizontalAlignment="Center" Margin="0,179,0,0" VerticalAlignment="Top" Width="424" Height="31" FontSize="14" Click="LoadButton_Click"/>
-        <Label Content="Тема:" HorizontalAlignment="Left" Margin="188,100,0,0" VerticalAlignment="Top"/>
-        <Label Content="Путь к файлу:" HorizontalAlignment="Left" Margin="184,135,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="SelectPathButton" Content="..." HorizontalAlignment="Left" Margin="592,140,0,0" VerticalAlignment="Top" Width="20" Height="21" FontSize="14" Click="SelectPathButton_Click"/>
-        <TextBox x:Name="ThemeTextBox" HorizontalAlignment="Left" Margin="290,69,0,0" VerticalAlignment="Top" Width="292" Height="21"/>
-        <Button x:Name="AddButton" Content="+" HorizontalAlignment="Left" Margin="586,67,0,0" VerticalAlignment="Top" Width="26" Height="26" FontSize="16" Click="AddButton_Click"/>
-        <Label Content="Название темы:" HorizontalAlignment="Left" Margin="188,69,0,0" VerticalAlignment="Top" Width="96"/>
-        <Button x:Name="UploadButton_Copy" Content="Выгрузить" HorizontalAlignment="Center" Margin="0,225,0,0" VerticalAlignment="Top" Width="424" Height="30" FontSize="14" Click="UploadButton_Click"/>
-        <Image x:Name="ThemeImage" HorizontalAlignment="Left" Height="100" Margin="45,69,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="ChangeImageButton_Copy" Content="Изменить" HorizontalAlignment="Left" Margin="45,179,0,0" VerticalAlignment="Top" Width="100" Height="31" FontSize="14" Click="ChangeImageButton_Click"/>
-        <Button x:Name="DeleteButton_Copy1" Content="Удалить" HorizontalAlignment="Center" Margin="0,270,0,0" VerticalAlignment="Top" Width="424" Height="30" FontSize="14" Click="DeleteButton_Click"/>
-
+        <Grid HorizontalAlignment="Center">
+            <TextBox x:Name="PathTextBox" HorizontalAlignment="Left" Margin="290,150,0,0" VerticalAlignment="Top" Width="422" Height="24" IsReadOnly="True" VerticalContentAlignment="Center"/>
+            <Label Content="Путь к файлу:" HorizontalAlignment="Left" Margin="184,148,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="SelectPathButton" Content="..." HorizontalAlignment="Left" Margin="717,150,0,0" VerticalAlignment="Top" Width="24" Height="24" FontSize="14" Click="SelectPathButton_Click"/>
+            <Button x:Name="LoadButton" Content="Загрузить" HorizontalAlignment="Left" Margin="195,225,0,0" VerticalAlignment="Top" Width="180" Height="31" FontSize="14" Click="LoadButton_Click"/>
+            <Button x:Name="UploadButton_Copy" Content="Выгрузить" HorizontalAlignment="Left" Margin="381,225,0,0" VerticalAlignment="Top" Width="180" Height="30" FontSize="14" Click="UploadButton_Click"/>
+            <Button x:Name="DeleteButton_Copy1" Content="Удалить" HorizontalAlignment="Left" Margin="567,225,0,0" VerticalAlignment="Top" Width="180" Height="30" FontSize="14" Click="DeleteButton_Click"/>
+            <Image x:Name="ThemeImage" HorizontalAlignment="Left" Height="100" Margin="45,69,0,0" VerticalAlignment="Top" Width="100"/>
+            <Button x:Name="ChangeImageButton_Copy" Content="Изменить" HorizontalAlignment="Left" Margin="45,179,0,0" VerticalAlignment="Top" Width="100" Height="31" FontSize="14" Click="ChangeImageButton_Click"/>
+        </Grid>
     </Grid>
 </Page>

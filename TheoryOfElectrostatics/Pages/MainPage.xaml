@@ -10,8 +10,9 @@
 
     <DockPanel Background="AliceBlue">
         <Grid Background="AliceBlue" Height="80" DockPanel.Dock="Top">
-            <Button Content="Лекции" Margin="266,0,0,0" Height="30" HorizontalAlignment="Left" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="LectionsButton_Click"/>
-            <Button Content="Тесты" Height="30" HorizontalAlignment="Left" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Margin="565,0,0,0" Click="TestsButton_Click"/>
+            <Button Content="Лекции" Margin="-300,0,0,0" Height="30" HorizontalAlignment="Center" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="LectionsButton_Click"/>
+            <Button Content="Тесты" Margin="360,0,0,0" Height="30" HorizontalAlignment="Center" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="TestsButton_Click"/>
+            <Button Content="TestWindow" Margin="45,0,0,0" Height="30" HorizontalAlignment="Left" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="TestWindowButton_Click"/>
         </Grid>
         <Frame x:Name="DataFrame" NavigationUIVisibility="Hidden"/>
     </DockPanel>

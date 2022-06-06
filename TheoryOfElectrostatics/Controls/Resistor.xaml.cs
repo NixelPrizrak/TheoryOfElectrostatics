@@ -20,12 +20,15 @@ namespace TheoryOfElectrostatics
     /// </summary>
     public partial class Resistor : UserControl
     {
-        public Line LeftLine { get; set; }
-        public Line RightLine { get; set; }
+        public UnionLine LeftLine { get; set; }
+        public string LeftLineEnd { get; set; }
+        public UnionLine RightLine { get; set; }
+        public string RightLineEnd { get; set; }
         public Node LeftNode { get; set; }
         public Node RightNode { get; set; }
         public Resistor LeftResistor { get; set; }
         public Resistor RightResistor { get; set; }
+        public string Title { get => TitleLabel.Content.ToString(); set => TitleLabel.Content = value; }
 
         public Resistor()
         {

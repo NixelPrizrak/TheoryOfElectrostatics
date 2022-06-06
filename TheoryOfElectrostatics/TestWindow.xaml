@@ -2,10 +2,40 @@
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:local="clr-namespace:TheoryOfElectrostatics"
-                  Title="Window1" Width="1000" Height="600">
+                  Title="TestWindow" Width="1000" Height="600" Loaded="PatternWindow_Loaded" WindowStartupLocation="CenterScreen" MinWidth="1000" MinHeight="600">
+    <!--<DockPanel>
+        <Grid DockPanel.Dock="Bottom" Height="60">
+            <Button Content="Проверить" HorizontalAlignment="Left" Margin="63,10,0,0" VerticalAlignment="Top" Height="36" Width="103" FontSize="14" Click="CheckButton_Click"/>
+        </Grid>
+        <local:Scheme x:Name="TestScheme"/>
+    </DockPanel>-->
+    <Grid Background="AliceBlue">
+        <ListView x:Name="QuestionsListView" BorderBrush="{x:Null}" Background="#FFDBEEFF" HorizontalAlignment="Left" VerticalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" MouseLeftButtonDown="QuestionsListView_MouseLeftButtonDown" MouseLeftButtonUp="QuestionsListView_MouseLeftButtonUp" MouseMove="QuestionsListView_MouseMove" PreviewMouseWheel="QuestionsListView_MouseWheel" >
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Focusable" Value="False" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border Margin="20,3,20,3">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
 
-    <Grid x:Name="SchemeGrid" Background="AliceBlue" MouseLeftButtonUp="Grid_MouseLeftButtonUp" MouseMove="Grid_MouseMove" >
-        <local:Resistor HorizontalAlignment="Left" Margin="271,0,0,0" VerticalAlignment="Center"/>
-        <local:Resistor HorizontalAlignment="Left" Margin="460,0,0,0" VerticalAlignment="Center"/>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding Mode=OneWay}" Height="40" Width="40" FontWeight="Bold" FontSize="20" Click="SelectionQuestionButton_Click"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListView>
     </Grid>
 </local:PatternWindow>

@@ -28,53 +28,54 @@ namespace TheoryOfElectrostatics.Pages
         public EditLectionPage()
         {
             InitializeComponent();
+
             DataManager.CheckTempFolder();
-            PathTextBox.Text = @"D:\Folder\TheoryOfElectrostatics\TheoryOfElectrostatics\bin\Debug\Lection1.html";
+            ChangeImage(DataManager.CurrentTheme);
 
             RefreshLections();
         }
 
         private void RefreshLections()
         {
-            LectionsComboBox.ItemsSource = null;
-            LectionsComboBox.Items.Clear();
+            //LectionsComboBox.ItemsSource = null;
+            //LectionsComboBox.Items.Clear();
 
-            List<string> themes = new List<string>();
-            using (ZipFile zip = DataManager.OpenZip())
-            {
-                if (Directory.Exists(Properties.Settings.Default.TempPath))
-                {
-                    Directory.Delete(Properties.Settings.Default.TempPath, true);
-                }
-                DataManager.CheckTempFolder();
+            //List<string> themes = new List<string>();
+            //using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+            //{
+            //    if (Directory.Exists(Properties.Settings.Default.TempPath))
+            //    {
+            //        Directory.Delete(Properties.Settings.Default.TempPath, true);
+            //    }
+            //    DataManager.CheckTempFolder();
 
-                foreach (var entry in zip.Entries)
-                {
-                    themes.Add(entry.FileName.Split('/')[0]);
-                }
-                themes = themes.Distinct().ToList();
-                foreach (var theme in themes)
-                {
-                    zip.ExtractSelectedEntries("*", $"{theme}/Icon", Properties.Settings.Default.TempPath);
-                }
-            }
+            //    foreach (var entry in zip.Entries)
+            //    {
+            //        themes.Add(entry.FileName.Split('/')[0]);
+            //    }
+            //    themes = themes.Distinct().ToList();
+            //    foreach (var theme in themes)
+            //    {
+            //        zip.ExtractSelectedEntries("*", $"{theme}/Icon", Properties.Settings.Default.TempPath);
+            //    }
+            //}
 
-            if (themes.Count == 0)
-            {
-                LectionsComboBox.IsEnabled = false;
-                LoadButton.IsEnabled = false;
-                SelectPathButton.IsEnabled = false;
-                LectionsComboBox.Items.Add("Пусто");
-            }
-            else
-            {
-                LectionsComboBox.IsEnabled = true;
-                LoadButton.IsEnabled = true;
-                SelectPathButton.IsEnabled = true;
-                LectionsComboBox.ItemsSource = themes;
-            }
+            //if (themes.Count == 0)
+            //{
+            //    LectionsComboBox.IsEnabled = false;
+            //    LoadButton.IsEnabled = false;
+            //    SelectPathButton.IsEnabled = false;
+            //    LectionsComboBox.Items.Add("Пусто");
+            //}
+            //else
+            //{
+            //    LectionsComboBox.IsEnabled = true;
+            //    LoadButton.IsEnabled = true;
+            //    SelectPathButton.IsEnabled = true;
+            //    LectionsComboBox.ItemsSource = themes;
+            //}
 
-            LectionsComboBox.SelectedIndex = 0;
+            //LectionsComboBox.SelectedIndex = 0;
         }
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)
@@ -91,7 +92,7 @@ namespace TheoryOfElectrostatics.Pages
                     }
 
                     FileInfo htmlPath = new FileInfo(PathTextBox.Text);
-                    string fileFolder = $"{LectionsComboBox.SelectedItem}.files";
+                    string fileFolder = $"Lection.files";
                     //MessageBox.Show(Regex.Match(html, "[^\\\\]'(([^'<>?|\"]|(\\\\'))*[^\\\\])'").Value);
 
                     foreach (Match item in Regex.Matches(html, "[^\\\\]'(([^'<>?|\"]|(\\\\'))*[^\\\\])'"))
@@ -151,18 +152,18 @@ namespace TheoryOfElectrostatics.Pages
 
                     byte[] htmlBytes = Encoding.Convert(Encoding.GetEncoding("windows-1251"), Encoding.UTF8, Encoding.GetEncoding("windows-1251").GetBytes(document.QuerySelector("html").OuterHtml));
 
-                    using (ZipFile zip = DataManager.OpenZip())
+                    using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
                     {
-                        zip.RemoveSelectedEntries("*", Path.Combine(LectionsComboBox.SelectedItem.ToString(), fileFolder));
-                        zip.RemoveSelectedEntries("*", LectionsComboBox.SelectedItem.ToString());
+                        zip.RemoveSelectedEntries("*", Path.Combine(DataManager.CurrentTheme, fileFolder));
+                        zip.RemoveSelectedEntries("*", DataManager.CurrentTheme);
                         zip.Save();
                     }
 
                     hrefs = hrefs.Distinct().ToList();
-                    using (ZipFile zip = DataManager.OpenZip())
+                    using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
                     {
-                        zip.AddEntry($"{LectionsComboBox.SelectedItem}/{LectionsComboBox.SelectedItem}.html", htmlBytes);
-                        zip.AddFiles(hrefs, Path.Combine(LectionsComboBox.SelectedItem.ToString(), fileFolder));
+                        zip.AddEntry($"{DataManager.CurrentTheme}/Lection.html", htmlBytes);
+                        zip.AddFiles(hrefs, Path.Combine(DataManager.CurrentTheme, fileFolder));
                         zip.Save();
                     }
 
@@ -182,7 +183,6 @@ namespace TheoryOfElectrostatics.Pages
         private void SelectPathButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog();
-            open.InitialDirectory = Path.GetPathRoot(Environment.CurrentDirectory);
             open.Filter = "HTML|*.html;*.htm";
 
             if (open.ShowDialog().Value)
@@ -193,40 +193,45 @@ namespace TheoryOfElectrostatics.Pages
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                using (ZipFile zip = DataManager.OpenZip())
-                {
-                    zip.AddDirectoryByName(ThemeTextBox.Text.Trim());
-                    zip.Save();
-                }
+            //try
+            //{
+            //    using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+            //    {
+            //        zip.AddDirectoryByName(ThemeTextBox.Text.Trim());
+            //        zip.Save();
+            //    }
 
-                ThemeTextBox.Text = "";
-                MessageBox.Show("Тема добавлена.", "Информация");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            RefreshLections();
+            //    ThemeTextBox.Text = "";
+            //    MessageBox.Show("Тема добавлена.", "Информация");
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
+            //RefreshLections();
         }
 
         private void UploadButton_Click(object sender, RoutedEventArgs e)
         {
             string folder = DataManager.SelectFolder();
-            using (ZipFile zip = DataManager.OpenZip())
+            if (folder == null)
             {
-                if (Directory.Exists(Path.Combine(folder, LectionsComboBox.SelectedItem.ToString())))
+                return;
+            }
+
+            using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+            {
+                if (Directory.Exists(Path.Combine(folder, DataManager.CurrentTheme)))
                 {
                     if (MessageBox.Show("Папка с названием темы уже существует. Перезаписать?", "Информация", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes)
                     {
                         return;
                     }
-                    Directory.Delete(Path.Combine(folder, LectionsComboBox.SelectedItem.ToString()), true);
+                    Directory.Delete(Path.Combine(folder, DataManager.CurrentTheme), true);
                 }
 
-                zip.ExtractSelectedEntries("*", LectionsComboBox.SelectedItem.ToString(), folder, ExtractExistingFileAction.OverwriteSilently);
-                zip.ExtractSelectedEntries("*", Path.Combine(LectionsComboBox.SelectedItem.ToString(), $"{LectionsComboBox.SelectedItem}.files"), folder, ExtractExistingFileAction.OverwriteSilently);
+                zip.ExtractSelectedEntries("*", DataManager.CurrentTheme, folder, ExtractExistingFileAction.OverwriteSilently);
+                zip.ExtractSelectedEntries("*", Path.Combine(DataManager.CurrentTheme, $"Lection.files"), folder, ExtractExistingFileAction.OverwriteSilently);
             }
 
             MessageBox.Show("Выгрузка файлов темы завершена.", "Информация");
@@ -238,35 +243,38 @@ namespace TheoryOfElectrostatics.Pages
             open.Filter = "Все (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png|BMP(*.bmp)|*.bmp|JPEG(*.jpg)|*.jpg|PNG(*.png)|*.png";
             if (open.ShowDialog().Value)
             {
-                using (ZipFile zip = DataManager.OpenZip())
+                using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
                 {
-                    string folder = Path.Combine(LectionsComboBox.SelectedItem.ToString(), "Icon");
+                    string folder = Path.Combine(DataManager.CurrentTheme, "Icon");
                     zip.RemoveSelectedEntries("*", folder);
                     zip.Save();
                     zip.AddFile(open.FileName, folder);
                     zip.Save();
-                    zip.ExtractSelectedEntries("*", folder, Properties.Settings.Default.TempPath);
                 }
-                ChangeImage(LectionsComboBox.SelectedItem.ToString());
+                ChangeImage(DataManager.CurrentTheme);
             }
         }
 
         private void ChangeImage(string theme)
         {
-            string folder = $"{Properties.Settings.Default.TempPath}/{theme}/Icon";
-            if (Directory.Exists(folder))
+            string image = null;
+            using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
             {
-                string image = Directory.GetFiles(folder).FirstOrDefault();
-                if (image != null)
+                Regex reg = new Regex($"^{theme}/Icon");
+                foreach (var entry in zip.Entries)
                 {
-                    var bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.UriSource = new Uri(image);
-                    bitmap.EndInit();
-                    ThemeImage.Source = bitmap;
-                    return;
+                    if (reg.IsMatch(entry.FileName))
+                    {
+                        image = entry.FileName;
+                        break;
+                    }
                 }
+            }
+
+            if (image != null)
+            {
+                ThemeImage.Source = DataManager.GetImage(image);
+                return;
             }
 
             ThemeImage.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/NoImage.png"));
@@ -274,19 +282,18 @@ namespace TheoryOfElectrostatics.Pages
 
         private void LectionsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (LectionsComboBox.SelectedItem != null)
-            {
-                ChangeImage(LectionsComboBox.SelectedItem.ToString());
-            }
+            //if (LectionsComboBox.SelectedItem != null)
+            //{
+            //}
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                using (ZipFile zip = DataManager.OpenZip())
+                using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
                 {
-                    Regex reg = new Regex($"^{LectionsComboBox.SelectedItem}");
+                    Regex reg = new Regex($"^{DataManager.CurrentTheme}");
                     var entries = zip.Entries.ToList();
                     foreach (var entry in entries)
                     {

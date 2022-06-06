@@ -26,7 +26,7 @@ namespace TheoryOfElectrostatics.Pages
             InitializeComponent();
             List<string> lections = new List<string>();
             List<Theme> themes = new List<Theme>();
-            using (ZipFile zip = DataManager.OpenZip())
+            using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
             {
                 if (Directory.Exists(Properties.Settings.Default.TempPath))
                 {

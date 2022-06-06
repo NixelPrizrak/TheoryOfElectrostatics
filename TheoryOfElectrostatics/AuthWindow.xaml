@@ -10,6 +10,7 @@
         <TextBlock HorizontalAlignment="Center" Margin="0,26,0,0" TextWrapping="Wrap" Text="Введите пароль" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
         <TextBox x:Name="AuthTextBox" HorizontalAlignment="Center" Margin="0,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" FontSize="14" Height="26" VerticalContentAlignment="Center"/>
         <Button Content="Войти" HorizontalAlignment="Center" Margin="0,142,0,0" VerticalAlignment="Top" Height="27" Width="189" FontSize="16" FontWeight="Bold" Click="AuthButton_Click"/>
+        <Label Content="Пароль: 12345" HorizontalAlignment="Left" Margin="122,180,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </local:PatternWindow>

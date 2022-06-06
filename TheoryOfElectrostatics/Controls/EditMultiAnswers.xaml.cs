@@ -13,16 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TheoryOfElectrostatics
+namespace TheoryOfElectrostatics.Controls
 {
     /// <summary>
-    /// Логика взаимодействия для Node.xaml
+    /// Логика взаимодействия для EditMultiAnswers.xaml
     /// </summary>
-    public partial class Node : UserControl
+    public partial class EditMultiAnswers : UserControl
     {
-        public List<UnionLine> UnionLines { get; set; }
-
-        public Node()
+        public EditMultiAnswers()
         {
             InitializeComponent();
         }

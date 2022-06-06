@@ -84,6 +84,9 @@
       <HintPath>..\packages\System.Text.Encoding.CodePages.6.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -107,8 +110,26 @@
     <Compile Include="AuthWindow.xaml.cs">
       <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CheckAnswer.xaml.cs">
+      <DependentUpon>CheckAnswer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EditCheckAnswer.xaml.cs">
+      <DependentUpon>EditCheckAnswer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EditMultiAnswers.xaml.cs">
+      <DependentUpon>EditMultiAnswers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EditRadioAnswer.xaml.cs">
+      <DependentUpon>EditRadioAnswer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Node.xaml.cs">
       <DependentUpon>Node.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RadioAnswer.xaml.cs">
+      <DependentUpon>RadioAnswer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Scheme.xaml.cs">
+      <DependentUpon>Scheme.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\UnionLine.xaml.cs">
       <DependentUpon>UnionLine.xaml</DependentUpon>
@@ -124,6 +145,7 @@
     <Compile Include="TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TextImage.cs" />
     <Compile Include="Themes.cs" />
     <Page Include="AdministrationWindow.xaml">
       <SubType>Designer</SubType>
@@ -133,7 +155,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\CheckAnswer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EditCheckAnswer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EditMultiAnswers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EditRadioAnswer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Node.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\RadioAnswer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Scheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -255,9 +301,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\New.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\ArrowLeft.png" />
   </ItemGroup>
   <ItemGroup>
@@ -279,15 +322,6 @@
     <None Include="Resources\Electr5.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Expand.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Close.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Curtail.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.8 %28x86 и x64%29</ProductName>
@@ -300,13 +334,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Help.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\lightning-bolt.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\CurtailWindow.png" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="MSComDlg">
@@ -330,6 +358,30 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\NoImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Expand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CurtailWindow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Curtail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AddImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Delete.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

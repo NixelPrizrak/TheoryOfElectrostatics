@@ -30,31 +30,39 @@ namespace TheoryOfElectrostatics.Pages
         public TestPage()
         {
             InitializeComponent();
-            List<int> arr = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-            DataListView.ItemsSource = arr;
-            string json = File.ReadAllText($"Test{DataManager.IdTest}.json");
-            questions = ShuffleList(JsonSerializer.Deserialize<List<Question>>(json)).Take(12).ToList();
 
-            foreach (Question question in questions)
+            try
             {
-                question.Time = question.Type == 0 ? 30 : (question.Type == 1 ? 60 : 90);
-                if (question.Answers != null)
+                List<int> arr = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+                DataListView.ItemsSource = arr;
+                string json = File.ReadAllText($"Test{DataManager.IdTest}.json");
+                questions = DataManager.ShuffleList(JsonSerializer.Deserialize<List<Question>>(json)).Take(12).ToList();
+
+                foreach (Question question in questions)
                 {
-                    question.Answers = ShuffleList(question.Answers);
+                    question.Time = question.Type == 0 ? 30 : (question.Type == 1 ? 60 : 90);
+                    if (question.Answers != null)
+                    {
+                        question.Answers = DataManager.ShuffleList(question.Answers);
+                    }
+                    question.SelectedAnswers = new List<string>();
                 }
-                question.SelectedAnswers = new List<string>();
+                SelectQuest(0);
+                selectedQuestion = 0;
+
+                int minute = (int)questions[selectedQuestion].Time / 60;
+                int second = (int)questions[selectedQuestion].Time % 60;
+                TimeLabel.Content = $"Время: {(minute < 10 ? "0" + minute : minute.ToString())}:{(second < 10 ? "0" + second : second.ToString())}";
+
+                timer = new DispatcherTimer();
+                timer.Tick += new EventHandler(QuestTimerTick);
+                timer.Interval = new TimeSpan(0, 0, 1);
+                timer.Start();
             }
-            SelectQuest(0);
-            selectedQuestion = 0;
-
-            int minute = (int)questions[selectedQuestion].Time / 60;
-            int second = (int)questions[selectedQuestion].Time % 60;
-            TimeLabel.Content = $"Время: {(minute < 10 ? "0" + minute : minute.ToString())}:{(second < 10 ? "0" + second : second.ToString())}";
-
-            timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(QuestTimerTick);
-            timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Start();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void QuestTimerTick(object sender, EventArgs e)
@@ -111,39 +119,23 @@ namespace TheoryOfElectrostatics.Pages
             switch (questions[selectedQuestion].Type)
             {
                 case 0:
-                    if (FirstRadioButton.IsChecked.Value)
+                    List<RadioAnswer> radioAnswers = AnswersWrapPanel.Children.OfType<RadioAnswer>().ToList();
+                    for (int i = 0; i < radioAnswers.Count; i++)
                     {
-                        selectedAnswers.Add(questions[selectedQuestion].Answers[0]);
-                    }
-                    else if (SecondRadioButton.IsChecked.Value)
-                    {
-                        selectedAnswers.Add(questions[selectedQuestion].Answers[1]);
-                    }
-                    else if (ThirdRadioButton.IsChecked.Value)
-                    {
-                        selectedAnswers.Add(questions[selectedQuestion].Answers[2]);
-                    }
-                    else if (FourthRadioButton.IsChecked.Value)
-                    {
-                        selectedAnswers.Add(questions[selectedQuestion].Answers[3]);
+                        if (radioAnswers[i].Check)
+                        {
+                            selectedAnswers.Add(questions[selectedQuestion].Answers[i].Text);
+                        }
                     }
                     break;
                 case 1:
-                    if (FirstCheckBox.IsChecked.Value)
+                    List<CheckAnswer> checkAnswers = AnswersWrapPanel.Children.OfType<CheckAnswer>().ToList();
+                    for (int i = 0; i < checkAnswers.Count; i++)
                     {
-                        selectedAnswers.Add(questions[selectedQuestion].Answers[0]);
-                    }
-                    if (SecondCheckBox.IsChecked.Value)
-                    {
-                        selectedAnswers.Add(questions[selectedQuestion].Answers[1]);
-                    }
-                    if (ThirdCheckBox.IsChecked.Value)
-                    {
-                        selectedAnswers.Add(questions[selectedQuestion].Answers[2]);
-                    }
-                    if (FourthCheckBox.IsChecked.Value)
-                    {
-                        selectedAnswers.Add(questions[selectedQuestion].Answers[3]);
+                        if (checkAnswers[i].Check)
+                        {
+                            selectedAnswers.Add(questions[selectedQuestion].Answers[i].Text);
+                        }
                     }
                     break;
                 case 2:
@@ -155,89 +147,46 @@ namespace TheoryOfElectrostatics.Pages
             questions[selectedQuestion].SelectedAnswers = selectedAnswers;
         }
 
-        public List<T> ShuffleList<T>(List<T> list)
-        {
-            Random rand = new Random();
-
-            for (int i = list.Count - 1; i >= 1; i--)
-            {
-                int j = rand.Next(i + 1);
-
-                T tmp = list[j];
-                list[j] = list[i];
-                list[i] = tmp;
-            }
-
-            return list;
-        }
-
         public void SelectQuest(int idQuestion)
         {
+            AnswersWrapPanel.Children.Clear();
             TitleTextBlock.Text = $"Вопрос {idQuestion + 1}";
+            QuestionTextBlock.Text = questions[idQuestion].Quest.Text;
+
             switch (questions[idQuestion].Type)
             {
                 case 0:
-                    OneAnswerWrapPanel.Visibility = Visibility.Visible;
-                    SomeAnswerWrapPanel.Visibility = Visibility.Hidden;
-                    OpenAnswerWrapPanel.Visibility = Visibility.Hidden;
-                    OneAnswerTextBlock.Text = questions[idQuestion].Quest;
-                    FirstRadioButtonTextBlock.Text = questions[idQuestion].Answers[0];
-                    SecondRadioButtonTextBlock.Text = questions[idQuestion].Answers[1];
-                    ThirdRadioButtonTextBlock.Text = questions[idQuestion].Answers[2];
-                    FourthRadioButtonTextBlock.Text = questions[idQuestion].Answers[3];
-                    if (questions[idQuestion].SelectedAnswers.Contains(FirstRadioButton.Content))
+                    AnswersWrapPanel.Visibility = Visibility.Visible;
+                    OpenAnswerTextBox.Visibility = Visibility.Collapsed;
+                    foreach (var answer in questions[idQuestion].Answers)
                     {
-                        FirstRadioButton.IsChecked = true;
-                    }
-                    else if (questions[idQuestion].SelectedAnswers.Contains(SecondRadioButton.Content))
-                    {
-                        SecondRadioButton.IsChecked = true;
-                    }
-                    else if (questions[idQuestion].SelectedAnswers.Contains(ThirdRadioButton.Content))
-                    {
-                        ThirdRadioButton.IsChecked = true;
-                    }
-                    else if (questions[idQuestion].SelectedAnswers.Contains(FourthRadioButton.Content))
-                    {
-                        FourthRadioButton.IsChecked = true;
-                    }
-                    else
-                    {
-                        FirstRadioButton.IsChecked = false;
-                        SecondRadioButton.IsChecked = false;
-                        ThirdRadioButton.IsChecked = false;
-                        FourthRadioButton.IsChecked = false;
+                        RadioAnswer radioAnswer = new RadioAnswer();
+                        radioAnswer.Text = answer.Text;
+                        if (questions[idQuestion].SelectedAnswers.Contains(answer.Text))
+                        {
+                            radioAnswer.Check = true;
+                        }
+                        AnswersWrapPanel.Children.Add(radioAnswer);
                     }
                     break;
                 case 1:
-                    OneAnswerWrapPanel.Visibility = Visibility.Hidden;
-                    SomeAnswerWrapPanel.Visibility = Visibility.Visible;
-                    OpenAnswerWrapPanel.Visibility = Visibility.Hidden;
-                    SomeAnswerTextBlock.Text = questions[idQuestion].Quest;
-                    FirstCheckBoxTextBlock.Text = questions[idQuestion].Answers[0];
-                    SecondCheckBoxTextBlock.Text = questions[idQuestion].Answers[1];
-                    ThirdCheckBoxTextBlock.Text = questions[idQuestion].Answers[2];
-                    FourthCheckBoxTextBlock.Text = questions[idQuestion].Answers[3];
-
-                    FirstCheckBox.IsChecked = questions[idQuestion].SelectedAnswers.Contains(FirstCheckBox.Content) ? true : false;
-                    SecondCheckBox.IsChecked = questions[idQuestion].SelectedAnswers.Contains(SecondCheckBox.Content) ? true : false;
-                    ThirdCheckBox.IsChecked = questions[idQuestion].SelectedAnswers.Contains(ThirdCheckBox.Content) ? true : false;
-                    FourthCheckBox.IsChecked = questions[idQuestion].SelectedAnswers.Contains(FourthCheckBox.Content) ? true : false;
-
+                    AnswersWrapPanel.Visibility = Visibility.Visible;
+                    OpenAnswerTextBox.Visibility = Visibility.Collapsed;
+                    foreach (var answer in questions[idQuestion].Answers)
+                    {
+                        CheckAnswer checkAnswer = new CheckAnswer();
+                        checkAnswer.Text = answer.Text;
+                        if (questions[idQuestion].SelectedAnswers.Contains(answer.Text))
+                        {
+                            checkAnswer.Check = true;
+                        }
+                        AnswersWrapPanel.Children.Add(checkAnswer);
+                    }
                     break;
                 case 2:
-                    OneAnswerWrapPanel.Visibility = Visibility.Hidden;
-                    SomeAnswerWrapPanel.Visibility = Visibility.Hidden;
-                    OpenAnswerWrapPanel.Visibility = Visibility.Visible;
-                    OpenAnswerTextBlock.Text = questions[idQuestion].Quest;
-                    if (questions[idQuestion].SelectedAnswers.Count > 0)
-                    {
-                        OpenAnswerTextBox.Text = questions[idQuestion].SelectedAnswers[0];
-                    }
-                    else
-                    {
-                        OpenAnswerTextBox.Text = "";
-                    }
+                    AnswersWrapPanel.Visibility = Visibility.Collapsed;
+                    OpenAnswerTextBox.Visibility = Visibility.Visible;
+                    OpenAnswerTextBox.Text = questions[idQuestion].SelectedAnswers.FirstOrDefault();
                     break;
                 default:
                     break;

@@ -16,13 +16,15 @@ using System.Windows.Shapes;
 namespace TheoryOfElectrostatics
 {
     /// <summary>
-    /// Логика взаимодействия для Node.xaml
+    /// Логика взаимодействия для RadioAnswer.xaml
     /// </summary>
-    public partial class Node : UserControl
+    public partial class RadioAnswer : UserControl
     {
-        public List<UnionLine> UnionLines { get; set; }
+        public bool Check { get => MainRadioButton.IsChecked.Value; set => MainRadioButton.IsChecked = value; }
+        public string Text { get => MainTextBlock.Text; set => MainTextBlock.Text = value; }
+        public string GroupName { get => MainRadioButton.GroupName; set => MainRadioButton.GroupName = value; }
 
-        public Node()
+        public RadioAnswer()
         {
             InitializeComponent();
         }

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace TheoryOfElectrostatics
 {
-    public class TextImage
+    public class Answer
     {
-       public string Text { get; set; }
+        public int Id { get; set; }
+        public string Text { get; set; }
         public string Image { get; set; }
     }
 }

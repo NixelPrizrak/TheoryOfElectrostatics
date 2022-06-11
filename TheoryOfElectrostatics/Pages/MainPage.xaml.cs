@@ -37,14 +37,14 @@ namespace TheoryOfElectrostatics.Pages
             DataManager.DataFrame.Navigate(new Pages.TestsPage());
         }
 
-        private void HelpButton_Click(object sender, RoutedEventArgs e)
+        private void PracticesButton_Click(object sender, RoutedEventArgs e)
         {
-            new HelpWindow().ShowDialog();
+            DataManager.DataFrame.Navigate(new Pages.TestsPage());
         }
 
-        private void TestWindowButton_Click(object sender, RoutedEventArgs e)
+        private void CollectSchemeButton_Click(object sender, RoutedEventArgs e)
         {
-            new TestWindow().ShowDialog();
+            DataManager.DataFrame.Navigate(new Pages.TestsPage());
         }
     }
 }

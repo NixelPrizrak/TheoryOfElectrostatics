@@ -81,12 +81,15 @@ namespace TheoryOfElectrostatics.Pages
                 }
             }
 
+            //QuestionsListView.ItemsSource = questions;
+
+            foreach (var question in questions)
+            {
+                QuestionsListView.Items.Add(0);
+            }
+
             if (questions.Count > 0)
             {
-                for (int i = 1; i <= questions.Count; i++)
-                {
-                    QuestionsListView.Items.Add(i);
-                }
                 save = false;
                 QuestionsListView.SelectedIndex = 0;
                 save = true;
@@ -101,65 +104,45 @@ namespace TheoryOfElectrostatics.Pages
         private void QuestionsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SaveChanges(idQuestion);
-            save = false;
-            TypesComboBox.SelectedIndex = questions[QuestionsListView.SelectedIndex].Type;
-            SelectQuestion();
-            save = true;
+            if (QuestionsListView.SelectedIndex > -1)
+            {
+                save = false;
+                TypesComboBox.SelectedIndex = questions[QuestionsListView.SelectedIndex].Type;
+                SelectQuestion();
+                save = true;
+            }
             idQuestion = QuestionsListView.SelectedIndex;
         }
 
         private void QuestionsListView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ListView lv = sender as ListView;
             startPosition = e.GetPosition(this).X;
-            ScrollViewer sv = FindVisualChild<ScrollViewer>(lv);
+            ScrollViewer sv = sender as ScrollViewer;
             startOffset = sv.HorizontalOffset;
-            (sender as ListView).CaptureMouse();
+            sv.CaptureMouse();
         }
 
         private void QuestionsListView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            (sender as ListView).ReleaseMouseCapture();
+            (sender as ScrollViewer).ReleaseMouseCapture();
         }
 
         private void QuestionsListView_MouseMove(object sender, MouseEventArgs e)
         {
-            ListView lv = sender as ListView;
-            if (!lv.IsMouseCaptured)
+            ScrollViewer sv = sender as ScrollViewer;
+            if (!sv.IsMouseCaptured)
             {
                 return;
             }
-            ScrollViewer sv = FindVisualChild<ScrollViewer>(lv);
             double mousePosition = e.GetPosition(this).X;
             sv.ScrollToHorizontalOffset(startOffset - mousePosition + startPosition);
+
         }
 
         private void QuestionsListView_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            ListView lv = sender as ListView;
-            ScrollViewer sv = FindVisualChild<ScrollViewer>(lv);
+            ScrollViewer sv = sender as ScrollViewer;
             sv.ScrollToHorizontalOffset(sv.HorizontalOffset - e.Delta);
-        }
-
-        public static childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-
-                if (child != null && child is childItem)
-                    return (childItem)child;
-
-                else
-                {
-                    childItem childOfChild = FindVisualChild<childItem>(child);
-
-                    if (childOfChild != null)
-                        return childOfChild;
-                }
-            }
-
-            return null;
         }
 
         private void ChangeImageButton_Click(object sender, RoutedEventArgs e)
@@ -168,8 +151,8 @@ namespace TheoryOfElectrostatics.Pages
             open.Filter = "Все (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png|BMP(*.bmp)|*.bmp|JPEG(*.jpg)|*.jpg|PNG(*.png)|*.png";
             if (open.ShowDialog().Value)
             {
-                questImage = DataManager.LoadImage(open.FileName, DataManager.ImagesPath);
                 DataManager.RemoveImage(questImage);
+                questImage = DataManager.LoadImage(open.FileName, DataManager.ImagesPath);
                 ChangeImage(questImage);
             }
         }
@@ -193,17 +176,19 @@ namespace TheoryOfElectrostatics.Pages
         {
             Question question = new Question();
             question.Type = 0;
-            question.Answers = new List<TextImage>();
-            question.TrueAnswers = new List<string>();
-            question.Quest = new TextImage();
+            question.Answers = new List<Answer>();
+            question.TrueAnswers = new List<int>();
+            question.Quest = new Answer();
             questions.Add(question);
-            QuestionsListView.Items.Add(questions.Count);
+            QuestionsListView.Items.Add(0);
             QuestionScrollViewer.Visibility = Visibility.Visible;
 
             QuestionsListView.SelectedIndex = questions.Count - 1;
             save = false;
             TypesComboBox.SelectedIndex = 0;
             save = true;
+
+            HeaderScrollViewer.ScrollToRightEnd();
         }
 
         private void SelectQuestion()
@@ -225,10 +210,11 @@ namespace TheoryOfElectrostatics.Pages
 
                         foreach (var answer in questions[id].Answers)
                         {
-                            EditRadioAnswer radioAnswer = new EditRadioAnswer();
+                            EditVariantAnswer radioAnswer = new EditVariantAnswer();
                             radioAnswer.Text = answer.Text;
                             radioAnswer.Image = answer.Image;
-                            if (questions[id].TrueAnswers.Contains(answer.Text))
+                            radioAnswer.VisibleRadioButton = true;
+                            if (questions[id].TrueAnswers.Contains(answer.Id))
                             {
                                 radioAnswer.Check = true;
                             }
@@ -240,10 +226,11 @@ namespace TheoryOfElectrostatics.Pages
                         OpenAnswerGrid.Visibility = Visibility.Collapsed;
                         foreach (var answer in questions[id].Answers)
                         {
-                            EditCheckAnswer checkAnswer = new EditCheckAnswer();
+                            EditVariantAnswer checkAnswer = new EditVariantAnswer();
                             checkAnswer.Text = answer.Text;
                             checkAnswer.Image = answer.Image;
-                            if (questions[id].TrueAnswers.Contains(answer.Text))
+                            checkAnswer.VisibleCheckBox = true;
+                            if (questions[id].TrueAnswers.Contains(answer.Id))
                             {
                                 checkAnswer.Check = true;
                             }
@@ -253,7 +240,10 @@ namespace TheoryOfElectrostatics.Pages
                     case 2:
                         AnswersGrid.Visibility = Visibility.Collapsed;
                         OpenAnswerGrid.Visibility = Visibility.Visible;
-                        OpenAnswerTextBox.Text = questions[id].TrueAnswers.FirstOrDefault();
+                        if (questions[id].Answers.Count != 0)
+                        {
+                            OpenAnswerTextBox.Text = questions[id].Answers[0].Text;
+                        }
                         break;
                     default:
                         break;
@@ -268,19 +258,27 @@ namespace TheoryOfElectrostatics.Pages
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
+            int id = QuestionsListView.SelectedIndex;
+            SaveChanges(id);
+
+            DataManager.RemoveImage(questions[id].Quest.Image);
+            foreach (var answer in questions[id].Answers)
+            {
+                DataManager.RemoveImage(answer.Image);
+            }
+
             questions.RemoveAt(QuestionsListView.SelectedIndex);
             SaveChanges(-1);
             save = false;
-            if (questions.Count > 0)
+            QuestionsListView.Items.RemoveAt(QuestionsListView.SelectedIndex);
+            //QuestionsListView.Items.Refresh();
+            if (questions.Count == 0)
             {
-                QuestionsListView.Items.Remove(QuestionsListView.SelectedIndex);
-
-                //QuestionsListView.SelectedIndex = QuestionsListView.SelectedIndex == 0 ? 0 : QuestionsListView.SelectedIndex - 1;
+                DataManager.AdministrationFrame.Navigate(null);
             }
             else
             {
-                DataManager.AdministrationFrame.Navigate(null);
-                QuestionsListView.SelectedIndex = -1;
+                QuestionsListView.SelectedIndex = id == 0 ? 0 : id - 1;
             }
             save = true;
         }
@@ -288,7 +286,7 @@ namespace TheoryOfElectrostatics.Pages
         private void AddAnswerButton_Click(object sender, RoutedEventArgs e)
         {
             SaveChanges(QuestionsListView.SelectedIndex);
-            questions[QuestionsListView.SelectedIndex].Answers.Add(new TextImage());
+            questions[QuestionsListView.SelectedIndex].Answers.Add(new Answer());
             SelectQuestion();
         }
 
@@ -316,46 +314,41 @@ namespace TheoryOfElectrostatics.Pages
                     questions[id].Quest.Text = QuestionTextBox.Text.Trim();
                     questions[id].Quest.Image = questImage;
 
+                    int i;
                     switch (questions[id].Type)
                     {
-                        case 0:
-                            questions[id].Answers = new List<TextImage>();
-                            questions[id].TrueAnswers = new List<string>();
+                        case 0: case 1:
+                            questions[id].Answers = new List<Answer>();
+                            questions[id].TrueAnswers = new List<int>();
 
-                            foreach (var answer in AnswersWrapPanel.Children.OfType<EditRadioAnswer>())
+                            i = 0;
+                            foreach (var answer in AnswersWrapPanel.Children.OfType<EditVariantAnswer>())
                             {
-                                questions[id].Answers.Add(new TextImage()
+                                questions[id].Answers.Add(new Answer()
                                 {
+                                    Id = i,
                                     Text = answer.Text.Trim(),
                                     Image = answer.Image
                                 });
                                 if (answer.Check)
                                 {
-                                    questions[id].TrueAnswers.Add(answer.Text.Trim());
+                                    questions[id].TrueAnswers.Add(i);
                                 }
-                            }
-                            break;
-                        case 1:
-                            questions[id].Answers = new List<TextImage>();
-                            questions[id].TrueAnswers = new List<string>();
-
-                            foreach (var answer in AnswersWrapPanel.Children.OfType<EditCheckAnswer>())
-                            {
-                                questions[id].Answers.Add(new TextImage()
-                                {
-                                    Text = answer.Text.Trim(),
-                                    Image = answer.Image
-                                });
-                                if (answer.Check)
-                                {
-                                    questions[id].TrueAnswers.Add(answer.Text.Trim());
-                                }
+                                i++;
                             }
                             break;
                         case 2:
-                            questions[id].Answers = new List<TextImage>();
-                            questions[id].TrueAnswers = new List<string>();
-                            questions[id].TrueAnswers.Add(OpenAnswerTextBox.Text);
+                            foreach (var answer in questions[id].Answers)
+                            {
+                                DataManager.RemoveImage(answer.Image);
+                            }
+
+                            questions[id].Answers = new List<Answer>();
+                            questions[id].TrueAnswers = new List<int>();
+                            questions[id].Answers.Add(new Answer()
+                            {
+                                Text = OpenAnswerTextBox.Text
+                            });
                             break;
                         default:
                             break;
@@ -377,6 +370,11 @@ namespace TheoryOfElectrostatics.Pages
                 }
 
             }
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            SaveChanges(QuestionsListView.SelectedIndex);
         }
     }
 }

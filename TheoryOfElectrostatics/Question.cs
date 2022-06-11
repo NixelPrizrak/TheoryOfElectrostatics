@@ -10,12 +10,15 @@ namespace TheoryOfElectrostatics
     public class Question
     {
         public int Type { get; set; }
-        public TextImage Quest { get; set; }
-        public List<string> TrueAnswers { get; set; }
-        public List<TextImage> Answers { get; set; }
+        public Answer Quest { get; set; }
+        public List<int> TrueAnswers { get; set; }
+        public List<Answer> Answers { get; set; }
         [JsonIgnore]
         public int Time { get; set; }
         [JsonIgnore]
-        public List<string> SelectedAnswers { get; set; }
+        public List<int> SelectedAnswers { get; set; }
+        [JsonIgnore]
+        public string InputAnswer { get; set; }
+        public MultiAnswers MultiAnswer { get; set; }
     }
 }

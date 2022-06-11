@@ -26,31 +26,33 @@ namespace TheoryOfElectrostatics
         private double DeltaY;
         private bool ClearLine;
         private int countResistor;
+        private int countCondensator;
 
         public Scheme()
         {
             InitializeComponent();
         }
 
-        public void AddResistor(int count)
+        public void AddElement(int countResistor, int countCondensator)
         {
-            countResistor = count;
+            this.countResistor = countResistor;
+            this.countCondensator = countCondensator;
             ClearLine = true;
-            Resistor resistor = new Resistor();
+            ElementScheme resistor = new ElementScheme();
             int countColumn = Convert.ToInt32(Math.Floor(SchemeGrid.ActualWidth / (resistor.Width + 20)));
-            int countRow = Convert.ToInt32(Math.Ceiling((double)count / countColumn));
-            int numResistor = 1;
+            int countRow = Convert.ToInt32(Math.Ceiling((double)countResistor / countColumn));
+            int numElement = 1;
 
             for (int i = 0; i < countRow; i++)
             {
                 double height = i * (resistor.Height + 20) + 100;
-                double columns = (count - i * countColumn) < countColumn ? count % countColumn : countColumn;
+                double columns = (countResistor - i * countColumn) < countColumn ? countResistor % countColumn : countColumn;
                 for (int j = 0; j < columns; j++)
                 {
-                    resistor = new Resistor();
+                    resistor = new ElementScheme();
                     resistor.Margin = new Thickness(j * (resistor.Width + 20) + 20, height, 0, 0);
-                    resistor.Title = $"R{numResistor}";
-                    numResistor++;
+                    resistor.Title = $"R{numElement}";
+                    numElement++;
 
                     resistor.LeftEnd.PreviewMouseLeftButtonDown += End_MouseLeftButtonDown;
                     resistor.RightEnd.PreviewMouseLeftButtonDown += End_MouseLeftButtonDown;
@@ -61,13 +63,32 @@ namespace TheoryOfElectrostatics
                 }
             }
 
-            foreach (var node in SchemeGrid.Children.OfType<Node>())
+            double nextPosition = countRow * (resistor.Height + 20);
+            resistor = new ElementScheme();
+            resistor.Type = 1;
+            countColumn = Convert.ToInt32(Math.Floor(SchemeGrid.ActualWidth / (resistor.Width + 20)));
+            countRow += Convert.ToInt32(Math.Ceiling((double)countCondensator / countColumn));
+            numElement = 1;
+
+            for (int i = 0; i < countRow; i++)
             {
-                node.UnionLines = new List<UnionLine>();
-                node.NodeEllipse.PreviewMouseLeftButtonDown += End_MouseLeftButtonDown;
-                node.MouseLeftButtonDown += Control_MouseLeftButtonDown;
-                node.MouseLeftButtonUp += Control_MouseLeftButtonUp;
-                node.MouseMove += Control_MouseMove;
+                double height = i * (resistor.Height + 20) + 100 + nextPosition;
+                double columns = (countCondensator - i * countColumn) < countColumn ? countCondensator % countColumn : countColumn;
+                for (int j = 0; j < columns; j++)
+                {
+                    resistor = new ElementScheme();
+                    resistor.Type = 1;
+                    resistor.Margin = new Thickness(j * (resistor.Width + 20) + 20, height, 0, 0);
+                    resistor.Title = $"C{numElement}";
+                    numElement++;
+
+                    resistor.LeftEnd.PreviewMouseLeftButtonDown += End_MouseLeftButtonDown;
+                    resistor.RightEnd.PreviewMouseLeftButtonDown += End_MouseLeftButtonDown;
+                    resistor.Body.MouseLeftButtonDown += Control_MouseLeftButtonDown;
+                    resistor.Body.MouseLeftButtonUp += Control_MouseLeftButtonUp;
+                    resistor.Body.MouseMove += Control_MouseMove;
+                    SchemeGrid.Children.Add(resistor);
+                }
             }
         }
 
@@ -83,7 +104,7 @@ namespace TheoryOfElectrostatics
             }
             else
             {
-                Resistor resistor = ((sender as Rectangle).Parent as Grid).Parent as Resistor;
+                ElementScheme resistor = ((sender as Rectangle).Parent as Grid).Parent as ElementScheme;
                 Point resistorPosition = resistor.TransformToAncestor(SchemeGrid).Transform(new Point(0, 0));
                 var mousePosition = Mouse.GetPosition(SchemeGrid);
                 DeltaX = mousePosition.X - resistorPosition.X;
@@ -130,7 +151,7 @@ namespace TheoryOfElectrostatics
             }
             else
             {
-                Resistor resistor = ((sender as Rectangle).Parent as Grid).Parent as Resistor;
+                ElementScheme resistor = ((sender as Rectangle).Parent as Grid).Parent as ElementScheme;
                 if (!(sender as Rectangle).IsMouseCaptured) return;
 
                 var mousePoint = Mouse.GetPosition(SchemeGrid);
@@ -178,7 +199,7 @@ namespace TheoryOfElectrostatics
             }
             else
             {
-                Resistor resistor = (CurrentEllipse.Parent as Grid).Parent as Resistor;
+                ElementScheme resistor = (CurrentEllipse.Parent as Grid).Parent as ElementScheme;
 
                 if (ellipse.Parent is Node node)
                 {
@@ -210,7 +231,7 @@ namespace TheoryOfElectrostatics
                 }
                 else
                 {
-                    Resistor endResistor = (ellipse.Parent as Grid).Parent as Resistor;
+                    ElementScheme endResistor = (ellipse.Parent as Grid).Parent as ElementScheme;
                     if (resistor == endResistor)
                     {
                         return;
@@ -220,17 +241,17 @@ namespace TheoryOfElectrostatics
                     {
                         if (CurrentEllipse.Name == "LeftEnd")
                         {
-                            resistor.LeftResistor = endResistor;
+                            resistor.LeftElement = endResistor;
                             resistor.LeftLineEnd = "Start";
-                            endResistor.RightResistor = resistor;
+                            endResistor.RightElement = resistor;
                             endResistor.RightLineEnd = "Finish";
                             resistor.LeftLine = endResistor.RightLine = CurrentLine;
                         }
                         else
                         {
-                            resistor.RightResistor = endResistor;
+                            resistor.RightElement = endResistor;
                             resistor.RightLineEnd = "Start";
-                            endResistor.LeftResistor = resistor;
+                            endResistor.LeftElement = resistor;
                             endResistor.LeftLineEnd = "Finish";
                             resistor.RightLine = endResistor.LeftLine = CurrentLine;
                         }
@@ -296,20 +317,20 @@ namespace TheoryOfElectrostatics
                 SchemeGrid.Children.Remove(child);
             }
 
-            AddResistor(countResistor);
+            AddElement(countResistor, countCondensator);
         }
 
-        static public bool CheckScheme(Dictionary<string, Resistor> resistors, int variant)
+        static public bool CheckScheme(Dictionary<string, ElementScheme> resistors, int variant)
         {
             switch (variant)
             {
                 case 0:
-                    if ((resistors["R1"].RightResistor == resistors["R2"] && resistors["R2"].RightResistor == resistors["R3"]) ||
-                        (resistors["R1"].RightResistor == resistors["R3"] && resistors["R3"].RightResistor == resistors["R2"]) ||
-                        (resistors["R2"].RightResistor == resistors["R3"] && resistors["R3"].RightResistor == resistors["R1"]) ||
-                        (resistors["R2"].RightResistor == resistors["R1"] && resistors["R1"].RightResistor == resistors["R3"]) ||
-                        (resistors["R3"].RightResistor == resistors["R2"] && resistors["R2"].RightResistor == resistors["R1"]) ||
-                        (resistors["R3"].RightResistor == resistors["R1"] && resistors["R1"].RightResistor == resistors["R2"]))
+                    if ((resistors["R1"].RightElement == resistors["R2"] && resistors["R2"].RightElement == resistors["R3"]) ||
+                        (resistors["R1"].RightElement == resistors["R3"] && resistors["R3"].RightElement == resistors["R2"]) ||
+                        (resistors["R2"].RightElement == resistors["R3"] && resistors["R3"].RightElement == resistors["R1"]) ||
+                        (resistors["R2"].RightElement == resistors["R1"] && resistors["R1"].RightElement == resistors["R3"]) ||
+                        (resistors["R3"].RightElement == resistors["R2"] && resistors["R2"].RightElement == resistors["R1"]) ||
+                        (resistors["R3"].RightElement == resistors["R1"] && resistors["R1"].RightElement == resistors["R2"]))
                     {
                         return true;
                     }

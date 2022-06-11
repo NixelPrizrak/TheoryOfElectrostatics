@@ -30,11 +30,11 @@ namespace TheoryOfElectrostatics
 
         private void PatternWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < 40; i++)
-            {
-                QuestionsListView.Items.Add(i);
-            }
-            //TestScheme.AddResistor(3);
+            //for (int i = 0; i < 40; i++)
+            //{
+            //    QuestionsListView.Items.Add(i);
+            //}
+            TestScheme.AddElement(4, 2);
         }
 
         private void CheckButton_Click(object sender, RoutedEventArgs e)

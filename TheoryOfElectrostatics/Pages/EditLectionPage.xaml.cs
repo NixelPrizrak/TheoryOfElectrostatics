@@ -31,51 +31,6 @@ namespace TheoryOfElectrostatics.Pages
 
             DataManager.CheckTempFolder();
             ChangeImage(DataManager.CurrentTheme);
-
-            RefreshLections();
-        }
-
-        private void RefreshLections()
-        {
-            //LectionsComboBox.ItemsSource = null;
-            //LectionsComboBox.Items.Clear();
-
-            //List<string> themes = new List<string>();
-            //using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
-            //{
-            //    if (Directory.Exists(Properties.Settings.Default.TempPath))
-            //    {
-            //        Directory.Delete(Properties.Settings.Default.TempPath, true);
-            //    }
-            //    DataManager.CheckTempFolder();
-
-            //    foreach (var entry in zip.Entries)
-            //    {
-            //        themes.Add(entry.FileName.Split('/')[0]);
-            //    }
-            //    themes = themes.Distinct().ToList();
-            //    foreach (var theme in themes)
-            //    {
-            //        zip.ExtractSelectedEntries("*", $"{theme}/Icon", Properties.Settings.Default.TempPath);
-            //    }
-            //}
-
-            //if (themes.Count == 0)
-            //{
-            //    LectionsComboBox.IsEnabled = false;
-            //    LoadButton.IsEnabled = false;
-            //    SelectPathButton.IsEnabled = false;
-            //    LectionsComboBox.Items.Add("Пусто");
-            //}
-            //else
-            //{
-            //    LectionsComboBox.IsEnabled = true;
-            //    LoadButton.IsEnabled = true;
-            //    SelectPathButton.IsEnabled = true;
-            //    LectionsComboBox.ItemsSource = themes;
-            //}
-
-            //LectionsComboBox.SelectedIndex = 0;
         }
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)
@@ -93,7 +48,6 @@ namespace TheoryOfElectrostatics.Pages
 
                     FileInfo htmlPath = new FileInfo(PathTextBox.Text);
                     string fileFolder = $"Lection.files";
-                    //MessageBox.Show(Regex.Match(html, "[^\\\\]'(([^'<>?|\"]|(\\\\'))*[^\\\\])'").Value);
 
                     foreach (Match item in Regex.Matches(html, "[^\\\\]'(([^'<>?|\"]|(\\\\'))*[^\\\\])'"))
                     {
@@ -145,12 +99,13 @@ namespace TheoryOfElectrostatics.Pages
                     {
                         document.QuerySelector("head").InnerHtml += "<meta http-equiv='X-UA-Compatible' content='IE=edge' />";
                     }
-                    if (!document.QuerySelector("head").InnerHtml.Contains("utf-8"))
+                    if (!document.QuerySelector("head").InnerHtml.Contains("windows-1251"))
                     {
-                        document.QuerySelector("head").InnerHtml += "<meta charset='utf-8'>";
+                        document.QuerySelector("head").InnerHtml += "<meta charset='windows-1251'>";
                     }
+                    document.QuerySelector("body").SetAttribute("style", "background-color:aliceblue");
 
-                    byte[] htmlBytes = Encoding.Convert(Encoding.GetEncoding("windows-1251"), Encoding.UTF8, Encoding.GetEncoding("windows-1251").GetBytes(document.QuerySelector("html").OuterHtml));
+                    html = document.QuerySelector("html").OuterHtml;
 
                     using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
                     {
@@ -162,7 +117,7 @@ namespace TheoryOfElectrostatics.Pages
                     hrefs = hrefs.Distinct().ToList();
                     using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
                     {
-                        zip.AddEntry($"{DataManager.CurrentTheme}/Lection.html", htmlBytes);
+                        zip.AddEntry($"{DataManager.CurrentTheme}/Lection.html", html);
                         zip.AddFiles(hrefs, Path.Combine(DataManager.CurrentTheme, fileFolder));
                         zip.Save();
                     }
@@ -189,26 +144,6 @@ namespace TheoryOfElectrostatics.Pages
             {
                 PathTextBox.Text = open.FileName;
             }
-        }
-
-        private void AddButton_Click(object sender, RoutedEventArgs e)
-        {
-            //try
-            //{
-            //    using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
-            //    {
-            //        zip.AddDirectoryByName(ThemeTextBox.Text.Trim());
-            //        zip.Save();
-            //    }
-
-            //    ThemeTextBox.Text = "";
-            //    MessageBox.Show("Тема добавлена.", "Информация");
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
-            //RefreshLections();
         }
 
         private void UploadButton_Click(object sender, RoutedEventArgs e)
@@ -280,13 +215,6 @@ namespace TheoryOfElectrostatics.Pages
             ThemeImage.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/NoImage.png"));
         }
 
-        private void LectionsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //if (LectionsComboBox.SelectedItem != null)
-            //{
-            //}
-        }
-
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -305,7 +233,6 @@ namespace TheoryOfElectrostatics.Pages
                     zip.Save();
                 }
 
-                RefreshLections();
                 MessageBox.Show("Тема удалена.", "Информация");
             }
             catch (Exception ex)

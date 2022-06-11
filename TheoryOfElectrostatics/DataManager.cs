@@ -162,8 +162,13 @@ namespace TheoryOfElectrostatics
         {
             using (ZipFile zip = OpenZip(LectionsPath))
             {
-                zip.RemoveEntry($"{ImagesPath}/{fileName}");
-                zip.Save();
+                string entryName = $"{ImagesPath}/{fileName}";
+
+                if (zip.EntryFileNames.Contains(entryName))
+                {
+                    zip.RemoveEntry(entryName);
+                    zip.Save();
+                }
             }
         }
     }

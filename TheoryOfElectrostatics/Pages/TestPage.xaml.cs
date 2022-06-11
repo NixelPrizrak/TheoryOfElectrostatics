@@ -45,7 +45,7 @@ namespace TheoryOfElectrostatics.Pages
                     {
                         question.Answers = DataManager.ShuffleList(question.Answers);
                     }
-                    question.SelectedAnswers = new List<string>();
+                    question.SelectedAnswers = new List<int>();
                 }
                 SelectQuest(0);
                 selectedQuestion = 0;
@@ -115,7 +115,7 @@ namespace TheoryOfElectrostatics.Pages
 
         private void SaveAnswer()
         {
-            List<string> selectedAnswers = new List<string>();
+            List<int> selectedAnswers = new List<int>();
             switch (questions[selectedQuestion].Type)
             {
                 case 0:
@@ -124,7 +124,7 @@ namespace TheoryOfElectrostatics.Pages
                     {
                         if (radioAnswers[i].Check)
                         {
-                            selectedAnswers.Add(questions[selectedQuestion].Answers[i].Text);
+                            selectedAnswers.Add(questions[selectedQuestion].Answers[i].Id);
                         }
                     }
                     break;
@@ -134,12 +134,12 @@ namespace TheoryOfElectrostatics.Pages
                     {
                         if (checkAnswers[i].Check)
                         {
-                            selectedAnswers.Add(questions[selectedQuestion].Answers[i].Text);
+                            selectedAnswers.Add(questions[selectedQuestion].Answers[i].Id);
                         }
                     }
                     break;
                 case 2:
-                    selectedAnswers.Add(OpenAnswerTextBox.Text);
+                    questions[selectedQuestion].InputAnswer = OpenAnswerTextBox.Text;
                     break;
                 default:
                     break;
@@ -162,7 +162,7 @@ namespace TheoryOfElectrostatics.Pages
                     {
                         RadioAnswer radioAnswer = new RadioAnswer();
                         radioAnswer.Text = answer.Text;
-                        if (questions[idQuestion].SelectedAnswers.Contains(answer.Text))
+                        if (questions[idQuestion].SelectedAnswers.Contains(answer.Id))
                         {
                             radioAnswer.Check = true;
                         }
@@ -176,7 +176,7 @@ namespace TheoryOfElectrostatics.Pages
                     {
                         CheckAnswer checkAnswer = new CheckAnswer();
                         checkAnswer.Text = answer.Text;
-                        if (questions[idQuestion].SelectedAnswers.Contains(answer.Text))
+                        if (questions[idQuestion].SelectedAnswers.Contains(answer.Id))
                         {
                             checkAnswer.Check = true;
                         }
@@ -186,7 +186,7 @@ namespace TheoryOfElectrostatics.Pages
                 case 2:
                     AnswersWrapPanel.Visibility = Visibility.Collapsed;
                     OpenAnswerTextBox.Visibility = Visibility.Visible;
-                    OpenAnswerTextBox.Text = questions[idQuestion].SelectedAnswers.FirstOrDefault();
+                    OpenAnswerTextBox.Text = questions[idQuestion].InputAnswer;
                     break;
                 default:
                     break;

@@ -3,13 +3,13 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:local="clr-namespace:TheoryOfElectrostatics"
                   Title="TestWindow" Width="1000" Height="600" Loaded="PatternWindow_Loaded" WindowStartupLocation="CenterScreen" MinWidth="1000" MinHeight="600">
-    <!--<DockPanel>
+    <DockPanel>
         <Grid DockPanel.Dock="Bottom" Height="60">
             <Button Content="Проверить" HorizontalAlignment="Left" Margin="63,10,0,0" VerticalAlignment="Top" Height="36" Width="103" FontSize="14" Click="CheckButton_Click"/>
         </Grid>
         <local:Scheme x:Name="TestScheme"/>
-    </DockPanel>-->
-    <Grid Background="AliceBlue">
+    </DockPanel>
+    <!--<Grid Background="AliceBlue">
         <ListView x:Name="QuestionsListView" BorderBrush="{x:Null}" Background="#FFDBEEFF" HorizontalAlignment="Left" VerticalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" MouseLeftButtonDown="QuestionsListView_MouseLeftButtonDown" MouseLeftButtonUp="QuestionsListView_MouseLeftButtonUp" MouseMove="QuestionsListView_MouseMove" PreviewMouseWheel="QuestionsListView_MouseWheel" >
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -37,5 +37,5 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListView>
-    </Grid>
+    </Grid>-->
 </local:PatternWindow>

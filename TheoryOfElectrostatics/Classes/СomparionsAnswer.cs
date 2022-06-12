@@ -6,13 +6,13 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace TheoryOfElectrostatics
+namespace TheoryOfElectrostatics.Classes
 {
     public class ComparionsAnswer
     {
         public int Key { get; set; }
+        public ObservableCollection<Answer> Variants { get; set; } = new ObservableCollection<Answer>();
         [JsonIgnore]
-        public ObservableCollection<int> Variants { get; set; }
-        public ObservableCollection<int> SelectedVariants { get; set; }
+        public ObservableCollection<Answer> SelectedVariants { get; set; } = new ObservableCollection<Answer>();
     }
 }

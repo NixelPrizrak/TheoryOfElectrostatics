@@ -110,20 +110,17 @@
     <Compile Include="AuthWindow.xaml.cs">
       <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\CheckAnswer.xaml.cs">
-      <DependentUpon>CheckAnswer.xaml</DependentUpon>
+    <Compile Include="Controls\VariantAnswer.xaml.cs">
+      <DependentUpon>VariantAnswer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\EditVariantAnswer.xaml.cs">
       <DependentUpon>EditVariantAnswer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\EditMultiAnswers.xaml.cs">
-      <DependentUpon>EditMultiAnswers.xaml</DependentUpon>
+    <Compile Include="Controls\EditMultiAnswer.xaml.cs">
+      <DependentUpon>EditMultiAnswer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Node.xaml.cs">
       <DependentUpon>Node.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\RadioAnswer.xaml.cs">
-      <DependentUpon>RadioAnswer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Scheme.xaml.cs">
       <DependentUpon>Scheme.xaml</DependentUpon>
@@ -131,19 +128,22 @@
     <Compile Include="Controls\UnionLine.xaml.cs">
       <DependentUpon>UnionLine.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MultiAnswers.cs" />
+    <Compile Include="Controls\ViewMultiAnswer.xaml.cs">
+      <DependentUpon>ViewMultiAnswer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\MultiAnswer.cs" />
     <Compile Include="Pages\CollectSchemePage.xaml.cs">
       <DependentUpon>CollectSchemePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SymbolsConverter.cs" />
-    <Compile Include="IndexConverter.cs" />
+    <Compile Include="Classes\SymbolsConverter.cs" />
+    <Compile Include="Classes\IndexConverter.cs" />
     <Compile Include="Pages\EditTestPage.xaml.cs">
       <DependentUpon>EditTestPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="PatternWindow.cs" />
-    <Compile Include="Question.cs" />
-    <Compile Include="Controls\Resistor.xaml.cs">
-      <DependentUpon>Resistor.xaml</DependentUpon>
+    <Compile Include="Classes\Question.cs" />
+    <Compile Include="Controls\ElementScheme.xaml.cs">
+      <DependentUpon>ElementScheme.xaml</DependentUpon>
     </Compile>
     <Compile Include="Test2Window.xaml.cs">
       <DependentUpon>Test2Window.xaml</DependentUpon>
@@ -151,9 +151,9 @@
     <Compile Include="TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Answer.cs" />
-    <Compile Include="Themes.cs" />
-    <Compile Include="СomparionsAnswer.cs" />
+    <Compile Include="Classes\Answer.cs" />
+    <Compile Include="Classes\TextImage.cs" />
+    <Compile Include="Classes\СomparionsAnswer.cs" />
     <Page Include="AdministrationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -162,7 +162,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\CheckAnswer.xaml">
+    <Page Include="Controls\VariantAnswer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -170,15 +170,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\EditMultiAnswers.xaml">
+    <Page Include="Controls\EditMultiAnswer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Node.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\RadioAnswer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -187,6 +183,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\UnionLine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ViewMultiAnswer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -205,7 +205,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataManager.cs" />
+    <Compile Include="Classes\DataManager.cs" />
     <Compile Include="HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
@@ -229,7 +229,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\LectionsPage.xaml">
+    <Page Include="Pages\ListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -245,11 +245,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\TestsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Resistor.xaml">
+    <Page Include="Controls\ElementScheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -269,8 +265,8 @@
     <Compile Include="Pages\LectionPage.xaml.cs">
       <DependentUpon>LectionPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\LectionsPage.xaml.cs">
-      <DependentUpon>LectionsPage.xaml</DependentUpon>
+    <Compile Include="Pages\ListPage.xaml.cs">
+      <DependentUpon>ListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -280,9 +276,6 @@
     </Compile>
     <Compile Include="Pages\TestPage.xaml.cs">
       <DependentUpon>TestPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\TestsPage.xaml.cs">
-      <DependentUpon>TestsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

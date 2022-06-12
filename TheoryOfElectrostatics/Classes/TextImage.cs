@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheoryOfElectrostatics
+namespace TheoryOfElectrostatics.Classes
 {
-    public class Theme
+    public class TextImage
     {
-        public string Name { get; set; }
+        public string Text { get; set; }
         public string Image { get; set; }
     }
 }

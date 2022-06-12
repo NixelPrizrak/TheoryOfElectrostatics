@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TheoryOfElectrostatics.Classes;
+using TheoryOfElectrostatics.Controls;
 
 namespace TheoryOfElectrostatics
 {
@@ -23,7 +25,7 @@ namespace TheoryOfElectrostatics
         public Test2Window()
         {
             InitializeComponent();
-            MultiAnswers multiAnswer = new MultiAnswers();
+            MultiAnswer multiAnswer = new MultiAnswer();
             multiAnswer.FirstAnswers = new ObservableCollection<Answer>();
             multiAnswer.FirstAnswers.Add(new Answer());
             multiAnswer.FirstAnswers.Add(new Answer());
@@ -35,15 +37,14 @@ namespace TheoryOfElectrostatics
             multiAnswer.SecondAnswers.Add(new Answer());
             multiAnswer.SecondAnswers.Add(new Answer());
             multiAnswer.Comparions = new ObservableCollection<ComparionsAnswer>();
+
             for (int i = 0; i < multiAnswer.FirstAnswers.Count; i++)
             {
                 ComparionsAnswer comparisonAnswer = new ComparionsAnswer();
-                comparisonAnswer.Variants = new ObservableCollection<int>();
-                comparisonAnswer.SelectedVariants = new ObservableCollection<int>();
 
                 for (int j = 1; j <= multiAnswer.SecondAnswers.Count; j++)
                 {
-                    comparisonAnswer.Variants.Add(j);
+                    comparisonAnswer.Variants.Add(new Answer() { Id = j, Check = false });
                 }
                 multiAnswer.Comparions.Add(comparisonAnswer);
             }

@@ -5,20 +5,19 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace TheoryOfElectrostatics
+namespace TheoryOfElectrostatics.Classes
 {
     public class Question
     {
         public int Type { get; set; }
-        public Answer Quest { get; set; }
-        public List<int> TrueAnswers { get; set; }
-        public List<Answer> Answers { get; set; }
+        public TextImage Quest { get; set; } = new TextImage();
+        public List<Answer> Answers { get; set; } = new List<Answer>();
         [JsonIgnore]
         public int Time { get; set; }
         [JsonIgnore]
-        public List<int> SelectedAnswers { get; set; }
+        public List<Answer> SelectedAnswers { get; set; } = new List<Answer>();
         [JsonIgnore]
         public string InputAnswer { get; set; }
-        public MultiAnswers MultiAnswer { get; set; }
+        public MultiAnswer MultiAnswer { get; set; } = new MultiAnswer();
     }
 }

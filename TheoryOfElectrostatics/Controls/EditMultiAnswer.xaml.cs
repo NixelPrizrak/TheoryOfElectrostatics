@@ -1,33 +1,25 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using TheoryOfElectrostatics.Classes;
 
 namespace TheoryOfElectrostatics.Controls
 {
     /// <summary>
     /// Логика взаимодействия для EditMultiAnswers.xaml
     /// </summary>
-    public partial class EditMultiAnswers : UserControl
+    public partial class EditMultiAnswer : UserControl
     {
         public ObservableCollection<Answer> FirstAnswers { get; set; }
         public ObservableCollection<Answer> SecondAnswers { get; set; }
         public ObservableCollection<ComparionsAnswer> ComparionsAnswers { get; set; }
         private bool noDelete = true;
 
-        public EditMultiAnswers()
+        public EditMultiAnswer()
         {
             InitializeComponent();
             FirstAnswers = new ObservableCollection<Answer>();
@@ -53,9 +45,12 @@ namespace TheoryOfElectrostatics.Controls
                 {
                     if (comparionAnswer != ComparionsAnswers[id])
                     {
-                        foreach (var variant in ComparionsAnswers[id].SelectedVariants)
+                        foreach (var variant in ComparionsAnswers[id].Variants)
                         {
-                            comparionAnswer.Variants.Add(variant);
+                            if (variant.Check)
+                            {
+                                comparionAnswer.Variants.Add(new Answer() { Id = variant.Id, Check = false });
+                            }
                         }
                     }
                 }
@@ -66,8 +61,8 @@ namespace TheoryOfElectrostatics.Controls
             {
                 foreach (var comparisonAnswer in ComparionsAnswers)
                 {
-                    comparisonAnswer.Variants.Remove(SecondAnswers.Count);
-                    comparisonAnswer.SelectedVariants.Remove(SecondAnswers.Count);
+                    var element = comparisonAnswer.Variants.Where(compar => compar.Id == SecondAnswers.Count).FirstOrDefault();
+                    comparisonAnswer.Variants.Remove(element);
                 }
 
                 SecondAnswers.Remove(answer);
@@ -85,25 +80,22 @@ namespace TheoryOfElectrostatics.Controls
                     FirstAnswers.Add(new Answer());
 
                     ComparionsAnswer answer = new ComparionsAnswer();
-                    answer.Variants = new ObservableCollection<int>();
-                    answer.SelectedVariants = new ObservableCollection<int>();
 
                     if (ComparionsAnswers.Count > 0)
                     {
                         foreach (var variant in ComparionsAnswers[0].Variants)
                         {
-                            answer.Variants.Add(variant);
-                        }
-                        foreach (var variant in ComparionsAnswers[0].SelectedVariants)
-                        {
-                            answer.Variants.Remove(variant);
+                            if (!variant.Check)
+                            {
+                                answer.Variants.Add(new Answer() { Id = variant.Id, Check = false });
+                            }
                         }
                     }
                     else
                     {
                         for (int i = 1; i <= SecondAnswers.Count; i++)
                         {
-                            answer.Variants.Add(i);
+                            answer.Variants.Add(new Answer() { Id = i, Check = false });
                         }
                     }
 
@@ -112,12 +104,12 @@ namespace TheoryOfElectrostatics.Controls
             }
             else
             {
-                if (SecondAnswers.Count < 10)
+                if (SecondAnswers.Count < 5)
                 {
                     SecondAnswers.Add(new Answer());
                     foreach (var answer in ComparionsAnswers)
                     {
-                        answer.Variants.Add(SecondAnswers.Count);
+                        answer.Variants.Add(new Answer() { Id = SecondAnswers.Count, Check = false });
                     }
                 }
             }
@@ -145,6 +137,7 @@ namespace TheoryOfElectrostatics.Controls
             DataManager.RemoveImage(name.Text);
             name.Text = null;
         }
+
         private void ChangeImage(string name, Image imageControl)
         {
             name = $"{DataManager.ImagesPath}/{name}";
@@ -173,29 +166,55 @@ namespace TheoryOfElectrostatics.Controls
             {
                 ComparionsAnswer comparionAnswer = (sender as ListBox).DataContext as ComparionsAnswer;
 
-                foreach (int item in e.RemovedItems)
+                if (comparionAnswer != null)
                 {
-                    foreach (var comparion in ComparionsAnswers)
+                    foreach (Answer item in e.RemovedItems)
                     {
-                        if (comparion != comparionAnswer)
+                        foreach (var comparion in ComparionsAnswers)
                         {
-                            comparion.Variants.Add(item);
+                            if (comparion != comparionAnswer)
+                            {
+                                comparion.Variants.Add(new Answer() { Id = item.Id, Check = false });
+                            }
                         }
                     }
-                    comparionAnswer.SelectedVariants.Remove(item);
-                }
-                foreach (int item in e.AddedItems)
-                {
-                    foreach (var comparion in ComparionsAnswers)
+                    foreach (Answer item in e.AddedItems)
                     {
-                        if (comparion != comparionAnswer)
+                        foreach (var comparion in ComparionsAnswers)
                         {
-                            comparion.Variants.Remove(item);
+                            if (comparion != comparionAnswer)
+                            {
+                                var element = comparion.Variants.Where(compar => compar.Id == item.Id).FirstOrDefault();
+                                comparion.Variants.Remove(element);
+                            }
                         }
                     }
-                    comparionAnswer.SelectedVariants.Add(item);
                 }
             }
+        }
+
+        public void RefreshComparions()
+        {
+            //for (int i = 0; i < ComparisonsListView.Items.Count; i++)
+            //{
+            //    var listBox2 = ComparisonsListView.Items;
+            //    ListBox listBox = ((ComparisonsListView.Items.GetItemAt(i) as ListViewItem).FindName("VariantsListBox") as ListBox);
+            //    for (int j = 0; j < listBox.Items.Count; j++)
+            //    {
+            //        if (ComparionsAnswers[i].SelectedVariants.Contains(j + 1))
+            //        {
+            //            (listBox.Items[j] as ListBoxItem).IsSelected = true;
+            //        }
+            //    }
+            //}
+        }
+
+        private void ImageTextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            TextBox name = sender as TextBox;
+            Grid item = name.Parent as Grid;
+            Image image = item.FindName("ItemImage") as Image;
+            ChangeImage(name.Text, image);
         }
     }
 }

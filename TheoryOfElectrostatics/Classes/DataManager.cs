@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 
-namespace TheoryOfElectrostatics
+namespace TheoryOfElectrostatics.Classes
 {
     static class DataManager
     {

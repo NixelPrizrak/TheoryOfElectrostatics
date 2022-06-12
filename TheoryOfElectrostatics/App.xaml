@@ -1,11 +1,11 @@
 ﻿<Application x:Class="TheoryOfElectrostatics.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:TheoryOfElectrostatics"
-             StartupUri="AdministrationWindow.xaml">
+             xmlns:local="clr-namespace:TheoryOfElectrostatics" xmlns:Classes="clr-namespace:TheoryOfElectrostatics.Classes"
+             StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <local:IndexConverter x:Key="IndexConverter"></local:IndexConverter>
-        <local:SymbolsConverter x:Key="SymbolsConverter"></local:SymbolsConverter>
+        <Classes:IndexConverter x:Key="IndexConverter"></Classes:IndexConverter>
+        <Classes:SymbolsConverter x:Key="SymbolsConverter"></Classes:SymbolsConverter>
         
         <Style TargetType="{x:Type ToggleButton}">
             <Setter Property="Template">

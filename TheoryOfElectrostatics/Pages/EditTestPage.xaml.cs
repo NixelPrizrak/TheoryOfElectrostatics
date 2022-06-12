@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using TheoryOfElectrostatics.Classes;
+using TheoryOfElectrostatics.Controls;
 
 namespace TheoryOfElectrostatics.Pages
 {
@@ -39,25 +42,10 @@ namespace TheoryOfElectrostatics.Pages
             types[0] = "Выбор одного ответа";
             types[1] = "Выбор нескольких ответов";
             types[2] = "Открытый ответ";
+            types[3] = "Установить соответствие";
             TypesComboBox.DisplayMemberPath = "Value";
             TypesComboBox.SelectedValuePath = "Key";
             TypesComboBox.ItemsSource = types;
-
-            List<string> themes = new List<string>();
-            using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
-            {
-                if (Directory.Exists(Properties.Settings.Default.TempPath))
-                {
-                    Directory.Delete(Properties.Settings.Default.TempPath, true);
-                }
-                DataManager.CheckTempFolder();
-
-                foreach (var entry in zip.Entries)
-                {
-                    themes.Add(entry.FileName.Split('/')[0]);
-                }
-                themes = themes.Distinct().ToList();
-            }
 
             using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
             {
@@ -100,7 +88,6 @@ namespace TheoryOfElectrostatics.Pages
             }
         }
 
-
         private void QuestionsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SaveChanges(idQuestion);
@@ -114,7 +101,7 @@ namespace TheoryOfElectrostatics.Pages
             idQuestion = QuestionsListView.SelectedIndex;
         }
 
-        private void QuestionsListView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void QuestionsScrollViewer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             startPosition = e.GetPosition(this).X;
             ScrollViewer sv = sender as ScrollViewer;
@@ -122,12 +109,12 @@ namespace TheoryOfElectrostatics.Pages
             sv.CaptureMouse();
         }
 
-        private void QuestionsListView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void QuestionsScrollViewer_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             (sender as ScrollViewer).ReleaseMouseCapture();
         }
 
-        private void QuestionsListView_MouseMove(object sender, MouseEventArgs e)
+        private void QuestionsScrollViewer_MouseMove(object sender, MouseEventArgs e)
         {
             ScrollViewer sv = sender as ScrollViewer;
             if (!sv.IsMouseCaptured)
@@ -139,7 +126,7 @@ namespace TheoryOfElectrostatics.Pages
 
         }
 
-        private void QuestionsListView_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        private void QuestionsScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer sv = sender as ScrollViewer;
             sv.ScrollToHorizontalOffset(sv.HorizontalOffset - e.Delta);
@@ -176,9 +163,6 @@ namespace TheoryOfElectrostatics.Pages
         {
             Question question = new Question();
             question.Type = 0;
-            question.Answers = new List<Answer>();
-            question.TrueAnswers = new List<int>();
-            question.Quest = new Answer();
             questions.Add(question);
             QuestionsListView.Items.Add(0);
             QuestionScrollViewer.Visibility = Visibility.Visible;
@@ -199,7 +183,13 @@ namespace TheoryOfElectrostatics.Pages
             {
                 QuestionTextBox.Text = questions[id].Quest.Text;
                 ChangeImage(questions[id].Quest.Image);
+
                 AnswersWrapPanel.Children.Clear();
+                OpenAnswerTextBox.Text = "";
+                EditMultiAnswer.FirstAnswers.Clear();
+                EditMultiAnswer.SecondAnswers.Clear();
+                EditMultiAnswer.ComparionsAnswers.Clear();
+
                 Question question = questions[id];
 
                 switch (question.Type)
@@ -207,6 +197,7 @@ namespace TheoryOfElectrostatics.Pages
                     case 0:
                         AnswersGrid.Visibility = Visibility.Visible;
                         OpenAnswerGrid.Visibility = Visibility.Collapsed;
+                        EditMultiAnswer.Visibility = Visibility.Collapsed;
 
                         foreach (var answer in questions[id].Answers)
                         {
@@ -214,36 +205,56 @@ namespace TheoryOfElectrostatics.Pages
                             radioAnswer.Text = answer.Text;
                             radioAnswer.Image = answer.Image;
                             radioAnswer.VisibleRadioButton = true;
-                            if (questions[id].TrueAnswers.Contains(answer.Id))
-                            {
-                                radioAnswer.Check = true;
-                            }
+                            radioAnswer.Check = answer.Check;
+
                             AnswersWrapPanel.Children.Add(radioAnswer);
                         }
                         break;
                     case 1:
                         AnswersGrid.Visibility = Visibility.Visible;
                         OpenAnswerGrid.Visibility = Visibility.Collapsed;
+                        EditMultiAnswer.Visibility = Visibility.Collapsed;
+
                         foreach (var answer in questions[id].Answers)
                         {
                             EditVariantAnswer checkAnswer = new EditVariantAnswer();
                             checkAnswer.Text = answer.Text;
                             checkAnswer.Image = answer.Image;
                             checkAnswer.VisibleCheckBox = true;
-                            if (questions[id].TrueAnswers.Contains(answer.Id))
-                            {
-                                checkAnswer.Check = true;
-                            }
+                            checkAnswer.Check = answer.Check;
+
                             AnswersWrapPanel.Children.Add(checkAnswer);
                         }
                         break;
                     case 2:
                         AnswersGrid.Visibility = Visibility.Collapsed;
                         OpenAnswerGrid.Visibility = Visibility.Visible;
+                        EditMultiAnswer.Visibility = Visibility.Collapsed;
+
                         if (questions[id].Answers.Count != 0)
                         {
                             OpenAnswerTextBox.Text = questions[id].Answers[0].Text;
                         }
+                        break;
+                    case 3:
+                        AnswersGrid.Visibility = Visibility.Collapsed;
+                        OpenAnswerGrid.Visibility = Visibility.Collapsed;
+                        EditMultiAnswer.Visibility = Visibility.Visible;
+
+                        foreach (var answer in question.MultiAnswer.FirstAnswers)
+                        {
+                            EditMultiAnswer.FirstAnswers.Add(answer);
+                        }
+                        foreach (var answer in question.MultiAnswer.SecondAnswers)
+                        {
+                            EditMultiAnswer.SecondAnswers.Add(answer);
+                        }
+                        foreach (var answer in question.MultiAnswer.Comparions)
+                        {
+                            EditMultiAnswer.ComparionsAnswers.Add(answer);
+                        }
+
+                        EditMultiAnswer.RefreshComparions();
                         break;
                     default:
                         break;
@@ -262,15 +273,12 @@ namespace TheoryOfElectrostatics.Pages
             SaveChanges(id);
 
             DataManager.RemoveImage(questions[id].Quest.Image);
-            foreach (var answer in questions[id].Answers)
-            {
-                DataManager.RemoveImage(answer.Image);
-            }
+            RemoveAnswers(id, true, true);
 
-            questions.RemoveAt(QuestionsListView.SelectedIndex);
+            questions.RemoveAt(id);
             SaveChanges(-1);
             save = false;
-            QuestionsListView.Items.RemoveAt(QuestionsListView.SelectedIndex);
+            QuestionsListView.Items.RemoveAt(id);
             //QuestionsListView.Items.Refresh();
             if (questions.Count == 0)
             {
@@ -285,9 +293,12 @@ namespace TheoryOfElectrostatics.Pages
 
         private void AddAnswerButton_Click(object sender, RoutedEventArgs e)
         {
-            SaveChanges(QuestionsListView.SelectedIndex);
-            questions[QuestionsListView.SelectedIndex].Answers.Add(new Answer());
-            SelectQuestion();
+            if (questions[QuestionsListView.SelectedIndex].Answers.Count < 6)
+            {
+                SaveChanges(QuestionsListView.SelectedIndex);
+                questions[QuestionsListView.SelectedIndex].Answers.Add(new Answer());
+                SelectQuestion();
+            }
         }
 
         private void DeleteImageButton_Click(object sender, RoutedEventArgs e)
@@ -314,41 +325,56 @@ namespace TheoryOfElectrostatics.Pages
                     questions[id].Quest.Text = QuestionTextBox.Text.Trim();
                     questions[id].Quest.Image = questImage;
 
-                    int i;
                     switch (questions[id].Type)
                     {
-                        case 0: case 1:
+                        case 0:
+                        case 1:
+                            RemoveAnswers(id, false, true);
                             questions[id].Answers = new List<Answer>();
-                            questions[id].TrueAnswers = new List<int>();
 
-                            i = 0;
+                            int i = 0;
                             foreach (var answer in AnswersWrapPanel.Children.OfType<EditVariantAnswer>())
                             {
                                 questions[id].Answers.Add(new Answer()
                                 {
                                     Id = i,
                                     Text = answer.Text.Trim(),
-                                    Image = answer.Image
+                                    Image = answer.Image,
+                                    Check = answer.Check,
                                 });
-                                if (answer.Check)
-                                {
-                                    questions[id].TrueAnswers.Add(i);
-                                }
                                 i++;
                             }
                             break;
                         case 2:
-                            foreach (var answer in questions[id].Answers)
-                            {
-                                DataManager.RemoveImage(answer.Image);
-                            }
+                            RemoveAnswers(id, true, true);
 
-                            questions[id].Answers = new List<Answer>();
-                            questions[id].TrueAnswers = new List<int>();
                             questions[id].Answers.Add(new Answer()
                             {
                                 Text = OpenAnswerTextBox.Text
                             });
+                            break;
+                        case 3:
+                            RemoveAnswers(id, true, false);
+
+                            questions[id].MultiAnswer.FirstAnswers = new ObservableCollection<Answer>();
+                            questions[id].MultiAnswer.SecondAnswers = new ObservableCollection<Answer>();
+                            questions[id].MultiAnswer.Comparions = new ObservableCollection<ComparionsAnswer>();
+
+                            for (int j = 0; j < EditMultiAnswer.FirstAnswers.Count; j++)
+                            {
+                                EditMultiAnswer.FirstAnswers[j].Id = j + 1;
+                                questions[id].MultiAnswer.FirstAnswers.Add(EditMultiAnswer.FirstAnswers[j]);
+                            }
+                            for (int j = 0; j < EditMultiAnswer.SecondAnswers.Count; j++)
+                            {
+                                EditMultiAnswer.SecondAnswers[j].Id = j + 1;
+                                questions[id].MultiAnswer.SecondAnswers.Add(EditMultiAnswer.SecondAnswers[j]);
+                            }
+                            for (int j = 0; j < EditMultiAnswer.ComparionsAnswers.Count; j++)
+                            {
+                                EditMultiAnswer.ComparionsAnswers[j].Key = j + 1;
+                                questions[id].MultiAnswer.Comparions.Add(EditMultiAnswer.ComparionsAnswers[j]);
+                            }
                             break;
                         default:
                             break;
@@ -369,6 +395,34 @@ namespace TheoryOfElectrostatics.Pages
                     zip.Save();
                 }
 
+            }
+        }
+
+        private void RemoveAnswers(int id, bool variantAnswer, bool multiAnswer)
+        {
+            if (variantAnswer)
+            {
+                foreach (var answer in questions[id].Answers)
+                {
+                    DataManager.RemoveImage(answer.Image);
+                }
+                questions[id].Answers = new List<Answer>();
+            }
+
+            if (multiAnswer)
+            {
+                foreach (var answer in questions[id].MultiAnswer.FirstAnswers)
+                {
+                    DataManager.RemoveImage(answer.Image);
+                }
+                foreach (var answer in questions[id].MultiAnswer.SecondAnswers)
+                {
+                    DataManager.RemoveImage(answer.Image);
+                }
+
+                questions[id].MultiAnswer.FirstAnswers.Clear();
+                questions[id].MultiAnswer.SecondAnswers.Clear();
+                questions[id].MultiAnswer.Comparions.Clear();
             }
         }
 

@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TheoryOfElectrostatics.Pages"
+      xmlns:Controls="clr-namespace:TheoryOfElectrostatics.Controls" 
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1000"
       Title="Test">
@@ -50,17 +51,18 @@
 
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Button Content="{Binding Mode=OneWay}" Height="40" Width="40" FontWeight="Bold" FontSize="20" Click="SelectionQuestionButton_Click"/>
+                        <Button Content="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Mode=OneWay, Converter={StaticResource IndexConverter}}" Height="40" Width="40" FontWeight="Bold" FontSize="20" Click="SelectionQuestionButton_Click"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListView>
         </Grid>
-        <Grid>
-            <WrapPanel Margin="100,0,100,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Orientation="Vertical">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="100,0,100,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Orientation="Vertical">
                 <TextBlock x:Name="QuestionTextBlock" Text="Текст вопроса" FontSize="16" Margin="0,0,0,20" TextWrapping="Wrap"/>
-                <WrapPanel x:Name="AnswersWrapPanel" Orientation="Vertical" Visibility="Collapsed"/>
-                <TextBox x:Name="OpenAnswerTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Width="313" Visibility="Collapsed"/>
-            </WrapPanel>
-        </Grid>
+                <StackPanel x:Name="AnswersStackPanel" Orientation="Vertical" Visibility="Collapsed"/>
+                <TextBox x:Name="OpenAnswerTextBox" HorizontalAlignment="Left" FontSize="16" Padding="0,3" Margin="30,0" Width="500" Visibility="Collapsed"/>
+                <Controls:ViewMultiAnswer x:Name="ViewMultiAnswer" Visibility="Collapsed"/>
+            </StackPanel>
+        </ScrollViewer>
     </DockPanel>
 </Page>

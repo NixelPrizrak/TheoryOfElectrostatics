@@ -12,9 +12,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Text.Json;
 using System.Windows.Threading;
+using Ionic.Zip;
+using TheoryOfElectrostatics.Controls;
+using TheoryOfElectrostatics.Classes;
 
 namespace TheoryOfElectrostatics.Pages
 {
@@ -33,25 +35,68 @@ namespace TheoryOfElectrostatics.Pages
 
             try
             {
-                List<int> arr = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-                DataListView.ItemsSource = arr;
-                string json = File.ReadAllText($"Test{DataManager.IdTest}.json");
-                questions = DataManager.ShuffleList(JsonSerializer.Deserialize<List<Question>>(json)).Take(12).ToList();
+                questions = new List<Question>();
+
+                using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        ZipEntry entry = zip[$"{DataManager.CurrentTheme}/Test.json"];
+                        if (entry != null)
+                        {
+                            entry.Extract(stream);
+                            stream.Position = 0;
+
+                            using (var reader = new StreamReader(stream))
+                            {
+                                string json = reader.ReadToEnd();
+                                if (json != null && json != "")
+                                {
+                                    questions = DataManager.ShuffleList(JsonSerializer.Deserialize<List<Question>>(json)).Take(12).ToList();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                DataListView.ItemsSource = questions;
 
                 foreach (Question question in questions)
                 {
-                    question.Time = question.Type == 0 ? 30 : (question.Type == 1 ? 60 : 90);
-                    if (question.Answers != null)
+                    question.Time = question.Type == 0 ? 30 : (question.Type == 1 ? 60 : (question.Type == 2 ? 90 : 150));
+                    if (question.Type == 0 || question.Type == 1)
                     {
                         question.Answers = DataManager.ShuffleList(question.Answers);
                     }
-                    question.SelectedAnswers = new List<int>();
+                    if (question.Type == 3)
+                    {
+                        List<Answer> answers = DataManager.ShuffleList(question.MultiAnswer.SecondAnswers.ToList());
+                        question.MultiAnswer.SecondAnswers.Clear();
+                        foreach (var answer in answers)
+                        {
+                            question.MultiAnswer.SecondAnswers.Add(answer);
+                        }
+
+                        answers = DataManager.ShuffleList(question.MultiAnswer.FirstAnswers.ToList());
+                        question.MultiAnswer.FirstAnswers.Clear();
+
+                        List<ComparionsAnswer> comparionsAnswers = new List<ComparionsAnswer>();
+                        for (int i = 0; i < answers.Count; i++)
+                        {
+                            question.MultiAnswer.FirstAnswers.Add(answers[i]);
+                            comparionsAnswers.Add(question.MultiAnswer.Comparions[answers[i].Id - 1]);
+                            for (int j = 1; j <= question.MultiAnswer.SecondAnswers.Count; j++)
+                            {
+                                comparionsAnswers[i].SelectedVariants.Add(new Answer() { Id = j, Check = false });
+                            }
+                        }
+                    }
                 }
                 SelectQuest(0);
                 selectedQuestion = 0;
 
-                int minute = (int)questions[selectedQuestion].Time / 60;
-                int second = (int)questions[selectedQuestion].Time % 60;
+                int minute = questions[selectedQuestion].Time / 60;
+                int second = questions[selectedQuestion].Time % 60;
                 TimeLabel.Content = $"Время: {(minute < 10 ? "0" + minute : minute.ToString())}:{(second < 10 ? "0" + second : second.ToString())}";
 
                 timer = new DispatcherTimer();
@@ -115,78 +160,105 @@ namespace TheoryOfElectrostatics.Pages
 
         private void SaveAnswer()
         {
-            List<int> selectedAnswers = new List<int>();
             switch (questions[selectedQuestion].Type)
             {
                 case 0:
-                    List<RadioAnswer> radioAnswers = AnswersWrapPanel.Children.OfType<RadioAnswer>().ToList();
-                    for (int i = 0; i < radioAnswers.Count; i++)
-                    {
-                        if (radioAnswers[i].Check)
-                        {
-                            selectedAnswers.Add(questions[selectedQuestion].Answers[i].Id);
-                        }
-                    }
-                    break;
                 case 1:
-                    List<CheckAnswer> checkAnswers = AnswersWrapPanel.Children.OfType<CheckAnswer>().ToList();
+                    List<Answer> selectedAnswers = new List<Answer>();
+                    List<VariantAnswer> checkAnswers = AnswersStackPanel.Children.OfType<VariantAnswer>().ToList();
                     for (int i = 0; i < checkAnswers.Count; i++)
                     {
                         if (checkAnswers[i].Check)
                         {
-                            selectedAnswers.Add(questions[selectedQuestion].Answers[i].Id);
+                            selectedAnswers.Add(questions[selectedQuestion].Answers[i]);
                         }
                     }
+                    questions[selectedQuestion].SelectedAnswers = selectedAnswers;
                     break;
                 case 2:
                     questions[selectedQuestion].InputAnswer = OpenAnswerTextBox.Text;
                     break;
+                case 3:
+                    ViewMultiAnswer.ComparionsAnswers.Clear();
+                    foreach (var answer in ViewMultiAnswer.ComparionsAnswers)
+                    {
+                        questions[selectedQuestion].MultiAnswer.Comparions.Add(answer);
+                    }
+                    break;
                 default:
                     break;
             }
-            questions[selectedQuestion].SelectedAnswers = selectedAnswers;
         }
 
         public void SelectQuest(int idQuestion)
         {
-            AnswersWrapPanel.Children.Clear();
+            AnswersStackPanel.Children.Clear();
             TitleTextBlock.Text = $"Вопрос {idQuestion + 1}";
             QuestionTextBlock.Text = questions[idQuestion].Quest.Text;
+            ViewMultiAnswer.FirstAnswers.Clear();
+            ViewMultiAnswer.SecondAnswers.Clear();
+            ViewMultiAnswer.ComparionsAnswers.Clear();
 
             switch (questions[idQuestion].Type)
             {
                 case 0:
-                    AnswersWrapPanel.Visibility = Visibility.Visible;
+                    AnswersStackPanel.Visibility = Visibility.Visible;
                     OpenAnswerTextBox.Visibility = Visibility.Collapsed;
+                    ViewMultiAnswer.Visibility = Visibility.Collapsed;
+
                     foreach (var answer in questions[idQuestion].Answers)
                     {
-                        RadioAnswer radioAnswer = new RadioAnswer();
+                        VariantAnswer radioAnswer = new VariantAnswer();
+                        radioAnswer.VisibleRadioButton = true;
                         radioAnswer.Text = answer.Text;
-                        if (questions[idQuestion].SelectedAnswers.Contains(answer.Id))
+                        if (questions[idQuestion].SelectedAnswers.Contains(answer))
                         {
                             radioAnswer.Check = true;
                         }
-                        AnswersWrapPanel.Children.Add(radioAnswer);
+                        AnswersStackPanel.Children.Add(radioAnswer);
                     }
                     break;
                 case 1:
-                    AnswersWrapPanel.Visibility = Visibility.Visible;
+                    AnswersStackPanel.Visibility = Visibility.Visible;
                     OpenAnswerTextBox.Visibility = Visibility.Collapsed;
+                    ViewMultiAnswer.Visibility = Visibility.Collapsed;
+
                     foreach (var answer in questions[idQuestion].Answers)
                     {
-                        CheckAnswer checkAnswer = new CheckAnswer();
+                        VariantAnswer checkAnswer = new VariantAnswer();
+                        checkAnswer.VisibleCheckBox = true;
                         checkAnswer.Text = answer.Text;
-                        if (questions[idQuestion].SelectedAnswers.Contains(answer.Id))
+                        if (questions[idQuestion].SelectedAnswers.Contains(answer))
                         {
                             checkAnswer.Check = true;
                         }
-                        AnswersWrapPanel.Children.Add(checkAnswer);
+                        AnswersStackPanel.Children.Add(checkAnswer);
                     }
                     break;
                 case 2:
-                    AnswersWrapPanel.Visibility = Visibility.Collapsed;
+                    AnswersStackPanel.Visibility = Visibility.Collapsed;
                     OpenAnswerTextBox.Visibility = Visibility.Visible;
+                    ViewMultiAnswer.Visibility = Visibility.Collapsed;
+
                     OpenAnswerTextBox.Text = questions[idQuestion].InputAnswer;
+                    break;
+                case 3:
+                    AnswersStackPanel.Visibility = Visibility.Collapsed;
+                    OpenAnswerTextBox.Visibility = Visibility.Collapsed;
+                    ViewMultiAnswer.Visibility = Visibility.Visible;
+
+                    foreach (var answer in questions[idQuestion].MultiAnswer.FirstAnswers)
+                    {
+                        ViewMultiAnswer.FirstAnswers.Add(answer);
+                    }
+                    foreach (var answer in questions[idQuestion].MultiAnswer.SecondAnswers)
+                    {
+                        ViewMultiAnswer.SecondAnswers.Add(answer);
+                    }
+                    foreach (var answer in questions[idQuestion].MultiAnswer.Comparions)
+                    {
+                        ViewMultiAnswer.ComparionsAnswers.Add(answer);
+                    }
                     break;
                 default:
                     break;
@@ -201,53 +273,110 @@ namespace TheoryOfElectrostatics.Pages
         private void FinishTest()
         {
             SaveAnswer();
+            timer.Stop();
             double score = 0;
+            int maxScore = 0;
+
             foreach (Question question in questions)
             {
-                if (question.SelectedAnswers.Count > 0)
+                switch (question.Type)
                 {
-                    switch (question.Type)
-                    {
-                        case 0:
-                            if (question.SelectedAnswers[0] == question.TrueAnswers[0])
-                            {
-                                score++;
-                            }
-                            break;
-                        case 1:
-                            double some = 0;
+                    case 0:
+                    case 1:
+                    case 2:
+                        maxScore++;
+                        break;
+                    case 3:
+                        maxScore += 3;
+                        break;
+                    default:
+                        break;
+                }
+                switch (question.Type)
+                {
+                    case 0:
+                        if (question.SelectedAnswers[0].Check)
+                        {
+                            score++;
+                        }
+                        break;
+                    case 1:
+                        double some = 0;
+                        int trueCount = 0;
 
-                            foreach (var selectedAnswer in question.SelectedAnswers)
+                        foreach (var selectedAnswer in question.SelectedAnswers)
+                        {
+                            if (selectedAnswer.Check)
                             {
-                                if (question.TrueAnswers.Contains(selectedAnswer))
+                                some++;
+                            }
+                            else
+                            {
+                                some--;
+                            }
+                        }
+                        foreach (var answer in question.Answers)
+                        {
+                            if (answer.Check)
+                            {
+                                trueCount++;
+                            }
+                        }
+
+                        if (some > 0)
+                        {
+                            score += some / trueCount;
+                        }
+                        break;
+                    case 2:
+                        if (question.InputAnswer == question.Answers[0].Text)
+                        {
+                            score++;
+                        }
+                        break;
+                    case 3:
+                        double trueComparions = 0;
+                        foreach (var comparion in question.MultiAnswer.Comparions)
+                        {
+                            int countVariants = comparion.Variants.Count;
+                            int trueVariants = 0;
+                            foreach (var variant in comparion.Variants)
+                            {
+                                foreach (var selectedVariant in comparion.SelectedVariants)
                                 {
-                                    some++;
-                                }
-                                else
-                                {
-                                    some--;
+                                    if (selectedVariant.Check)
+                                    {
+                                        if (variant.Check)
+                                        {
+                                            trueVariants++;
+                                        }
+                                    }
                                 }
                             }
 
-                            if (some > 0)
+                            if (countVariants != 0)
                             {
-                                score += some / question.TrueAnswers.Count;
+                                trueComparions += trueVariants / countVariants;
                             }
-                            break;
-                        case 2:
-                            if (question.SelectedAnswers[0] == question.TrueAnswers[0])
+                            else
                             {
-                                score++;
+                                trueComparions++;
                             }
-                            break;
-                        default:
-                            break;
-                    }
+                        }
+
+                        if (trueComparions > 0)
+                        {
+                            score += 3 * (trueComparions / question.MultiAnswer.Comparions.Count);
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
-            int procent = (int)Math.Ceiling((score / 12) * 100);
+
+            int procent = (int)Math.Ceiling((score / maxScore) * 100);
             int value = procent > 84 ? 5 : (procent > 74 ? 4 : (procent > 59 ? 3 : 2));
-            MessageBox.Show($"Правильных ответов {procent}%.\nТест пройден на оценку {value}");
+            MessageBox.Show($"Количество баллов {Math.Round(score, 1)}/{maxScore}. \nПравильных ответов {procent}%.\nТест пройден на оценку {value}");
             DataManager.MainFrame.Navigate(new Pages.MainPage());
         }
     }

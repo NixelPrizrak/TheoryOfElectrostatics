@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:TheoryOfElectrostatics"
         mc:Ignorable="d"
         Title="Основы электростатики и постоянный электрический ток" Height="600" Width="1000" WindowStartupLocation="CenterScreen" MinWidth="1000" MinHeight="600">
-    <Grid>
+    
+    <Grid Background="AliceBlue">
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
 
     </Grid>

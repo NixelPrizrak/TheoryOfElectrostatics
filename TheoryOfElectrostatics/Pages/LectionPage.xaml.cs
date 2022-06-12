@@ -16,25 +16,26 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using TheoryOfElectrostatics.Classes;
 
 namespace TheoryOfElectrostatics.Pages
 {
     /// <summary>
     /// Логика взаимодействия для Lection.xaml
     /// </summary>
-    public partial class LectionPage : Page
+    public partial class HTMLPage : Page
     {
-        public LectionPage(string lection)
+        public HTMLPage(string theme,bool lection)
         {
             InitializeComponent();
             Directory.Delete(Properties.Settings.Default.TempPath, true);
             DataManager.CheckTempFolder();
             using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
             {
-                zip.ExtractSelectedEntries("*", lection, Properties.Settings.Default.TempPath);
-                zip.ExtractSelectedEntries("*", $"{lection}/Lection.files", Properties.Settings.Default.TempPath);
+                zip.ExtractSelectedEntries("*", theme, Properties.Settings.Default.TempPath);
+                zip.ExtractSelectedEntries("*", $"{theme}/Lection.files", Properties.Settings.Default.TempPath);
             }
-            string fileLection = Path.Combine(Properties.Settings.Default.TempPath, lection, $"Lection.html");
+            string fileLection = Path.Combine(Properties.Settings.Default.TempPath, theme, $"Lection.html");
 
             if (File.Exists(fileLection))
             {

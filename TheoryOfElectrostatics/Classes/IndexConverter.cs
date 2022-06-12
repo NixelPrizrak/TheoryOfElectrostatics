@@ -3,15 +3,13 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace TheoryOfElectrostatics
+namespace TheoryOfElectrostatics.Classes
 {
-    [ValueConversion(typeof(int), typeof(string))]
-    public class SymbolsConverter : IValueConverter
+    public class IndexConverter : IValueConverter
     {
-        private string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return alphabet[System.Convert.ToInt32(value)].ToString();
+            return System.Convert.ToInt32(value) + 1;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

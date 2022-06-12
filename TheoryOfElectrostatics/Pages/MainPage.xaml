@@ -9,19 +9,21 @@
       Title="Основы электростатики и постоянный электрический ток">
 
     <DockPanel Background="AliceBlue">
-        <Grid Background="AliceBlue" Height="80" DockPanel.Dock="Top" MaxWidth="1400">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="0.5*"/>
-            </Grid.ColumnDefinitions>
-            <Button Content="Лекции" Grid.Column="1" Height="30" HorizontalAlignment="Center" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="LectionsButton_Click"/>
-            <Button Content="Практика" Grid.Column="2" Height="30" HorizontalAlignment="Center" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="PracticesButton_Click"/>
-            <Button Content="Тесты" Grid.Column="3" Height="30" HorizontalAlignment="Center" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="TestsButton_Click"/>
-            <Button Content="Собрать схему" Grid.Column="4" Height="30" HorizontalAlignment="Center" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="CollectSchemeButton_Click"/>
+        <Grid DockPanel.Dock="Top" Background="#FFBADFFF" Height="80">
+            <Grid MaxWidth="1400">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Лекции" Grid.Column="1" Height="30" HorizontalAlignment="Center" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="LectionsButton_Click"/>
+                <Button Content="Практика" Grid.Column="2" Height="30" HorizontalAlignment="Center" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="PracticesButton_Click"/>
+                <Button Content="Тесты" Grid.Column="3" Height="30" HorizontalAlignment="Center" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="TestsButton_Click"/>
+                <Button Content="Собрать схему" Grid.Column="4" Height="30" HorizontalAlignment="Center" Width="160" VerticalAlignment="Center" FontFamily="Sitka Text" FontSize="16" Click="CollectSchemeButton_Click"/>
+            </Grid>
         </Grid>
         <Frame x:Name="DataFrame" NavigationUIVisibility="Hidden"/>
     </DockPanel>

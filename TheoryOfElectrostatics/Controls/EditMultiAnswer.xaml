@@ -1,10 +1,9 @@
-﻿<UserControl
+﻿<UserControl x:Class="TheoryOfElectrostatics.Controls.EditMultiAnswer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TheoryOfElectrostatics.Controls"
-             xmlns:TheoryOfElectrostatics="clr-namespace:TheoryOfElectrostatics" x:Class="TheoryOfElectrostatics.Controls.EditMultiAnswers"
              mc:Ignorable="d" Background="AliceBlue">
 
     <DockPanel>
@@ -34,7 +33,7 @@
                     <DataTemplate>
                         <Grid>
                             <TextBlock Text="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Mode=OneWay, Converter={StaticResource SymbolsConverter}}" HorizontalAlignment="Center" FontWeight="Bold"/>
-                            <ListBox Background="{x:Null}" Margin="0,20,0,0" BorderThickness="0" SelectionMode="Multiple" SelectionChanged="VariantsListBox_SelectionChanged" HorizontalAlignment="Center" ItemsSource="{Binding Variants}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox x:Name="VariantsListBox" Background="{x:Null}" Margin="0,20,0,0" BorderThickness="0" SelectionMode="Multiple" SelectionChanged="VariantsListBox_SelectionChanged" HorizontalAlignment="Center" ItemsSource="{Binding Variants}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel Orientation="Horizontal"/>
@@ -53,6 +52,7 @@
                                         </Setter>
                                         <Setter Property="Background" Value="#3300BFFF"/>
                                         <Setter Property="BorderBrush" Value="DeepSkyBlue"/>
+                                        <Setter Property="IsSelected" Value="{Binding Check, Mode=TwoWay}"/>
 
                                         <Style.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
@@ -70,7 +70,7 @@
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
-                                            <TextBlock Text="{Binding Mode=OneWay}"/>
+                                            <TextBlock Text="{Binding Id, Mode=OneWay}"/>
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -98,7 +98,7 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <ListView x:Name="FirstListView" Background="{x:Null}" AlternationCount="10" BorderThickness="0" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView x:Name="FirstListView" Background="{x:Null}" AlternationCount="10" BorderThickness="0" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>
@@ -133,7 +133,7 @@
                                         </Grid>
                                     </Grid>
                                     <Grid Margin="50,5,0,0">
-                                        <TextBox x:Name="ImageTextBox" Text="{Binding Image, Mode=TwoWay}" IsReadOnly="True" Visibility="Hidden" TextChanged="ImageTextBox_TextChanged"/>
+                                        <TextBox x:Name="ImageTextBox" Text="{Binding Image, Mode=TwoWay}" Visibility="Hidden" TextChanged="ImageTextBox_TextChanged" Loaded="ImageTextBox_Loaded"/>
                                         <Image x:Name="ItemImage" Source="/Resources/NoImage.png" Margin="20,0,31,0" Height="50" Width="50" HorizontalAlignment="Left"/>
                                         <Button Width="26" Height="26" Margin="80,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddImageButton_Click">
                                             <Image Source="/Resources/AddImage.png" Margin="3"/>
@@ -147,7 +147,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListView>
-                <ListView x:Name="SecondListView" Grid.Column="1" Background="{x:Null}" AlternationCount="10" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView x:Name="SecondListView" Grid.Column="1" Background="{x:Null}" AlternationCount="10" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>

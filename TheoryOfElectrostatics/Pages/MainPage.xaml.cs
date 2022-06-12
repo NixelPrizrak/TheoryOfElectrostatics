@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TheoryOfElectrostatics.Classes;
 
 namespace TheoryOfElectrostatics.Pages
 {
@@ -24,27 +25,27 @@ namespace TheoryOfElectrostatics.Pages
         {
             InitializeComponent();
             DataManager.DataFrame = DataFrame;
-            DataManager.DataFrame.Navigate(new Pages.LectionsPage());
+            DataManager.DataFrame.Navigate(new Pages.ListPage(0));
         }
 
         private void LectionsButton_Click(object sender, RoutedEventArgs e)
         {
-            DataManager.DataFrame.Navigate(new Pages.LectionsPage());
-        }
-
-        private void TestsButton_Click(object sender, RoutedEventArgs e)
-        {
-            DataManager.DataFrame.Navigate(new Pages.TestsPage());
+            DataManager.DataFrame.Navigate(new Pages.ListPage(0));
         }
 
         private void PracticesButton_Click(object sender, RoutedEventArgs e)
         {
-            DataManager.DataFrame.Navigate(new Pages.TestsPage());
+            DataManager.DataFrame.Navigate(new Pages.ListPage(1));
+        }
+
+        private void TestsButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataManager.DataFrame.Navigate(new Pages.ListPage(2));
         }
 
         private void CollectSchemeButton_Click(object sender, RoutedEventArgs e)
         {
-            DataManager.DataFrame.Navigate(new Pages.TestsPage());
+            DataManager.DataFrame.Navigate(new Pages.CollectSchemePage());
         }
     }
 }

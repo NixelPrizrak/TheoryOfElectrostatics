@@ -5,18 +5,26 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TheoryOfElectrostatics.Pages"
       xmlns:Controls="clr-namespace:TheoryOfElectrostatics.Controls" 
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="CollectSchemePage">
+      mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800" Title="CollectSchemePage" Loaded="Page_Loaded">
 
     <DockPanel Background="AliceBlue">
         <Grid DockPanel.Dock="Top">
-            <TextBlock x:Name="IfTextBlock" Margin="100,30"/>
+            <TextBlock x:Name="IfTextBlock" Margin="100,30" Text="Text" FontSize="14" FontFamily="Segoe UI Semibold"/>
         </Grid>
-        <Grid DockPanel.Dock="Bottom" Height="60">
-            <Button Content="Проверить" HorizontalAlignment="Left" Margin="63,10,0,0" VerticalAlignment="Top" Height="36" Width="103" FontSize="14" Click="CheckButton_Click"/>
-            <Button Content="Сменить" HorizontalAlignment="Left" Margin="238,10,0,0" VerticalAlignment="Top" Height="36" Width="103" FontSize="14" Click="ChangeButton_Click"/>
+        <Grid Background="#FFDBEEFF" Height="60" MaxWidth="1200" DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="17*"/>
+                <ColumnDefinition Width="12*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Проверить" Grid.Column="1" VerticalAlignment="Center" Height="36" Width="100" FontSize="14" Click="CheckButton_Click"/>
+            <Button Content="Сменить" Grid.Column="2" VerticalAlignment="Center" Height="36" Width="100" FontSize="14" Click="ChangeButton_Click"/>
+            <Button Content="Добавить соединитель" Grid.Column="3" VerticalAlignment="Center" Height="35" Width="170" FontSize="14" Click="AddNodeButton_Click"/>
+            <Button Content="Очистить" Grid.Column="4" VerticalAlignment="Center" Height="36" Width="120" FontSize="14" Click="RefreshButton_Click"/>
         </Grid>
-        <Controls:Scheme />
+        <Controls:Scheme x:Name="CollectScheme"/>
     </DockPanel>
 </Page>

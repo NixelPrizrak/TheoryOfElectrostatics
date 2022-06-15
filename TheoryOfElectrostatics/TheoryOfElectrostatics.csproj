@@ -140,16 +140,13 @@
     <Compile Include="Pages\EditTestPage.xaml.cs">
       <DependentUpon>EditTestPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ResultPage.xaml.cs">
+      <DependentUpon>ResultPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PatternWindow.cs" />
     <Compile Include="Classes\Question.cs" />
     <Compile Include="Controls\ElementScheme.xaml.cs">
       <DependentUpon>ElementScheme.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Test2Window.xaml.cs">
-      <DependentUpon>Test2Window.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TestWindow.xaml.cs">
-      <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Answer.cs" />
     <Compile Include="Classes\TextImage.cs" />
@@ -217,7 +214,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\EditLectionPage.xaml">
+    <Page Include="Pages\EditHtmlPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -225,7 +222,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\LectionPage.xaml">
+    <Page Include="Pages\HtmlPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -241,6 +238,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\ResultPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\TestPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -249,21 +250,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Test2Window.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TestWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pages\EditLectionPage.xaml.cs">
-      <DependentUpon>EditLectionPage.xaml</DependentUpon>
+    <Compile Include="Pages\EditHtmlPage.xaml.cs">
+      <DependentUpon>EditHtmlPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\LectionPage.xaml.cs">
-      <DependentUpon>LectionPage.xaml</DependentUpon>
+    <Compile Include="Pages\HtmlPage.xaml.cs">
+      <DependentUpon>HtmlPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ListPage.xaml.cs">
       <DependentUpon>ListPage.xaml</DependentUpon>
@@ -303,12 +296,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\ArrowLeft.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\ArrowRight.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Electr.jpg" />
@@ -386,6 +373,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ArrowLeft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ArrowRight.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

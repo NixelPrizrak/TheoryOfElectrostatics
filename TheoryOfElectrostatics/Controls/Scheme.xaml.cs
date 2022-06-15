@@ -18,8 +18,8 @@ namespace TheoryOfElectrostatics.Controls
         private double DeltaX;
         private double DeltaY;
         private bool ClearLine;
-        private int countResistor;
-        private int countCondensator;
+        private int countResistor = 0;
+        private int countCondensator = 0;
 
         public Scheme()
         {
@@ -38,7 +38,7 @@ namespace TheoryOfElectrostatics.Controls
 
             for (int i = 0; i < countRow; i++)
             {
-                double height = i * (resistor.Height + 20) + 100;
+                double height = i * (resistor.Height + 20)+ 20;
                 double columns = (countResistor - i * countColumn) < countColumn ? countResistor % countColumn : countColumn;
                 for (int j = 0; j < columns; j++)
                 {
@@ -65,7 +65,7 @@ namespace TheoryOfElectrostatics.Controls
 
             for (int i = 0; i < countRow; i++)
             {
-                double height = i * (resistor.Height + 20) + 100 + nextPosition;
+                double height = i * (resistor.Height + 20) + 20 + nextPosition;
                 double columns = (countCondensator - i * countColumn) < countColumn ? countCondensator % countColumn : countColumn;
                 for (int j = 0; j < columns; j++)
                 {
@@ -289,7 +289,7 @@ namespace TheoryOfElectrostatics.Controls
             ClearLine = true;
         }
 
-        private void AddNodeButton_Click(object sender, RoutedEventArgs e)
+        public void AddNode()
         {
             Node node = new Node();
             node.Margin = new Thickness(SchemeGrid.ActualWidth / 2, SchemeGrid.ActualHeight / 2, 0, 0);
@@ -302,7 +302,7 @@ namespace TheoryOfElectrostatics.Controls
             SchemeGrid.Children.Add(node);
         }
 
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        public void Refresh()
         {
             List<Control> children = SchemeGrid.Children.OfType<Control>().ToList();
             foreach (Control child in children)
@@ -311,52 +311,6 @@ namespace TheoryOfElectrostatics.Controls
             }
 
             AddElement(countResistor, countCondensator);
-        }
-
-        static public bool CheckScheme(Dictionary<string, ElementScheme> resistors, int variant)
-        {
-            switch (variant)
-            {
-                case 0:
-                    if ((resistors["R1"].RightElement == resistors["R2"] && resistors["R2"].RightElement == resistors["R3"]) ||
-                        (resistors["R1"].RightElement == resistors["R3"] && resistors["R3"].RightElement == resistors["R2"]) ||
-                        (resistors["R2"].RightElement == resistors["R3"] && resistors["R3"].RightElement == resistors["R1"]) ||
-                        (resistors["R2"].RightElement == resistors["R1"] && resistors["R1"].RightElement == resistors["R3"]) ||
-                        (resistors["R3"].RightElement == resistors["R2"] && resistors["R2"].RightElement == resistors["R1"]) ||
-                        (resistors["R3"].RightElement == resistors["R1"] && resistors["R1"].RightElement == resistors["R2"]))
-                    {
-                        return true;
-                    }
-                    break;
-                case 1:
-                    if (resistors["R1"].LeftNode != null && resistors["R1"].RightNode != null)
-                    {
-                        if (resistors["R1"].LeftNode == resistors["R2"].LeftNode && resistors["R3"].LeftNode == resistors["R2"].LeftNode &&
-                            resistors["R1"].RightNode == resistors["R2"].RightNode && resistors["R3"].RightNode == resistors["R2"].RightNode)
-                        {
-                            return true;
-                        }
-                    }
-                    break;
-                case 2:
-                    if (resistors["R1"].LeftNode != null && resistors["R1"].RightNode != null)
-                    {
-                        if (resistors["R1"].LeftNode == resistors["R2"].LeftNode && resistors["R3"].LeftNode == resistors["R2"].LeftNode &&
-                            resistors["R1"].RightNode == resistors["R2"].RightNode && resistors["R3"].RightNode == resistors["R2"].RightNode)
-                        {
-                            if ((resistors["R1"].LeftNode == resistors["R4"].RightNode && resistors["R1"].RightNode != resistors["R4"].LeftNode) ||
-                                (resistors["R1"].LeftNode != resistors["R4"].RightNode && resistors["R1"].RightNode == resistors["R4"].LeftNode))
-                            {
-                                return true;
-                            }
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-            return false;
         }
     }
 }

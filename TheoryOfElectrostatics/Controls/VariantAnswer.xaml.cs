@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using TheoryOfElectrostatics.Classes;
 
 namespace TheoryOfElectrostatics.Controls
 {
@@ -50,12 +52,30 @@ namespace TheoryOfElectrostatics.Controls
             MainRadioButton.GroupName = "Question";
         }
 
-        public void ViewImage(string image)
+        public void ViewImage(string name)
         {
-            if (image != "" && image != null)
+            if (name != "" && name != null)
             {
                 MainImage.Visibility = Visibility.Visible;
 
+                name = $"{DataManager.ImagesPath}/{name}";
+                var image = DataManager.GetImage(name);
+                if (image.Width > 400 || image.Height > 200)
+                {
+                    MainImage.Stretch = Stretch.Uniform;
+                }
+                else
+                {
+                    MainImage.Stretch = Stretch.None;
+                }
+
+                if (image != null)
+                {
+                    MainImage.Source = image;
+                    return;
+                }
+
+                MainImage.Visibility = Visibility.Collapsed;
             }
             else
             {

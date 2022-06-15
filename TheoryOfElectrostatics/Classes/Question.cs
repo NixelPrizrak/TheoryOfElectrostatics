@@ -12,12 +12,14 @@ namespace TheoryOfElectrostatics.Classes
         public int Type { get; set; }
         public TextImage Quest { get; set; } = new TextImage();
         public List<Answer> Answers { get; set; } = new List<Answer>();
+        public MultiAnswer MultiAnswer { get; set; } = new MultiAnswer();
         [JsonIgnore]
-        public int Time { get; set; }
+        public double Time { get; set; }
         [JsonIgnore]
         public List<Answer> SelectedAnswers { get; set; } = new List<Answer>();
         [JsonIgnore]
         public string InputAnswer { get; set; }
-        public MultiAnswer MultiAnswer { get; set; } = new MultiAnswer();
+        [JsonIgnore]
+        public bool IsTime { get; set; } = true;
     }
 }

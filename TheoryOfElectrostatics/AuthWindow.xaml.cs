@@ -22,15 +22,25 @@ namespace TheoryOfElectrostatics
         public AuthWindow()
         {
             InitializeComponent();
+            ButtonsVisible = false;
         }
 
         private void AuthButton_Click(object sender, RoutedEventArgs e)
         {
-            if(AuthTextBox.Text == "12345")
+            if (AuthTextBox.Text == "12345")
             {
                 new AdministrationWindow().ShowDialog();
                 this.Close();
             }
+            else
+            {
+                AuthTextBox.Background = new SolidColorBrush(Color.FromArgb(255, 255, 171, 171));
+            }
+        }
+
+        private void AuthTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            AuthTextBox.Background = Brushes.White;
         }
     }
 }

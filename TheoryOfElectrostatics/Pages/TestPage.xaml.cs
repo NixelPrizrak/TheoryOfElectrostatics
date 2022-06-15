@@ -25,7 +25,6 @@ namespace TheoryOfElectrostatics.Pages
     /// </summary>
     public partial class TestPage : Page
     {
-        int selectedQuestion { get; set; }
         List<Question> questions { get; set; }
         DispatcherTimer timer { get; set; }
 
@@ -37,7 +36,7 @@ namespace TheoryOfElectrostatics.Pages
             {
                 questions = new List<Question>();
 
-                using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+                using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
                 {
                     using (var stream = new MemoryStream())
                     {
@@ -92,17 +91,16 @@ namespace TheoryOfElectrostatics.Pages
                         }
                     }
                 }
-                SelectQuest(0);
-                selectedQuestion = 0;
 
-                int minute = questions[selectedQuestion].Time / 60;
-                int second = questions[selectedQuestion].Time % 60;
+                double minute = questions[0].Time / 60;
+                double second = questions[0].Time % 60;
                 TimeLabel.Content = $"Время: {(minute < 10 ? "0" + minute : minute.ToString())}:{(second < 10 ? "0" + second : second.ToString())}";
 
                 timer = new DispatcherTimer();
                 timer.Tick += new EventHandler(QuestTimerTick);
                 timer.Interval = new TimeSpan(0, 0, 1);
                 timer.Start();
+                DataListView.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -117,20 +115,22 @@ namespace TheoryOfElectrostatics.Pages
 
         private void TimerQuest()
         {
-            if (questions[selectedQuestion].Time > 0)
+            if (questions[DataListView.SelectedIndex].Time > 0)
             {
-                int minute = (int)questions[selectedQuestion].Time / 60;
-                int second = (int)questions[selectedQuestion].Time % 60;
-                TimeLabel.Content = $"Время: {(minute < 10 ? "0" + minute : minute.ToString())}:{(second < 10 ? "0" + second : second.ToString())}";
-                questions[selectedQuestion].Time--;
+                int minute = (int)questions[DataListView.SelectedIndex].Time / 60;
+                int second = (int)questions[DataListView.SelectedIndex].Time % 60;
+                TimeLabel.Content = $"Время {(minute < 10 ? "0" + minute : minute.ToString())}:{(second < 10 ? "0" + second : second.ToString())}";
+                questions[DataListView.SelectedIndex].Time--;
             }
             else
             {
+                questions[DataListView.SelectedIndex].IsTime = false;
+                DataListView.Items.Refresh();
                 for (int i = 0; i < questions.Count; i++)
                 {
-                    if (questions[i].Time > 0)
+                    if (questions[i].IsTime)
                     {
-                        ChangeQuest(i);
+                        DataListView.SelectedIndex = i;
                         return;
                     }
                 }
@@ -144,15 +144,19 @@ namespace TheoryOfElectrostatics.Pages
             ChangeQuest(idQuestion);
         }
 
+        private void DataListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ChangeQuest((sender as ListView).SelectedIndex);
+        }
+
         private void ChangeQuest(int idQuestion)
         {
             timer.Stop();
             if (questions[idQuestion].Time > 0)
             {
                 SaveAnswer();
-
+                CheckArrowButton();
                 SelectQuest(idQuestion);
-                selectedQuestion = idQuestion;
             }
             TimerQuest();
             timer.Start();
@@ -160,7 +164,8 @@ namespace TheoryOfElectrostatics.Pages
 
         private void SaveAnswer()
         {
-            switch (questions[selectedQuestion].Type)
+            int id = DataListView.SelectedIndex;
+            switch (questions[id].Type)
             {
                 case 0:
                 case 1:
@@ -170,19 +175,19 @@ namespace TheoryOfElectrostatics.Pages
                     {
                         if (checkAnswers[i].Check)
                         {
-                            selectedAnswers.Add(questions[selectedQuestion].Answers[i]);
+                            selectedAnswers.Add(questions[id].Answers[i]);
                         }
                     }
-                    questions[selectedQuestion].SelectedAnswers = selectedAnswers;
+                    questions[id].SelectedAnswers = selectedAnswers;
                     break;
                 case 2:
-                    questions[selectedQuestion].InputAnswer = OpenAnswerTextBox.Text;
+                    questions[id].InputAnswer = OpenAnswerTextBox.Text;
                     break;
                 case 3:
                     ViewMultiAnswer.ComparionsAnswers.Clear();
                     foreach (var answer in ViewMultiAnswer.ComparionsAnswers)
                     {
-                        questions[selectedQuestion].MultiAnswer.Comparions.Add(answer);
+                        questions[id].MultiAnswer.Comparions.Add(answer);
                     }
                     break;
                 default:
@@ -211,6 +216,7 @@ namespace TheoryOfElectrostatics.Pages
                         VariantAnswer radioAnswer = new VariantAnswer();
                         radioAnswer.VisibleRadioButton = true;
                         radioAnswer.Text = answer.Text;
+                        radioAnswer.ViewImage(answer.Image);
                         if (questions[idQuestion].SelectedAnswers.Contains(answer))
                         {
                             radioAnswer.Check = true;
@@ -228,6 +234,7 @@ namespace TheoryOfElectrostatics.Pages
                         VariantAnswer checkAnswer = new VariantAnswer();
                         checkAnswer.VisibleCheckBox = true;
                         checkAnswer.Text = answer.Text;
+                        checkAnswer.ViewImage(answer.Image);
                         if (questions[idQuestion].SelectedAnswers.Contains(answer))
                         {
                             checkAnswer.Check = true;
@@ -275,7 +282,7 @@ namespace TheoryOfElectrostatics.Pages
             SaveAnswer();
             timer.Stop();
             double score = 0;
-            int maxScore = 0;
+            double maxScore = 0;
 
             foreach (Question question in questions)
             {
@@ -295,9 +302,12 @@ namespace TheoryOfElectrostatics.Pages
                 switch (question.Type)
                 {
                     case 0:
-                        if (question.SelectedAnswers[0].Check)
+                        if (question.SelectedAnswers.Count != 0)
                         {
-                            score++;
+                            if (question.SelectedAnswers[0].Check)
+                            {
+                                score++;
+                            }
                         }
                         break;
                     case 1:
@@ -344,9 +354,9 @@ namespace TheoryOfElectrostatics.Pages
                             {
                                 foreach (var selectedVariant in comparion.SelectedVariants)
                                 {
-                                    if (selectedVariant.Check)
+                                    if (variant.Id == selectedVariant.Id)
                                     {
-                                        if (variant.Check)
+                                        if (selectedVariant.Check && variant.Check)
                                         {
                                             trueVariants++;
                                         }
@@ -374,10 +384,56 @@ namespace TheoryOfElectrostatics.Pages
                 }
             }
 
-            int procent = (int)Math.Ceiling((score / maxScore) * 100);
-            int value = procent > 84 ? 5 : (procent > 74 ? 4 : (procent > 59 ? 3 : 2));
-            MessageBox.Show($"Количество баллов {Math.Round(score, 1)}/{maxScore}. \nПравильных ответов {procent}%.\nТест пройден на оценку {value}");
-            DataManager.MainFrame.Navigate(new Pages.MainPage());
+            DataManager.MainFrame.Navigate(new Pages.ResultPage(score, maxScore));
+        }
+
+        private void PrevButton_Click(object sender, RoutedEventArgs e)
+        {
+            for (int i = DataListView.SelectedIndex - 1; i > -1; i--)
+            {
+                if (questions[i].IsTime)
+                {
+                    DataListView.SelectedIndex = i;
+                    return;
+                }
+            }
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            for (int i = DataListView.SelectedIndex + 1; i < questions.Count; i++)
+            {
+                if (questions[i].IsTime)
+                {
+                    DataListView.SelectedIndex = i;
+                    return;
+                }
+            }
+        }
+
+        public void CheckArrowButton()
+        {
+            bool questionExist = false;
+            for (int i = DataListView.SelectedIndex - 1; i > -1; i--)
+            {
+                if (questions[i].IsTime)
+                {
+                    questionExist = true;
+                }
+            }
+
+            PrevButton.Visibility = questionExist ? Visibility.Visible : Visibility.Hidden;
+
+            questionExist = false;
+            for (int i = DataListView.SelectedIndex + 1; i < questions.Count; i++)
+            {
+                if (questions[i].IsTime)
+                {
+                    questionExist = true;
+                }
+            }
+
+            NextButton.Visibility = questionExist ? Visibility.Visible : Visibility.Hidden;
         }
     }
 }

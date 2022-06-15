@@ -29,7 +29,7 @@ namespace TheoryOfElectrostatics.Pages
             Dictionary<TextImage, string> themes = new Dictionary<TextImage, string>();
             string view = type == 0 ? "Лекция" : (type == 1 ? "Практика" : "Тест");
 
-            using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+            using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
             {
                 foreach (var entry in zip.Entries)
                 {
@@ -61,10 +61,10 @@ namespace TheoryOfElectrostatics.Pages
                 switch (theme.Value)
                 {
                     case "Лекция":
-                        DataManager.DataFrame.Navigate(new Pages.HTMLPage(theme.Key.Text,true));
+                        DataManager.DataFrame.Navigate(new Pages.HtmlPage(theme.Key.Text,true));
                         break;
                     case "Практика":
-                        DataManager.DataFrame.Navigate(new Pages.HTMLPage(theme.Key.Text,false));
+                        DataManager.DataFrame.Navigate(new Pages.HtmlPage(theme.Key.Text,false));
                         break;
                     case "Тест":
                         DataManager.CurrentTheme = theme.Key.Text;

@@ -133,7 +133,7 @@
                                         </Grid>
                                     </Grid>
                                     <Grid Margin="50,5,0,0">
-                                        <TextBox x:Name="ImageTextBox" Text="{Binding Image, Mode=TwoWay}" Visibility="Hidden" TextChanged="ImageTextBox_TextChanged" Loaded="ImageTextBox_Loaded"/>
+                                        <TextBox x:Name="ImageTextBox" Text="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="Hidden" TextChanged="ImageTextBox_TextChanged" Loaded="ImageTextBox_Loaded"/>
                                         <Image x:Name="ItemImage" Source="/Resources/NoImage.png" Margin="20,0,31,0" Height="50" Width="50" HorizontalAlignment="Left"/>
                                         <Button Width="26" Height="26" Margin="80,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddImageButton_Click">
                                             <Image Source="/Resources/AddImage.png" Margin="3"/>
@@ -182,7 +182,7 @@
                                         </Grid>
                                     </Grid>
                                     <Grid Margin="50,5,0,0">
-                                        <TextBox x:Name="ImageTextBox" Text="{Binding Image, Mode=TwoWay}" IsReadOnly="True" Visibility="Hidden" TextChanged="ImageTextBox_TextChanged"/>
+                                        <TextBox x:Name="ImageTextBox" Text="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Visibility="Hidden" TextChanged="ImageTextBox_TextChanged"/>
                                         <Image x:Name="ItemImage" Source="/Resources/NoImage.png" Margin="20,0,31,0" Height="50" Width="50" HorizontalAlignment="Left"/>
                                         <Button Width="26" Height="26" Margin="80,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddImageButton_Click">
                                             <Image Source="/Resources/AddImage.png" Margin="3"/>

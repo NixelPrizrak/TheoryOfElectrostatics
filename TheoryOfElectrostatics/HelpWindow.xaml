@@ -7,17 +7,19 @@
         mc:Ignorable="d"
         Title="Помощь" Height="450" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
-    <Grid Background="AliceBlue" Height="450" Width="300">
-        <Button Content="О программе" HorizontalAlignment="Left" Margin="17,19,0,0" VerticalAlignment="Top" Height="26" Width="100"/>
-        <Button Content="Руководство" HorizontalAlignment="Left" Margin="130,19,0,0" VerticalAlignment="Top" Height="26" Width="100"/>
-        <Button Content="Адм." HorizontalAlignment="Right" Margin="0,19,10,0" VerticalAlignment="Top" Height="26" Width="33" Click="AdministrationButton_Click"/>
-        <TabControl VerticalAlignment="Bottom" Height="380" BorderBrush="{x:Null}" Background="AliceBlue">
+    <DockPanel Background="AliceBlue">
+        <Grid DockPanel.Dock="Top">
+            <Button Content="О программе" HorizontalAlignment="Left" Margin="17,19,0,0" VerticalAlignment="Top" Height="26" Width="100"/>
+            <Button Content="Руководство" HorizontalAlignment="Left" Margin="130,19,0,0" VerticalAlignment="Top" Height="26" Width="100"/>
+            <Button Content="Адм." HorizontalAlignment="Right" Margin="0,19,10,0" VerticalAlignment="Top" Height="26" Width="33" Click="AdministrationButton_Click"/>
+        </Grid>
+        <TabControl BorderBrush="{x:Null}" Background="AliceBlue" SelectedIndex="0">
             <TabItem Header="TabItem" Visibility="Collapsed">
                 <WrapPanel Background="AliceBlue" Orientation="Vertical">
                     <Label Content="Название: TEO"/>
                     <Label Content="Версия: 1.00"/>
                     <Label Content="Разработчик: Данил Галибин"/>
-                    <TextBlock Text="Программа позволяет ознакамливаться с теоретическим материалом и проходить по нему тесты." TextWrapping="Wrap"/>
+                    <TextBlock Text="Программа позволяет ознакамливаться с теоретическим материалом и проходить по нему тестирование." TextWrapping="Wrap"/>
                 </WrapPanel>
             </TabItem>
             <TabItem Header="TabItem" Visibility="Collapsed">
@@ -26,5 +28,5 @@
                 </Grid>
             </TabItem>
         </TabControl>
-    </Grid>
+    </DockPanel>
 </local:PatternWindow>

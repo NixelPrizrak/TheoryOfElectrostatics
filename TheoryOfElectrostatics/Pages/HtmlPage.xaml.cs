@@ -23,19 +23,21 @@ namespace TheoryOfElectrostatics.Pages
     /// <summary>
     /// Логика взаимодействия для Lection.xaml
     /// </summary>
-    public partial class HTMLPage : Page
+    public partial class HtmlPage : Page
     {
-        public HTMLPage(string theme,bool lection)
+        public HtmlPage(string theme,bool lection)
         {
             InitializeComponent();
             Directory.Delete(Properties.Settings.Default.TempPath, true);
-            DataManager.CheckTempFolder();
-            using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+
+            string type = lection ? "Lection" : "Practice";
+
+            using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
             {
                 zip.ExtractSelectedEntries("*", theme, Properties.Settings.Default.TempPath);
-                zip.ExtractSelectedEntries("*", $"{theme}/Lection.files", Properties.Settings.Default.TempPath);
+                zip.ExtractSelectedEntries("*", $"{theme}/{type}.files", Properties.Settings.Default.TempPath);
             }
-            string fileLection = Path.Combine(Properties.Settings.Default.TempPath, theme, $"Lection.html");
+            string fileLection = Path.Combine(Properties.Settings.Default.TempPath, theme, $"{type}.html");
 
             if (File.Exists(fileLection))
             {

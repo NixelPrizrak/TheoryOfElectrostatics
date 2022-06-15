@@ -24,6 +24,7 @@ namespace TheoryOfElectrostatics.Pages
         public DescriptionTestPage()
         {
             InitializeComponent();
+            TitleTextBox.Text = $"Тест. {DataManager.CurrentTheme}";
         }
 
         private void StartTestButton_Click(object sender, RoutedEventArgs e)

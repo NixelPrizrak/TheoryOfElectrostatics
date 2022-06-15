@@ -21,8 +21,7 @@ namespace TheoryOfElectrostatics.Classes
         static public string CurrentTheme { get; set; }
         static public List<string> Themes { get; set; }
         static public int Section { get; set; }
-        static public string LectionsPath { get => $"Data/Lections.zip"; }
-        static public string TestsPath { get => $"Data/Tests.zip"; }
+        static public string DataPath { get => $"Data/Data.zip"; }
         static public string ImagesPath { get => $"{CurrentTheme}/Images"; }
 
         static public void CreateTempFolder()
@@ -76,6 +75,7 @@ namespace TheoryOfElectrostatics.Classes
             ZipFile zip = ZipFile.Read(zipPath, new ReadOptions { Encoding = Encoding.GetEncoding(866) });
             zip.Encryption = EncryptionAlgorithm.WinZipAes256;
             zip.Password = "123";
+            CheckTempFolder();
             zip.TempFileFolder = Properties.Settings.Default.TempPath;
 
             return zip;
@@ -114,7 +114,7 @@ namespace TheoryOfElectrostatics.Classes
         {
             BitmapImage image = null;
 
-            using (ZipFile zip = OpenZip(LectionsPath))
+            using (ZipFile zip = OpenZip(DataPath))
             {
                 if (zip[path] != null)
                 {
@@ -141,7 +141,7 @@ namespace TheoryOfElectrostatics.Classes
             string name = "";
             string extension = new FileInfo(fileName).Extension;
 
-            using (ZipFile zip = OpenZip(LectionsPath))
+            using (ZipFile zip = OpenZip(DataPath))
             {
                 List<string> names = zip.EntryFileNames.ToList();
 
@@ -160,7 +160,7 @@ namespace TheoryOfElectrostatics.Classes
 
         static public void RemoveImage(string fileName)
         {
-            using (ZipFile zip = OpenZip(LectionsPath))
+            using (ZipFile zip = OpenZip(DataPath))
             {
                 string entryName = $"{ImagesPath}/{fileName}";
 

@@ -36,13 +36,12 @@ namespace TheoryOfElectrostatics
 
         private void PatternWindow_Closed(object sender, EventArgs e)
         {
-            //if (Directory.Exists(Properties.Settings.Default.TempPath))
-            //{
-            //    GC.Collect();
-            //    GC.WaitForPendingFinalizers();
-            //    Directory.Delete(Properties.Settings.Default.TempPath, true);
-            //    Directory.CreateDirectory(Properties.Settings.Default.TempPath);
-            //}
+            if (Directory.Exists(Properties.Settings.Default.TempPath))
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                Directory.Delete(Properties.Settings.Default.TempPath, true);
+            }
         }
 
         void BaseWindow_ContentRendered(object sender, EventArgs e)

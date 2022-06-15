@@ -24,11 +24,16 @@ namespace TheoryOfElectrostatics.Pages
     /// <summary>
     /// Логика взаимодействия для EditLectionPage.xaml
     /// </summary>
-    public partial class EditLectionPage : Page
+    public partial class EditHtmlPage : Page
     {
-        public EditLectionPage()
+        private string type;
+
+        public EditHtmlPage(bool lection)
         {
             InitializeComponent();
+
+            type = lection ? "Lection" : "Practice";
+            TitleTextBlock.Text = lection ? "Изменение лекции" : "Изменение практики";
 
             DataManager.CheckTempFolder();
             ChangeImage(DataManager.CurrentTheme);
@@ -48,7 +53,7 @@ namespace TheoryOfElectrostatics.Pages
                     }
 
                     FileInfo htmlPath = new FileInfo(PathTextBox.Text);
-                    string fileFolder = $"Lection.files";
+                    string fileFolder = $"{type}.files";
 
                     foreach (Match item in Regex.Matches(html, "[^\\\\]'(([^'<>?|\"]|(\\\\'))*[^\\\\])'"))
                     {
@@ -108,17 +113,17 @@ namespace TheoryOfElectrostatics.Pages
 
                     html = document.QuerySelector("html").OuterHtml;
 
-                    using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+                    using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
                     {
                         zip.RemoveSelectedEntries("*", Path.Combine(DataManager.CurrentTheme, fileFolder));
-                        zip.RemoveSelectedEntries("*", DataManager.CurrentTheme);
+                        zip.RemoveSelectedEntries($"{type}.html", DataManager.CurrentTheme);
                         zip.Save();
                     }
 
                     hrefs = hrefs.Distinct().ToList();
-                    using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+                    using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
                     {
-                        zip.AddEntry($"{DataManager.CurrentTheme}/Lection.html", html);
+                        zip.AddEntry($"{DataManager.CurrentTheme}/{type}.html", html);
                         zip.AddFiles(hrefs, Path.Combine(DataManager.CurrentTheme, fileFolder));
                         zip.Save();
                     }
@@ -155,7 +160,7 @@ namespace TheoryOfElectrostatics.Pages
                 return;
             }
 
-            using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+            using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
             {
                 if (Directory.Exists(Path.Combine(folder, DataManager.CurrentTheme)))
                 {
@@ -167,7 +172,7 @@ namespace TheoryOfElectrostatics.Pages
                 }
 
                 zip.ExtractSelectedEntries("*", DataManager.CurrentTheme, folder, ExtractExistingFileAction.OverwriteSilently);
-                zip.ExtractSelectedEntries("*", Path.Combine(DataManager.CurrentTheme, $"Lection.files"), folder, ExtractExistingFileAction.OverwriteSilently);
+                zip.ExtractSelectedEntries("*", Path.Combine(DataManager.CurrentTheme, $"{type}.files"), folder, ExtractExistingFileAction.OverwriteSilently);
             }
 
             MessageBox.Show("Выгрузка файлов темы завершена.", "Информация");
@@ -179,7 +184,7 @@ namespace TheoryOfElectrostatics.Pages
             open.Filter = "Все (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png|BMP(*.bmp)|*.bmp|JPEG(*.jpg)|*.jpg|PNG(*.png)|*.png";
             if (open.ShowDialog().Value)
             {
-                using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+                using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
                 {
                     string folder = Path.Combine(DataManager.CurrentTheme, "Icon");
                     zip.RemoveSelectedEntries("*", folder);
@@ -194,7 +199,7 @@ namespace TheoryOfElectrostatics.Pages
         private void ChangeImage(string theme)
         {
             string image = null;
-            using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+            using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
             {
                 Regex reg = new Regex($"^{theme}/Icon");
                 foreach (var entry in zip.Entries)
@@ -214,32 +219,6 @@ namespace TheoryOfElectrostatics.Pages
             }
 
             ThemeImage.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/NoImage.png"));
-        }
-
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
-                {
-                    Regex reg = new Regex($"^{DataManager.CurrentTheme}");
-                    var entries = zip.Entries.ToList();
-                    foreach (var entry in entries)
-                    {
-                        if (reg.IsMatch(entry.FileName))
-                        {
-                            zip.RemoveEntry(entry);
-                        }
-                    }
-                    zip.Save();
-                }
-
-                MessageBox.Show("Тема удалена.", "Информация");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
     }
 }

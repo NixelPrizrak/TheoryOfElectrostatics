@@ -29,9 +29,9 @@ namespace TheoryOfElectrostatics
         {
             InitializeComponent();
             DataManager.AdministrationFrame = AdministrationFrame;
-            DataManager.AdministrationFrame.Navigate(new Pages.EditLectionPage());
+            DataManager.AdministrationFrame.Navigate(new Pages.EditHtmlPage(true));
 
-            using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+            using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
             {
                 if (Directory.Exists(Properties.Settings.Default.TempPath))
                 {
@@ -56,12 +56,18 @@ namespace TheoryOfElectrostatics
         private void LectionsButton_Click(object sender, RoutedEventArgs e)
         {
             DataManager.Section = 0;
-            DataManager.AdministrationFrame.Navigate(new Pages.EditLectionPage());
+            DataManager.AdministrationFrame.Navigate(new Pages.EditHtmlPage(true));
+        }
+
+        private void PracticesButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataManager.Section = 1;
+            DataManager.AdministrationFrame.Navigate(new Pages.EditHtmlPage(false));
         }
 
         private void TestsButton_Click(object sender, RoutedEventArgs e)
         {
-            DataManager.Section = 1;
+            DataManager.Section = 2;
             DataManager.AdministrationFrame.Navigate(new Pages.EditTestPage());
         }
 
@@ -75,9 +81,11 @@ namespace TheoryOfElectrostatics
                     MessageBox.Show("Данная тема уже есть.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
-                using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+                using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
                 {
-                    zip.AddDirectoryByName(theme);
+                    zip.AddEntry($"{theme}/Lection.html", "");
+                    zip.AddEntry($"{theme}/Practice.html", "");
+                    zip.AddEntry($"{theme}/Test.json", "");
                     zip.Save();
                 }
                 themes.Add(theme);
@@ -97,7 +105,7 @@ namespace TheoryOfElectrostatics
         {
             try
             {
-                using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+                using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
                 {
                     Regex reg = new Regex($"^{DataManager.CurrentTheme}");
                     var entries = zip.Entries.ToList();
@@ -132,9 +140,12 @@ namespace TheoryOfElectrostatics
                 switch (DataManager.Section)
                 {
                     case 0:
-                        AdministrationFrame.Navigate(new Pages.EditLectionPage());
+                        AdministrationFrame.Navigate(new Pages.EditHtmlPage(true));
                         break;
                     case 1:
+                        AdministrationFrame.Navigate(new Pages.EditHtmlPage(false));
+                        break;
+                    case 2:
                         AdministrationFrame.Navigate(new Pages.EditTestPage());
                         break;
                     default:

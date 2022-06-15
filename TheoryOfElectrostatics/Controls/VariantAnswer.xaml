@@ -7,14 +7,18 @@
              mc:Ignorable="d" Margin="0,5">
 
     <DockPanel>
-        <Grid DockPanel.Dock="Left">
-            <RadioButton x:Name="MainRadioButton" FontSize="16" VerticalAlignment="Center"/>
-            <CheckBox x:Name="MainCheckBox" FontSize="16" VerticalAlignment="Center" Visibility="Collapsed"/>
+        <Grid DockPanel.Dock="Left" VerticalAlignment="Top" Margin="0,6,0,0">
+            <Viewbox Width="20">
+                <RadioButton x:Name="MainRadioButton" Visibility="Visible"/>
+            </Viewbox>
+            <Viewbox Width="20">
+                <CheckBox x:Name="MainCheckBox" Visibility="Collapsed"/>
+            </Viewbox>
         </Grid>
         <Grid Margin="5,0,0,0">
             <StackPanel Orientation="Vertical">
-                <TextBlock x:Name="MainTextBlock" Text="Ответ" TextWrapping="Wrap" Margin="0,5"/>
-                <Image x:Name="MainImage" Margin="0,5" MaxHeight="100" MaxWidth="200"/>
+                <TextBlock x:Name="MainTextBlock" Text="Ответ" TextWrapping="Wrap" Margin="0,5" FontSize="14"/>
+                <Image x:Name="MainImage" Margin="0,5" Visibility="Collapsed" MaxHeight="140" MaxWidth="400" HorizontalAlignment="Left"/>
             </StackPanel>
         </Grid>
     </DockPanel>

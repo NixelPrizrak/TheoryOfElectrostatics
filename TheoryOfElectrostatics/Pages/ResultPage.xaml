@@ -1,0 +1,24 @@
+﻿<Page x:Class="TheoryOfElectrostatics.Pages.ResultPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TheoryOfElectrostatics.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ResultPage">
+
+    <DockPanel Background="AliceBlue">
+        <Grid DockPanel.Dock="Top" Height="80">
+            <TextBlock x:Name="TitleTextBlock" HorizontalAlignment="Center" Margin="0,33,0,0" TextWrapping="Wrap" Text="Результат теста по теме «N»" VerticalAlignment="Top" FontSize="20" FontFamily="Segoe UI" FontWeight="Bold"/>
+        </Grid>
+        <Grid DockPanel.Dock="Bottom" Height="100">
+            <Button Content="Вернуться" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="40" Width="130" FontSize="16" FontWeight="Bold" Margin="0,0,0,50" Click="BackButton_Click"/>
+        </Grid>
+        <StackPanel Margin="140,40,140,0" Orientation="Vertical">
+            <TextBlock x:Name="ScoreTextBlock" HorizontalAlignment="Left" Margin="0,5" TextWrapping="Wrap" Text="● Количество баллов" VerticalAlignment="Top" FontSize="16" FontFamily="Segoe UI Semibold"/>
+            <TextBlock x:Name="ProcentTextBlock" HorizontalAlignment="Left" Margin="0,5" TextWrapping="Wrap" Text="● Правильных ответов" VerticalAlignment="Top" FontSize="16" FontFamily="Segoe UI Semibold"/>
+            <TextBlock x:Name="ValueTextBlock" HorizontalAlignment="Left" Margin="0,5" TextWrapping="Wrap" Text="● Тест пройден на оценку" VerticalAlignment="Top" FontSize="16" FontFamily="Segoe UI Semibold"/>
+        </StackPanel>
+    </DockPanel>
+</Page>

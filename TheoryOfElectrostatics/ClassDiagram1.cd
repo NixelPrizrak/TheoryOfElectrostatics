@@ -1,128 +1,264 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="TheoryOfElectrostatics.AdministrationWindow" BaseTypeListCollapsed="true">
-    <Position X="7.75" Y="0.5" Width="1.5" />
+  <Class Name="TheoryOfElectrostatics.AdministrationWindow">
+    <Position X="10.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>IAAAABIAABAAABAAAAgAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AdministrationWindow.xaml.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="TheoryOfElectrostatics.App">
-    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Position X="23.75" Y="2" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>App.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="TheoryOfElectrostatics.AuthWindow" BaseTypeListCollapsed="true">
-    <Position X="7.75" Y="3.25" Width="1.5" />
+  <Class Name="TheoryOfElectrostatics.AuthWindow">
+    <Position X="7.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AgAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AuthWindow.xaml.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="TheoryOfElectrostatics.DataManager">
-    <Position X="9.25" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>ACAAAIAAAAAAQAAAAAAQAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DataManager.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="TheoryOfElectrostatics.HelpWindow" BaseTypeListCollapsed="true">
-    <Position X="10.75" Y="2" Width="1.5" />
+  <Class Name="TheoryOfElectrostatics.HelpWindow">
+    <Position X="10.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
       <FileName>HelpWindow.xaml.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="TheoryOfElectrostatics.Question">
-    <Position X="9.25" Y="2.25" Width="1.5" />
+  <Class Name="TheoryOfElectrostatics.MainWindow">
+    <Position X="7.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAggAAAAAAAAAAAAAAAAgAAAQQAAAAAAAQA=</HashCode>
-      <FileName>Question.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TheoryOfElectrostatics.PatternWindow">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAARAAAAAAAAAAAAEAAAAEEBQAAAAABAIAoABAiQAEE=</HashCode>
+      <FileName>PatternWindow.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="TheoryOfElectrostatics.Classes.Answer">
+    <Position X="19.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAgAAAAAAAAAAAAAAAAAAAAAABAAAAAACAAAAAA=</HashCode>
+      <FileName>Classes\Answer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Classes.DataManager">
+    <Position X="15" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AKAAAIAAAIACUAAQAAAQQCEQAAAIAAICAQAAAIAAAAA=</HashCode>
+      <FileName>Classes\DataManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Classes.IndexConverter" BaseTypeListCollapsed="true">
+    <Position X="19.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\IndexConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Classes.MultiAnswer">
+    <Position X="15" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAABACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\MultiAnswer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Classes.Question">
+    <Position X="10.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAggAAAAAAAAAAAAAAAAAAABQYAAAAAAEQA=</HashCode>
+      <FileName>Classes\Question.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Classes.SymbolsConverter" BaseTypeListCollapsed="true">
+    <Position X="18" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Classes\SymbolsConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Classes.TextImage">
+    <Position X="9" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAACAAAAAA=</HashCode>
+      <FileName>Classes\TextImage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Classes.ComparionsAnswer">
+    <Position X="7.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAEAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\СomparionsAnswer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Controls.EditMultiAnswer" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QBAAAQAAAAAACQAAABABAABEAAAAACAABAAAAAACAAA=</HashCode>
+      <FileName>Controls\EditMultiAnswer.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Controls.EditVariantAnswer" BaseTypeListCollapsed="true">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAgAAAAACAAAABABAAgEEAAAABAAAAAACAAAAAA=</HashCode>
+      <FileName>Controls\EditVariantAnswer.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Controls.ElementScheme" BaseTypeListCollapsed="true">
+    <Position X="18" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAEAIFAAAEAAAAABAAAAAAABACAAAQAAAAAAAAA=</HashCode>
+      <FileName>Controls\ElementScheme.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Controls.Node" BaseTypeListCollapsed="true">
+    <Position X="16.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\Node.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Controls.Scheme" BaseTypeListCollapsed="true">
+    <Position X="16.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAIAABRAAAACAIAAAAEAAQAAAAAIAMAgQAIAAA=</HashCode>
+      <FileName>Controls\Scheme.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Controls.UnionLine" BaseTypeListCollapsed="true">
+    <Position X="18" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAACAADAAAAAIABAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Controls\UnionLine.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Controls.VariantAnswer" BaseTypeListCollapsed="true">
+    <Position X="12" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAgAAAAAAAAAAAAAAAgAAAAAAAIAAAAACAAAAAA=</HashCode>
+      <FileName>Controls\VariantAnswer.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Controls.ViewMultiAnswer" BaseTypeListCollapsed="true">
+    <Position X="15" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAQAAAAAAAAAAAAAAAABAAAAAACAAAAAAIAAAAAA=</HashCode>
+      <FileName>Controls\ViewMultiAnswer.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Pages.CollectSchemePage" BaseTypeListCollapsed="true">
+    <Position X="9" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAEAAAAAAAAgQABAAAQAAAAAAAAAEE=</HashCode>
+      <FileName>Pages\CollectSchemePage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
   <Class Name="TheoryOfElectrostatics.Pages.DescriptionTestPage" BaseTypeListCollapsed="true">
-    <Position X="7.75" Y="4.75" Width="1.5" />
+    <Position X="19.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Pages\DescriptionTestPage.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="TheoryOfElectrostatics.Pages.EditLectionPage" BaseTypeListCollapsed="true">
-    <Position X="9.25" Y="4.25" Width="1.5" />
+  <Class Name="TheoryOfElectrostatics.Pages.EditHtmlPage" BaseTypeListCollapsed="true">
+    <Position X="16.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
-      <FileName>Pages\EditLectionPage.xaml.cs</FileName>
+      <HashCode>BAAAAAAAAAAAAAAIAAABAAAAAAABAAAAAQCAAAAAAAA=</HashCode>
+      <FileName>Pages\EditHtmlPage.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="TheoryOfElectrostatics.Pages.LectionPage" BaseTypeListCollapsed="true">
-    <Position X="7.75" Y="2" Width="1.5" />
+  <Class Name="TheoryOfElectrostatics.Pages.EditTestPage" BaseTypeListCollapsed="true">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAHCAAAAAADASBQAAAIBAEAEAAQQAAEABACAAAEAAAQ=</HashCode>
+      <FileName>Pages\EditTestPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Pages.HtmlPage" BaseTypeListCollapsed="true">
+    <Position X="19.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Pages\LectionPage.xaml.cs</FileName>
+      <FileName>Pages\HtmlPage.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="TheoryOfElectrostatics.Pages.LectionsPage" BaseTypeListCollapsed="true">
-    <Position X="10.75" Y="3.5" Width="1.5" />
+  <Class Name="TheoryOfElectrostatics.Pages.ListPage" BaseTypeListCollapsed="true">
+    <Position X="19.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
-      <FileName>Pages\LectionsPage.xaml.cs</FileName>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pages\ListPage.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="TheoryOfElectrostatics.Pages.MainPage" BaseTypeListCollapsed="true">
-    <Position X="6.25" Y="4.25" Width="1.5" />
+    <Position X="10.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAAAAAAAAAABAAAAAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>IAAAAAIAIAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Pages\MainPage.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="TheoryOfElectrostatics.Pages.TestPage" BaseTypeListCollapsed="true">
-    <Position X="6.25" Y="0.5" Width="1.5" />
+  <Class Name="TheoryOfElectrostatics.Pages.ResultPage" BaseTypeListCollapsed="true">
+    <Position X="13.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>GgQAACAAAAAAABgAAAAAACAAASQAAAAAAAAAAAAAEAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Pages\ResultPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TheoryOfElectrostatics.Pages.TestPage" BaseTypeListCollapsed="true">
+    <Position X="13.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GoQAACAAAEAAABgAAAAAAAAAACQAAAAAAAAAEAQAEAA=</HashCode>
       <FileName>Pages\TestPage.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="TheoryOfElectrostatics.Pages.TestsPage" BaseTypeListCollapsed="true">
-    <Position X="10.75" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
-      <FileName>Pages\TestsPage.xaml.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
   <Class Name="TheoryOfElectrostatics.Properties.Resources">
-    <Position X="0.5" Y="2" Width="1.5" />
+    <Position X="25.25" Y="2" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAgAAAMMAACAAAAABEAAQAQAAAAAAAAAAAAAAAIA=</HashCode>
+      <HashCode>AQAAAgAAAMNIAAgAAAABFAAQAwEAAAAAAAAAAACCAIA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="TheoryOfElectrostatics.Properties.Settings">
-    <Position X="2" Y="2" Width="1.5" />
+    <Position X="19.5" Y="8" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAACAAAAAAAAA=</HashCode>
     </TypeIdentifier>
-  </Class>
-  <Class Name="TheoryOfElectrostatics.MainWindow" BaseTypeListCollapsed="true">
-    <Position X="10.75" Y="5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>MainWindow.xaml.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

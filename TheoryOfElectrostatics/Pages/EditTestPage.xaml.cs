@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,6 +34,7 @@ namespace TheoryOfElectrostatics.Pages
         private string questImage = "";
         private int idQuestion = -1;
         private bool save = false;
+        private double offset;
 
         public EditTestPage()
         {
@@ -47,7 +49,7 @@ namespace TheoryOfElectrostatics.Pages
             TypesComboBox.SelectedValuePath = "Key";
             TypesComboBox.ItemsSource = types;
 
-            using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+            using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
             {
                 using (var stream = new MemoryStream())
                 {
@@ -90,6 +92,7 @@ namespace TheoryOfElectrostatics.Pages
 
         private void QuestionsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            offset = HeaderScrollViewer.HorizontalOffset;
             SaveChanges(idQuestion);
             if (QuestionsListView.SelectedIndex > -1)
             {
@@ -111,6 +114,12 @@ namespace TheoryOfElectrostatics.Pages
 
         private void QuestionsScrollViewer_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            try
+            {
+                HeaderScrollViewer.ScrollToHorizontalOffset(offset);
+                offset = double.NaN;
+            }
+            catch { }
             (sender as ScrollViewer).ReleaseMouseCapture();
         }
 
@@ -381,7 +390,7 @@ namespace TheoryOfElectrostatics.Pages
                     }
                 }
 
-                using (ZipFile zip = DataManager.OpenZip(DataManager.LectionsPath))
+                using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
                 {
                     var entry = zip[$"{DataManager.CurrentTheme}/Test.json"];
                     if (entry != null)

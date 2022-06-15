@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using TheoryOfElectrostatics.Classes;
 
 namespace TheoryOfElectrostatics.Controls
@@ -19,6 +20,9 @@ namespace TheoryOfElectrostatics.Controls
         public ViewMultiAnswer()
         {
             InitializeComponent();
+            FirstAnswers = new ObservableCollection<Answer>();
+            SecondAnswers = new ObservableCollection<Answer>();
+            ComparionsAnswers = new ObservableCollection<ComparionsAnswer>();
             FirstListView.ItemsSource = FirstAnswers;
             SecondListView.ItemsSource = SecondAnswers;
             ComparisonsListView.ItemsSource = ComparionsAnswers;
@@ -83,6 +87,15 @@ namespace TheoryOfElectrostatics.Controls
 
                     string name = $"{DataManager.ImagesPath}/{answer.Image}";
                     var image = DataManager.GetImage(name);
+
+                    if (image.Width > 400 || image.Height > 200)
+                    {
+                        imageControl.Stretch = Stretch.Uniform;
+                    }
+                    else
+                    {
+                        imageControl.Stretch = Stretch.None;
+                    }
 
                     if (image != null)
                     {

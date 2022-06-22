@@ -32,8 +32,8 @@
                     </Button.Style>
                 </Button>
             </Border>
-            <ScrollViewer x:Name="HeaderScrollViewer" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" MouseLeftButtonDown="QuestionsScrollViewer_MouseLeftButtonDown" MouseLeftButtonUp="QuestionsScrollViewer_MouseLeftButtonUp" MouseMove="QuestionsScrollViewer_MouseMove" PreviewMouseWheel="QuestionsScrollViewer_PreviewMouseWheel">
-                <ListView x:Name="QuestionsListView" BorderBrush="{x:Null}" Background="#FFDBEEFF" AlternationCount="1000" HorizontalAlignment="Left" VerticalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="QuestionsListView_SelectionChanged" SelectionMode="Single">
+            <ScrollViewer x:Name="HeaderScrollViewer" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" MouseLeftButtonDown="QuestionsScrollViewer_MouseLeftButtonDown" MouseLeftButtonUp="QuestionsScrollViewer_MouseLeftButtonUp" MouseMove="QuestionsScrollViewer_MouseMove" PreviewMouseWheel="QuestionsScrollViewer_PreviewMouseWheel" ScrollChanged="HeaderScrollViewer_ScrollChanged">
+                <ListView x:Name="QuestionsListView" BorderBrush="{x:Null}" Background="#FFDBEEFF" AlternationCount="{Binding Path=Items.Count, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Left" VerticalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="QuestionsListView_SelectionChanged" SelectionMode="Single">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"/>
@@ -73,7 +73,7 @@
             </ScrollViewer>
         </DockPanel>
 
-        <Grid Background="#FFDBEEFF" DockPanel.Dock="Bottom" Height="50">
+        <Grid x:Name="ButtonsGrid" Background="#FFDBEEFF" DockPanel.Dock="Bottom" Height="50">
             <Button Content="Сохранить" HorizontalAlignment="Left" Margin="60,10,0,10" Width="100" Click="SaveButton_Click"/>
             <Button Content="Удалить" HorizontalAlignment="Left" Margin="192,10,0,10" Width="100" Click="DeleteButton_Click"/>
         </Grid>

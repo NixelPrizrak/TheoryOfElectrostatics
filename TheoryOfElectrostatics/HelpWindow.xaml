@@ -5,28 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TheoryOfElectrostatics"
         mc:Ignorable="d"
-        Title="Помощь" Height="450" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Помощь" Height="550" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
     <DockPanel Background="AliceBlue">
-        <Grid DockPanel.Dock="Top">
-            <Button Content="О программе" HorizontalAlignment="Left" Margin="17,19,0,0" VerticalAlignment="Top" Height="26" Width="100"/>
-            <Button Content="Руководство" HorizontalAlignment="Left" Margin="130,19,0,0" VerticalAlignment="Top" Height="26" Width="100"/>
-            <Button Content="Адм." HorizontalAlignment="Right" Margin="0,19,10,0" VerticalAlignment="Top" Height="26" Width="33" Click="AdministrationButton_Click"/>
-        </Grid>
-        <TabControl BorderBrush="{x:Null}" Background="AliceBlue" SelectedIndex="0">
-            <TabItem Header="TabItem" Visibility="Collapsed">
-                <WrapPanel Background="AliceBlue" Orientation="Vertical">
-                    <Label Content="Название: TEO"/>
-                    <Label Content="Версия: 1.00"/>
-                    <Label Content="Разработчик: Данил Галибин"/>
-                    <TextBlock Text="Программа позволяет ознакамливаться с теоретическим материалом и проходить по нему тестирование." TextWrapping="Wrap"/>
-                </WrapPanel>
-            </TabItem>
-            <TabItem Header="TabItem" Visibility="Collapsed">
-                <Grid Background="AliceBlue">
+        <!--<Grid DockPanel.Dock="Top" Height="60">
+            <TextBlock TextWrapping="Wrap" Text="Руководство N" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"/>
+        </Grid>-->
+        <ScrollViewer>
+            <TabControl BorderBrush="{x:Null}" Background="AliceBlue" SelectedIndex="0">
+                <TabItem Header="TabItem" Visibility="Collapsed">
+                    <TextBlock TextWrapping="Wrap" Margin="20" FontSize="14">
+                        На главной странице для выбора есть 4 раздела. В разделах «Лекции» и «Практика» при выборе из списка открывается просмотр HTML страницы.
+                        В разделе тестирование при выборе из списка открывается страница с описанием теста и кнопкой «Начать». После начала теста открывается страница с первым вопросом теста,
+                        При нажатии на кнопки с номерами можно перемещаться между вопросами, при нажатии на стрелки можно переместится в соответствующую сторону по списку вопросов.
+Есть 4 вида вопросов: в вопросах с одним вариантом и несколькими необходимо просто отметить правильные, в вопросе с открытым ответом необходимо вписать в текстовое поле правильный ответ,
+                        в вопросе установить соответствие предложено два списка, которые сопоставляются путём подбора вариантов к первому списку из второго.
+                        
+                    </TextBlock>
+                </TabItem>
+                <TabItem Header="TabItem" Visibility="Collapsed">
+                    <Grid Background="AliceBlue">
 
-                </Grid>
-            </TabItem>
-        </TabControl>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </ScrollViewer>
     </DockPanel>
 </local:PatternWindow>

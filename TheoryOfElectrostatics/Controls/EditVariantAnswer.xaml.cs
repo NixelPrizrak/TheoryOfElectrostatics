@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TheoryOfElectrostatics.Classes;
 
@@ -69,10 +70,20 @@ namespace TheoryOfElectrostatics.Controls
 
             if (image != null)
             {
+                if (image.Width > 400 || image.Height > 200)
+                {
+                    MainImage.Stretch = Stretch.Uniform;
+                }
+                else
+                {
+                    MainImage.Stretch = Stretch.None;
+                }
+
                 MainImage.Source = image;
                 return;
             }
 
+            MainImage.Stretch = Stretch.Uniform;
             MainImage.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/NoImage.png"));
         }
 

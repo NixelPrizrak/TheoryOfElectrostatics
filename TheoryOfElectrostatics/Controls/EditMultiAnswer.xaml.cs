@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TheoryOfElectrostatics.Classes;
 
@@ -104,7 +105,7 @@ namespace TheoryOfElectrostatics.Controls
             }
             else
             {
-                if (SecondAnswers.Count < 5)
+                if (SecondAnswers.Count < 6)
                 {
                     SecondAnswers.Add(new Answer());
                     foreach (var answer in ComparionsAnswers)
@@ -122,7 +123,7 @@ namespace TheoryOfElectrostatics.Controls
             open.Filter = "Все (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png|BMP(*.bmp)|*.bmp|JPEG(*.jpg)|*.jpg|PNG(*.png)|*.png";
             if (open.ShowDialog().Value)
             {
-                Grid item = (sender as Button).Parent as Grid;
+                StackPanel item = ((sender as Button).Parent as Grid).Parent as StackPanel;
                 TextBox name = item.FindName("ImageTextBox") as TextBox;
 
                 DataManager.RemoveImage(name.Text);
@@ -132,7 +133,7 @@ namespace TheoryOfElectrostatics.Controls
 
         private void DeleteImageButton_Click(object sender, RoutedEventArgs e)
         {
-            Grid item = (sender as Button).Parent as Grid;
+            StackPanel item = ((sender as Button).Parent as Grid).Parent as StackPanel;
             TextBox name = item.FindName("ImageTextBox") as TextBox;
             DataManager.RemoveImage(name.Text);
             name.Text = null;
@@ -145,17 +146,27 @@ namespace TheoryOfElectrostatics.Controls
 
             if (image != null)
             {
+                if (image.Width > 400 || image.Height > 200)
+                {
+                    imageControl.Stretch = Stretch.Uniform;
+                }
+                else
+                {
+                    imageControl.Stretch = Stretch.None;
+                }
+
                 imageControl.Source = image;
                 return;
             }
 
+            imageControl.Stretch = Stretch.Uniform;
             imageControl.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/NoImage.png"));
         }
 
         private void ImageTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox name = sender as TextBox;
-            Grid item = name.Parent as Grid;
+            StackPanel item = name.Parent as StackPanel;
             Image image = item.FindName("ItemImage") as Image;
             ChangeImage(name.Text, image);
         }
@@ -212,7 +223,7 @@ namespace TheoryOfElectrostatics.Controls
         private void ImageTextBox_Loaded(object sender, RoutedEventArgs e)
         {
             TextBox name = sender as TextBox;
-            Grid item = name.Parent as Grid;
+            StackPanel item = name.Parent as StackPanel;
             Image image = item.FindName("ItemImage") as Image;
             ChangeImage(name.Text, image);
         }

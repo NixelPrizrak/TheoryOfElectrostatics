@@ -17,9 +17,7 @@ namespace TheoryOfElectrostatics.Classes
         static public Frame DataFrame { get; set; }
         static public Frame HelpFrame { get; set; }
         static public Frame AdministrationFrame { get; set; }
-        static public int IdTest { get; set; }
         static public string CurrentTheme { get; set; }
-        static public List<string> Themes { get; set; }
         static public int Section { get; set; }
         static public string DataPath { get => $"Data/Data.zip"; }
         static public string ImagesPath { get => $"{CurrentTheme}/Images"; }

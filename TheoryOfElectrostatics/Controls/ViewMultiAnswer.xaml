@@ -7,11 +7,11 @@
              mc:Ignorable="d">
 
     <DockPanel Background="AliceBlue">
-        <Grid DockPanel.Dock="Bottom" Height="70">
-            <ListView x:Name="ComparisonsListView" Background="AliceBlue" AlternationCount="10" Margin="30,0" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        <Grid DockPanel.Dock="Bottom">
+            <ListView x:Name="ComparisonsListView" Background="AliceBlue" AlternationCount="10" Margin="30,0" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
+                        <WrapPanel Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.ItemContainerStyle>
@@ -20,8 +20,8 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
-                                    <Border Width="100" BorderThickness="0" Margin="20,0">
-                                        <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                                    <Border MaxWidth="80" BorderThickness="0" Margin="20,0">
+                                        <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -32,7 +32,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <TextBlock Text="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Mode=OneWay, Converter={StaticResource SymbolsConverter}}" HorizontalAlignment="Center" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Mode=OneWay, Converter={StaticResource SymbolsConverter}}" HorizontalAlignment="Center" FontWeight="Bold" FontSize="14"/>
                             <ListBox x:Name="VariantsListBox" Background="{x:Null}" Margin="0,20,0,0" BorderThickness="0" SelectionMode="Multiple" SelectionChanged="VariantsListBox_SelectionChanged" HorizontalAlignment="Center" ItemsSource="{Binding SelectedVariants}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -44,7 +44,7 @@
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="ListBoxItem">
-                                                    <Border Margin="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Width="20" Height="20">
+                                                    <Border Margin="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Width="22" Height="22">
                                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </Border>
                                                 </ControlTemplate>
@@ -70,7 +70,7 @@
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
-                                            <TextBlock Text="{Binding Id, Mode=OneWay}"/>
+                                            <TextBlock Text="{Binding Id, Mode=OneWay}" FontSize="14"/>
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -110,10 +110,10 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <DockPanel>
-                                <TextBlock Text="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Mode=OneWay, Converter={StaticResource SymbolsConverter}}" Margin="10,6,0,0" FontWeight="Bold" DockPanel.Dock="Left"/>
+                                <TextBlock Text="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Mode=OneWay, Converter={StaticResource SymbolsConverter}}" Margin="10,6,0,0" FontWeight="Bold" DockPanel.Dock="Left" FontSize="14"/>
                                 <StackPanel Margin="14,5,0,5">
-                                    <TextBlock x:Name="MainTextBlock" Text="{Binding Text}" TextWrapping="Wrap" Loaded="TextBlock_Loaded"/>
-                                    <Grid Margin="10,5,0,5" Visibility="Collapsed">
+                                    <TextBlock x:Name="MainTextBlock" Text="{Binding Text}" TextWrapping="Wrap" Loaded="TextBlock_Loaded" FontSize="16"/>
+                                    <Grid Margin="6,4,0,5" Visibility="Collapsed">
                                         <TextBlock x:Name="ImageTextBlock" Text="{Binding Image}" Visibility="Collapsed" Loaded="TextBlock_Loaded"/>
                                         <Image x:Name="ItemImage" MaxHeight="100" MaxWidth="200" HorizontalAlignment="Left"/>
                                     </Grid>
@@ -146,10 +146,10 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <DockPanel>
-                                <TextBlock Text="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Mode=OneWay, Converter={StaticResource IndexConverter}}" Margin="10,6,0,0" FontWeight="Bold" DockPanel.Dock="Left"/>
+                                <TextBlock Text="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Mode=OneWay, Converter={StaticResource IndexConverter}}" Margin="10,6,0,0" FontWeight="Bold" DockPanel.Dock="Left" FontSize="14"/>
                                 <StackPanel Margin="14,5,0,5">
-                                    <TextBlock x:Name="MainTextBlock" Text="{Binding Text}" TextWrapping="Wrap" Loaded="TextBlock_Loaded"/>
-                                    <Grid Margin="10,5,0,5" Visibility="Collapsed">
+                                    <TextBlock x:Name="MainTextBlock" Text="{Binding Text}" TextWrapping="Wrap" Loaded="TextBlock_Loaded" FontSize="16"/>
+                                    <Grid Margin="6,4,0,0" Visibility="Collapsed">
                                         <TextBlock x:Name="ImageTextBlock" Text="{Binding Image}" Visibility="Collapsed" Loaded="TextBlock_Loaded"/>
                                         <Image x:Name="ItemImage" MaxHeight="100" MaxWidth="200" HorizontalAlignment="Left"/>
                                     </Grid>

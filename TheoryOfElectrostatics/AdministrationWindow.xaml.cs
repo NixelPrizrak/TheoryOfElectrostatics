@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -76,6 +77,11 @@ namespace TheoryOfElectrostatics
             try
             {
                 string theme = ThemeTextBox.Text.Trim();
+                if (theme.Length < 4)
+                {
+                    MessageBox.Show("Название темы должно состоять из 3 символов и более.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
                 if (themes.Contains(theme))
                 {
                     MessageBox.Show("Данная тема уже есть.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);

@@ -25,12 +25,15 @@ namespace TheoryOfElectrostatics.Pages
     /// </summary>
     public partial class TestPage : Page
     {
-        List<Question> questions { get; set; }
-        DispatcherTimer timer { get; set; }
+        private List<Question> questions { get; set; }
+        private int prevQuestion { get; set; }
+        private DispatcherTimer timer { get; set; }
 
         public TestPage()
         {
             InitializeComponent();
+            //OpenAnswerTextBox.SpellCheck.IsEnabled = true;
+            //OpenAnswerTextBox.Language = System.Windows.Markup.XmlLanguage.GetLanguage("ru");
 
             try
             {
@@ -100,6 +103,7 @@ namespace TheoryOfElectrostatics.Pages
                 timer.Tick += new EventHandler(QuestTimerTick);
                 timer.Interval = new TimeSpan(0, 0, 1);
                 timer.Start();
+                prevQuestion = 0;
                 DataListView.SelectedIndex = 0;
             }
             catch (Exception ex)
@@ -138,15 +142,11 @@ namespace TheoryOfElectrostatics.Pages
             }
         }
 
-        private void SelectionQuestionButton_Click(object sender, RoutedEventArgs e)
-        {
-            int idQuestion = Convert.ToInt32((sender as Button).Content) - 1;
-            ChangeQuest(idQuestion);
-        }
-
         private void DataListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ChangeQuest((sender as ListView).SelectedIndex);
+            ListView listView = sender as ListView;
+            ChangeQuest(listView.SelectedIndex);
+            prevQuestion = listView.SelectedIndex;
         }
 
         private void ChangeQuest(int idQuestion)
@@ -154,7 +154,7 @@ namespace TheoryOfElectrostatics.Pages
             timer.Stop();
             if (questions[idQuestion].Time > 0)
             {
-                SaveAnswer();
+                SaveAnswer(prevQuestion);
                 CheckArrowButton();
                 SelectQuest(idQuestion);
             }
@@ -162,9 +162,8 @@ namespace TheoryOfElectrostatics.Pages
             timer.Start();
         }
 
-        private void SaveAnswer()
+        private void SaveAnswer(int id)
         {
-            int id = DataListView.SelectedIndex;
             switch (questions[id].Type)
             {
                 case 0:
@@ -279,7 +278,7 @@ namespace TheoryOfElectrostatics.Pages
 
         private void FinishTest()
         {
-            SaveAnswer();
+            SaveAnswer(DataListView.SelectedIndex);
             timer.Stop();
             double score = 0;
             double maxScore = 0;

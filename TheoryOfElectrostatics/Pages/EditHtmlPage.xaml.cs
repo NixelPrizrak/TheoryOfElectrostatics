@@ -66,7 +66,7 @@ namespace TheoryOfElectrostatics.Pages
                         }
                         else if (File.Exists($"{htmlPath.DirectoryName}/{name}"))
                         {
-                            filePath = name;
+                            filePath = $"{htmlPath.DirectoryName}/{name}";
                         }
 
                         if (filePath != "")
@@ -87,7 +87,7 @@ namespace TheoryOfElectrostatics.Pages
                         }
                         else if (File.Exists($"{htmlPath.DirectoryName}/{name}"))
                         {
-                            filePath = name;
+                            filePath = $"{htmlPath.DirectoryName}/{name}";
                         }
 
                         if (filePath != "")
@@ -123,7 +123,7 @@ namespace TheoryOfElectrostatics.Pages
                     hrefs = hrefs.Distinct().ToList();
                     using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
                     {
-                        zip.AddEntry($"{DataManager.CurrentTheme}/{type}.html", html);
+                        zip.AddEntry($"{DataManager.CurrentTheme}/{type}.html", html,Encoding.UTF8);
                         zip.AddFiles(hrefs, Path.Combine(DataManager.CurrentTheme, fileFolder));
                         zip.Save();
                     }

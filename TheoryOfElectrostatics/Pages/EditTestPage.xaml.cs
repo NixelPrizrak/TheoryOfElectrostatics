@@ -35,10 +35,12 @@ namespace TheoryOfElectrostatics.Pages
         private int idQuestion = -1;
         private bool save = false;
         private double offset;
+        private string theme = "";
 
         public EditTestPage()
         {
             InitializeComponent();
+            theme = DataManager.CurrentTheme;
 
             Dictionary<int, string> types = new Dictionary<int, string>();
             types[0] = "Выбор одного ответа";
@@ -87,6 +89,7 @@ namespace TheoryOfElectrostatics.Pages
             else
             {
                 QuestionScrollViewer.Visibility = Visibility.Hidden;
+                ButtonsGrid.Visibility = Visibility.Hidden;
             }
         }
 
@@ -102,6 +105,7 @@ namespace TheoryOfElectrostatics.Pages
                 save = true;
             }
             idQuestion = QuestionsListView.SelectedIndex;
+            QuestionScrollViewer.ScrollToTop();
         }
 
         private void QuestionsScrollViewer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -114,12 +118,6 @@ namespace TheoryOfElectrostatics.Pages
 
         private void QuestionsScrollViewer_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            try
-            {
-                HeaderScrollViewer.ScrollToHorizontalOffset(offset);
-                offset = double.NaN;
-            }
-            catch { }
             (sender as ScrollViewer).ReleaseMouseCapture();
         }
 
@@ -159,12 +157,23 @@ namespace TheoryOfElectrostatics.Pages
             name = $"{DataManager.ImagesPath}/{name}";
             var image = DataManager.GetImage(name);
 
+
             if (image != null)
             {
+                if (image.Width > 400 || image.Height > 200)
+                {
+                    QuestionImage.Stretch = Stretch.Uniform;
+                }
+                else
+                {
+                    QuestionImage.Stretch = Stretch.None;
+                }
+
                 QuestionImage.Source = image;
                 return;
             }
 
+            QuestionImage.Stretch = Stretch.Uniform;
             QuestionImage.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/NoImage.png"));
         }
 
@@ -175,6 +184,7 @@ namespace TheoryOfElectrostatics.Pages
             questions.Add(question);
             QuestionsListView.Items.Add(0);
             QuestionScrollViewer.Visibility = Visibility.Visible;
+            ButtonsGrid.Visibility = Visibility.Visible;
 
             QuestionsListView.SelectedIndex = questions.Count - 1;
             save = false;
@@ -291,7 +301,8 @@ namespace TheoryOfElectrostatics.Pages
             //QuestionsListView.Items.Refresh();
             if (questions.Count == 0)
             {
-                DataManager.AdministrationFrame.Navigate(null);
+                QuestionScrollViewer.Visibility = Visibility.Hidden;
+                ButtonsGrid.Visibility = Visibility.Hidden;
             }
             else
             {
@@ -437,7 +448,26 @@ namespace TheoryOfElectrostatics.Pages
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
+            string newTheme = DataManager.CurrentTheme;
+            DataManager.CurrentTheme = theme;
             SaveChanges(QuestionsListView.SelectedIndex);
+            DataManager.CurrentTheme = newTheme;
+        }
+
+        private void HeaderScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (e.HorizontalOffset < 10)
+            {
+                try
+                {
+                    if (offset != 0)
+                    {
+                        HeaderScrollViewer.ScrollToHorizontalOffset(offset);
+                    }
+                    offset = double.NaN;
+                }
+                catch { }
+            }
         }
     }
 }

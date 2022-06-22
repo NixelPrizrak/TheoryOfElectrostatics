@@ -28,6 +28,7 @@ namespace TheoryOfElectrostatics.Pages
         public HtmlPage(string theme,bool lection)
         {
             InitializeComponent();
+
             Directory.Delete(Properties.Settings.Default.TempPath, true);
 
             string type = lection ? "Lection" : "Practice";

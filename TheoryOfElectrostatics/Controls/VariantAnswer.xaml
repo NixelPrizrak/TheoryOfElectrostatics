@@ -7,7 +7,7 @@
              mc:Ignorable="d" Margin="0,5">
 
     <DockPanel>
-        <Grid DockPanel.Dock="Left" VerticalAlignment="Top" Margin="0,6,0,0">
+        <Grid DockPanel.Dock="Left" VerticalAlignment="Top" Margin="0,8,0,0">
             <Viewbox Width="20">
                 <RadioButton x:Name="MainRadioButton" Visibility="Visible"/>
             </Viewbox>
@@ -17,7 +17,7 @@
         </Grid>
         <Grid Margin="5,0,0,0">
             <StackPanel Orientation="Vertical">
-                <TextBlock x:Name="MainTextBlock" Text="Ответ" TextWrapping="Wrap" Margin="0,5" FontSize="14"/>
+                <TextBlock x:Name="MainTextBlock" Text="Ответ" TextWrapping="Wrap" Margin="0,5" FontSize="16"/>
                 <Image x:Name="MainImage" Margin="0,5" Visibility="Collapsed" MaxHeight="140" MaxWidth="400" HorizontalAlignment="Left"/>
             </StackPanel>
         </Grid>

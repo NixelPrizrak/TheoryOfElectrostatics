@@ -32,6 +32,16 @@ namespace TheoryOfElectrostatics
             ContentRendered += new EventHandler(BaseWindow_ContentRendered);
             ButtonsVisible = true;
             this.Closed += PatternWindow_Closed;
+            this.StateChanged += PatternWindow_StateChanged;
+        }
+
+        private void PatternWindow_StateChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+            {
+                Maximazed(!Maximaze);
+                this.WindowState = WindowState.Normal;
+            }
         }
 
         private void PatternWindow_Closed(object sender, EventArgs e)
@@ -48,8 +58,10 @@ namespace TheoryOfElectrostatics
         {
             Grid header = Template.FindName("HeaderGrid", this) as Grid;
             header.MouseLeftButtonDown += Border_MouseLeftButtonDown;
+
             Button closeButton = Template.FindName("ExitButton", this) as Button;
             closeButton.Click += ExitButton_Click;
+
             MinButton = Template.FindName("MinButton", this) as Button;
             MaxButton = Template.FindName("MaxButton", this) as Button;
             HelpButton = Template.FindName("HelpButton", this) as Button;

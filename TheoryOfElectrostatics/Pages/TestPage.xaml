@@ -11,8 +11,8 @@
 
     <DockPanel Background="AliceBlue">
         <Grid Background="#FFDBEEFF" DockPanel.Dock="Top" Height="80">
-            <TextBlock x:Name="TitleTextBlock" TextWrapping="Wrap" Text="Вопрос N" TextAlignment="Center" FontSize="22" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Label x:Name="TimeLabel" Content="Время 00:00" HorizontalAlignment="Left" Margin="60,0,0,0" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+            <TextBlock x:Name="TitleTextBlock" TextWrapping="Wrap" Text="Вопрос N" TextAlignment="Center" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label x:Name="TimeLabel" Content="Время 00:00" HorizontalAlignment="Left" Margin="60,0,0,0" VerticalAlignment="Center" FontSize="20" FontWeight="SemiBold"/>
             <Button Content="Закончить" HorizontalAlignment="Right" Margin="0,0,50,0" VerticalAlignment="Center" Height="34" Width="107" FontSize="16" Click="FinishButton_Click"/>
         </Grid>
         <DockPanel Background="#FFDBEEFF" DockPanel.Dock="Bottom" Height="80">
@@ -74,12 +74,18 @@
             </ListView>
         </DockPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="140,30,140,0" VerticalAlignment="Top" Orientation="Vertical">
-                <TextBlock x:Name="QuestionTextBlock" Text="Текст вопроса" FontSize="16" Margin="0,0,0,20" TextWrapping="Wrap" FontWeight="SemiBold"/>
+            <Grid Margin="0,30,0,0" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1" Orientation="Vertical">
+                <TextBlock x:Name="QuestionTextBlock" Text="Текст вопроса" FontSize="18" Margin="0,0,0,20" TextWrapping="Wrap" FontWeight="SemiBold"/>
                 <StackPanel x:Name="AnswersStackPanel" Orientation="Vertical" Visibility="Collapsed"/>
                 <TextBox x:Name="OpenAnswerTextBox" HorizontalAlignment="Left" FontSize="16" Padding="0,3" Margin="0,0" Width="300" Visibility="Visible"/>
                 <Controls:ViewMultiAnswer x:Name="ViewMultiAnswer" Visibility="Collapsed"/>
-            </StackPanel>
+            </StackPanel></Grid>
         </ScrollViewer>
     </DockPanel>
 </Page>

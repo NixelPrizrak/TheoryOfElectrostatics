@@ -26,8 +26,8 @@
                 Тест состоит из 12 вопросов. Время ответа на вопрос зависит от его вида: 
                 с одним варинтом ответа 30 секунд, с несколькими 60 секунд, с открытым ответом 90 секунд, установить соответствие 150 секунд. Вопрос установить соответствие стоит 3 балла, а остальные 1 балл.<LineBreak/><LineBreak/>
                 Принцип оценивания:<LineBreak/>
-                - <Run FontWeight="Bold" FontSize="18" >5: </Run> 85%-100%<LineBreak/>
-                - <Run FontWeight="Bold" FontSize="18" >4: </Run> 75%-84%<LineBreak/>
+                - <Run FontWeight="Bold" FontSize="18" >5: </Run> 90%-100%<LineBreak/>
+                - <Run FontWeight="Bold" FontSize="18" >4: </Run> 75%-89%<LineBreak/>
                 - <Run FontWeight="Bold" FontSize="18" >3: </Run> 60%-74%<LineBreak/>
                 - <Run FontWeight="Bold" FontSize="18" >2: </Run> 0%-59%<LineBreak/>
                 </TextBlock>

@@ -109,6 +109,18 @@ namespace TheoryOfElectrostatics.Pages
                     {
                         document.QuerySelector("head").InnerHtml += "<meta charset='windows-1251'>";
                     }
+                    if (!document.QuerySelector("head").InnerHtml.Contains("cache-control"))
+                    {
+                        document.QuerySelector("head").InnerHtml += "<meta http-equiv='cache-control' content='no-cache, no-store, must-revalidate'/>";
+                    }
+                    if (!document.QuerySelector("head").InnerHtml.Contains("pragma"))
+                    {
+                        document.QuerySelector("head").InnerHtml += "<meta http-equiv='pragma' content='no-cache'/>";
+                    }
+                    if (!document.QuerySelector("head").InnerHtml.Contains("pragma"))
+                    {
+                        document.QuerySelector("head").InnerHtml += "<meta http-equiv='expires' content='0'/>";
+                    }
                     document.QuerySelector("body").SetAttribute("style", "background-color:aliceblue");
 
                     html = document.QuerySelector("html").OuterHtml;
@@ -123,7 +135,7 @@ namespace TheoryOfElectrostatics.Pages
                     hrefs = hrefs.Distinct().ToList();
                     using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
                     {
-                        zip.AddEntry($"{DataManager.CurrentTheme}/{type}.html", html,Encoding.UTF8);
+                        zip.AddEntry($"{DataManager.CurrentTheme}/{type}.html", html, Encoding.UTF8);
                         zip.AddFiles(hrefs, Path.Combine(DataManager.CurrentTheme, fileFolder));
                         zip.Save();
                     }

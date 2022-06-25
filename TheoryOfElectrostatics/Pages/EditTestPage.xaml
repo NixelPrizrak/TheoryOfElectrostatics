@@ -32,13 +32,18 @@
                     </Button.Style>
                 </Button>
             </Border>
-            <ScrollViewer x:Name="HeaderScrollViewer" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" MouseLeftButtonDown="QuestionsScrollViewer_MouseLeftButtonDown" MouseLeftButtonUp="QuestionsScrollViewer_MouseLeftButtonUp" MouseMove="QuestionsScrollViewer_MouseMove" PreviewMouseWheel="QuestionsScrollViewer_PreviewMouseWheel" ScrollChanged="HeaderScrollViewer_ScrollChanged">
-                <ListView x:Name="QuestionsListView" BorderBrush="{x:Null}" Background="#FFDBEEFF" AlternationCount="{Binding Path=Items.Count, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Left" VerticalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="QuestionsListView_SelectionChanged" SelectionMode="Single">
+            <ScrollViewer x:Name="HeaderScrollViewer" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" MouseLeftButtonDown="QuestionsScrollViewer_MouseLeftButtonDown" MouseLeftButtonUp="QuestionsScrollViewer_MouseLeftButtonUp" MouseMove="QuestionsScrollViewer_MouseMove" PreviewMouseWheel="QuestionsScrollViewer_PreviewMouseWheel">
+                <ListView x:Name="QuestionsListView" BorderBrush="{x:Null}" Background="#FFDBEEFF" AlternationCount="{Binding Path=Items.Count, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Left" VerticalAlignment="Center" SelectionChanged="QuestionsListView_SelectionChanged" SelectionMode="Single">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
+                    <ListView.Template>
+                        <ControlTemplate>
+                            <ItemsPresenter></ItemsPresenter>
+                        </ControlTemplate>
+                    </ListView.Template>
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Template">
@@ -85,7 +90,7 @@
                         <ComboBox x:Name="TypesComboBox" HorizontalAlignment="Left" Margin="106,20,0,0" VerticalAlignment="Top" Width="377" SelectionChanged="TypeComboBox_SelectionChanged"/>
                     </Grid>
                     <StackPanel DockPanel.Dock="Right" Margin="10,10,0,0" Orientation="Horizontal">
-                        <Image x:Name="QuestionImage" Source="/Resources/NoImage.png" HorizontalAlignment="Left" Height="50" Margin="0,3,0,0" VerticalAlignment="Top" MaxWidth="100"/>
+                        <Image x:Name="QuestionImage" Source="/Resources/NoImage.png" HorizontalAlignment="Left" Height="50" MaxWidth="100" Margin="0,3,0,0" VerticalAlignment="Top"/>
                         <Grid Margin="8,0,0,0">
                             <Button Width="26" Height="26" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ChangeImageButton_Click">
                                 <Image Source="/Resources/AddImage.png" Margin="3"/>

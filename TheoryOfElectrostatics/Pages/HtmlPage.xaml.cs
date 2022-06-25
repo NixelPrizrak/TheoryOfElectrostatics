@@ -45,5 +45,10 @@ namespace TheoryOfElectrostatics.Pages
                 LectionWebBrowser.Navigate(new Uri(fileLection));
             }
         }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            LectionWebBrowser.NavigateToString("f");
+        }
     }
 }

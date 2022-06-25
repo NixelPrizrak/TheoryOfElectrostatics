@@ -8,12 +8,17 @@
 
     <DockPanel Background="AliceBlue">
         <Grid DockPanel.Dock="Bottom">
-            <ListView x:Name="ComparisonsListView" Background="AliceBlue" AlternationCount="10" Margin="30,0" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListView x:Name="ComparisonsListView" Background="AliceBlue" AlternationCount="10" Margin="30,10" BorderThickness="0">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
+                <ListView.Template>
+                    <ControlTemplate>
+                        <ItemsPresenter></ItemsPresenter>
+                    </ControlTemplate>
+                </ListView.Template>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Focusable" Value="False"/>
@@ -92,6 +97,11 @@
                             <StackPanel Orientation="Vertical"/>
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
+                    <ListView.Template>
+                        <ControlTemplate>
+                            <ItemsPresenter></ItemsPresenter>
+                        </ControlTemplate>
+                    </ListView.Template>
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Focusable" Value="False"/>
@@ -115,7 +125,7 @@
                                     <TextBlock x:Name="MainTextBlock" Text="{Binding Text}" TextWrapping="Wrap" Loaded="TextBlock_Loaded" FontSize="16"/>
                                     <Grid Margin="6,4,0,5" Visibility="Collapsed">
                                         <TextBlock x:Name="ImageTextBlock" Text="{Binding Image}" Visibility="Collapsed" Loaded="TextBlock_Loaded"/>
-                                        <Image x:Name="ItemImage" MaxHeight="100" MaxWidth="200" HorizontalAlignment="Left"/>
+                                        <Image x:Name="ItemImage" MaxHeight="140" MaxWidth="300" HorizontalAlignment="Left"/>
                                     </Grid>
                                 </StackPanel>
                             </DockPanel>
@@ -128,6 +138,11 @@
                             <StackPanel Orientation="Vertical"/>
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
+                    <ListView.Template>
+                        <ControlTemplate>
+                            <ItemsPresenter></ItemsPresenter>
+                        </ControlTemplate>
+                    </ListView.Template>
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Focusable" Value="False"/>
@@ -151,7 +166,7 @@
                                     <TextBlock x:Name="MainTextBlock" Text="{Binding Text}" TextWrapping="Wrap" Loaded="TextBlock_Loaded" FontSize="16"/>
                                     <Grid Margin="6,4,0,0" Visibility="Collapsed">
                                         <TextBlock x:Name="ImageTextBlock" Text="{Binding Image}" Visibility="Collapsed" Loaded="TextBlock_Loaded"/>
-                                        <Image x:Name="ItemImage" MaxHeight="100" MaxWidth="200" HorizontalAlignment="Left"/>
+                                        <Image x:Name="ItemImage" MaxHeight="140" MaxWidth="300" HorizontalAlignment="Left"/>
                                     </Grid>
                                 </StackPanel>
                             </DockPanel>

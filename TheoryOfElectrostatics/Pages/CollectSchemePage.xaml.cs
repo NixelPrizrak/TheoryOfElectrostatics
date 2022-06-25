@@ -40,27 +40,27 @@ namespace TheoryOfElectrostatics.Pages
             switch (type)
             {
                 case 0:
-                    IfTextBlock.Text = "Соедините последовательно резисторы R1, R2 и R3";
+                    IfTextBlock.Text = "Соберите схему, в которой резисторы R1, R2 и R3 соединены последовательно";
                     CollectScheme.AddElement(3, 0);
                     break;
                 case 1:
-                    IfTextBlock.Text = "Соедините параллельно резисторы R1, R2 и R3";
+                    IfTextBlock.Text = "Соберите схему, в которой резисторы R1, R2 и R3 соединены параллельно";
                     CollectScheme.AddElement(3, 0);
                     break;
                 case 2:
-                    IfTextBlock.Text = "Соедините параллельно резисторы R1, R2 и R3, а затем соедините их последовательно с R4";
+                    IfTextBlock.Text = "Соберите схему, в которой резисторы R1, R2 и R3 соединены параллельно, а затем последовательно соединены с R4";
                     CollectScheme.AddElement(4, 0);
                     break;
                 case 3:
-                    IfTextBlock.Text = "Соедините последовательно конденсаторы C1, C2 и C3";
+                    IfTextBlock.Text = "Соберите схему, в которой конденсаторы C1, C2 и C3 соединены последовательно";
                     CollectScheme.AddElement(0, 3);
                     break;
                 case 4:
-                    IfTextBlock.Text = "Соедините параллельно конденсаторы C1, C2 и C3";
+                    IfTextBlock.Text = "Соберите схему, в которой конденсаторы C1, C2 и C3 соединены параллельно";
                     CollectScheme.AddElement(0, 3);
                     break;
                 case 5:
-                    IfTextBlock.Text = "Соедините параллельно конденсаторы C1, C2 и C3, а затем соедините их последовательно с C4";
+                    IfTextBlock.Text = "Соберите схему, в которой конденсаторы C1, C2 и C3 соединены параллельно, а затем последовательно с C4";
                     CollectScheme.AddElement(0, 4);
                     break;
                 default:
@@ -103,41 +103,42 @@ namespace TheoryOfElectrostatics.Pages
 
         public bool CheckScheme(int variant)
         {
-            Dictionary<string, ElementScheme> resistors = CollectScheme.SchemeGrid.Children.OfType<ElementScheme>().ToDictionary(resistor => resistor.Title);
+            Dictionary<string, ElementScheme> elements = CollectScheme.SchemeGrid.Children.OfType<ElementScheme>().ToDictionary(resistor => resistor.Title);
 
             try
             {
                 switch (variant)
                 {
                     case 0:
-                        if ((resistors["R1"].RightElement == resistors["R2"] && resistors["R2"].RightElement == resistors["R3"]) ||
-                            (resistors["R1"].RightElement == resistors["R3"] && resistors["R3"].RightElement == resistors["R2"]) ||
-                            (resistors["R2"].RightElement == resistors["R3"] && resistors["R3"].RightElement == resistors["R1"]) ||
-                            (resistors["R2"].RightElement == resistors["R1"] && resistors["R1"].RightElement == resistors["R3"]) ||
-                            (resistors["R3"].RightElement == resistors["R2"] && resistors["R2"].RightElement == resistors["R1"]) ||
-                            (resistors["R3"].RightElement == resistors["R1"] && resistors["R1"].RightElement == resistors["R2"]))
+                        if ((elements["R1"].RightElement == elements["R2"] && elements["R2"].RightElement == elements["R3"]) ||
+                            (elements["R3"].RightElement == elements["R2"] && elements["R2"].RightElement == elements["R1"]))
                         {
-                            return true;
-                        }
-                        break;
-                    case 1:
-                        if (resistors["R1"].LeftNode != null && resistors["R1"].RightNode != null)
-                        {
-                            if (resistors["R1"].LeftNode == resistors["R2"].LeftNode && resistors["R3"].LeftNode == resistors["R2"].LeftNode &&
-                                resistors["R1"].RightNode == resistors["R2"].RightNode && resistors["R3"].RightNode == resistors["R2"].RightNode)
+                            if (elements["R1"].LeftElement == elements["S1"] && elements["R3"].RightElement == elements["S1"] ||
+                                elements["R1"].RightElement == elements["S1"] && elements["R3"].LeftElement == elements["S1"])
                             {
                                 return true;
                             }
                         }
                         break;
-                    case 2:
-                        if (resistors["R1"].LeftNode != null && resistors["R1"].RightNode != null)
+                    case 1:
+                        if (elements["R1"].LeftNode != null && elements["R1"].RightNode != null)
                         {
-                            if (resistors["R1"].LeftNode == resistors["R2"].LeftNode && resistors["R3"].LeftNode == resistors["R2"].LeftNode &&
-                                resistors["R1"].RightNode == resistors["R2"].RightNode && resistors["R3"].RightNode == resistors["R2"].RightNode)
+                            if (CheckParallel(elements["R1"], elements["R2"]) && CheckParallel(elements["R1"], elements["R3"]))
                             {
-                                if ((resistors["R1"].LeftNode == resistors["R4"].RightNode && resistors["R1"].RightNode != resistors["R4"].LeftNode) ||
-                                    (resistors["R1"].LeftNode != resistors["R4"].RightNode && resistors["R1"].RightNode == resistors["R4"].LeftNode))
+                                if (CheckParallel(elements["R1"], elements["S1"]))
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                        break;
+                    case 2:
+                        if (elements["R1"].LeftNode != null && elements["R1"].RightNode != null)
+                        {
+                            if (CheckParallel(elements["R1"], elements["R2"]) && CheckParallel(elements["R1"], elements["R3"]))
+                            {
+                                if ((elements["R1"].LeftNode == elements["R4"].RightNode && elements["R4"].LeftElement == elements["S1"]) ||
+                                    (elements["R4"].RightElement == elements["S1"] && elements["R1"].RightNode == elements["R4"].LeftNode))
                                 {
                                     return true;
                                 }
@@ -145,34 +146,32 @@ namespace TheoryOfElectrostatics.Pages
                         }
                         break;
                     case 3:
-                        if ((resistors["C1"].RightElement == resistors["C2"] && resistors["C2"].RightElement == resistors["C3"]) ||
-                            (resistors["C1"].RightElement == resistors["C3"] && resistors["C3"].RightElement == resistors["C2"]) ||
-                            (resistors["C2"].RightElement == resistors["C3"] && resistors["C3"].RightElement == resistors["C1"]) ||
-                            (resistors["C2"].RightElement == resistors["C1"] && resistors["C1"].RightElement == resistors["C3"]) ||
-                            (resistors["C3"].RightElement == resistors["C2"] && resistors["C2"].RightElement == resistors["C1"]) ||
-                            (resistors["C3"].RightElement == resistors["C1"] && resistors["C1"].RightElement == resistors["C2"]))
+                        if ((elements["C1"].RightElement == elements["C2"] && elements["C2"].RightElement == elements["C3"]) ||
+                            (elements["C3"].RightElement == elements["C2"] && elements["C2"].RightElement == elements["C1"]))
                         {
-                            return true;
+                            if (elements["C1"].LeftElement == elements["S1"] && elements["C3"].RightElement == elements["S1"] ||
+                                elements["C1"].RightElement == elements["S1"] && elements["C3"].LeftElement == elements["S1"])
+                            {
+                                return true;
+                            }
                         }
                         break;
                     case 4:
-                        if (resistors["C1"].LeftNode != null && resistors["C1"].RightNode != null)
+                        if (elements["C1"].LeftNode != null && elements["C1"].RightNode != null)
                         {
-                            if (resistors["C1"].LeftNode == resistors["C2"].LeftNode && resistors["C3"].LeftNode == resistors["C2"].LeftNode &&
-                                resistors["C1"].RightNode == resistors["C2"].RightNode && resistors["C3"].RightNode == resistors["C2"].RightNode)
+                            if (CheckParallel(elements["C1"], elements["C2"]) && CheckParallel(elements["C1"], elements["C3"]))
                             {
                                 return true;
                             }
                         }
                         break;
                     case 5:
-                        if (resistors["C1"].LeftNode != null && resistors["C1"].RightNode != null)
+                        if (elements["C1"].LeftNode != null && elements["C1"].RightNode != null)
                         {
-                            if (resistors["C1"].LeftNode == resistors["C2"].LeftNode && resistors["C3"].LeftNode == resistors["C2"].LeftNode &&
-                                resistors["C1"].RightNode == resistors["C2"].RightNode && resistors["C3"].RightNode == resistors["C2"].RightNode)
+                            if (CheckParallel(elements["C1"], elements["C2"]) && CheckParallel(elements["C1"], elements["C3"]))
                             {
-                                if ((resistors["C1"].LeftNode == resistors["C4"].RightNode && resistors["C1"].RightNode != resistors["C4"].LeftNode) ||
-                                    (resistors["C1"].LeftNode != resistors["C4"].RightNode && resistors["C1"].RightNode == resistors["C4"].LeftNode))
+                                if ((elements["C1"].LeftNode == elements["C4"].RightNode && elements["C4"].LeftElement == elements["S1"]) ||
+                                    (elements["C4"].RightElement == elements["S1"] && elements["C1"].RightNode == elements["C4"].LeftNode))
                                 {
                                     return true;
                                 }
@@ -189,6 +188,12 @@ namespace TheoryOfElectrostatics.Pages
             }
 
             return false;
+        }
+
+        public bool CheckParallel(ElementScheme firstElement, ElementScheme secondElement)
+        {
+            return (firstElement.LeftNode == secondElement.LeftNode && firstElement.RightNode == secondElement.RightNode) ||
+                   (firstElement.LeftNode == secondElement.RightNode && firstElement.RightNode == secondElement.LeftNode);
         }
     }
 }

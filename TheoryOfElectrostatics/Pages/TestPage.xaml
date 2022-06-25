@@ -80,12 +80,14 @@
                     <ColumnDefinition Width="8*"/>
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="1" Orientation="Vertical">
-                <TextBlock x:Name="QuestionTextBlock" Text="Текст вопроса" FontSize="18" Margin="0,0,0,20" TextWrapping="Wrap" FontWeight="SemiBold"/>
-                <StackPanel x:Name="AnswersStackPanel" Orientation="Vertical" Visibility="Collapsed"/>
-                <TextBox x:Name="OpenAnswerTextBox" HorizontalAlignment="Left" FontSize="16" Padding="0,3" Margin="0,0" Width="300" Visibility="Visible"/>
-                <Controls:ViewMultiAnswer x:Name="ViewMultiAnswer" Visibility="Collapsed"/>
-            </StackPanel></Grid>
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <TextBlock x:Name="QuestionTextBlock" Text="Текст вопроса" FontSize="18" Margin="0,0,0,20" TextWrapping="Wrap" FontWeight="SemiBold"/>
+                    <Image x:Name="QuestionImage" MaxHeight="180" MaxWidth="500" Margin="10,0,0,20" Visibility="Collapsed" HorizontalAlignment="Left"/>
+                    <StackPanel x:Name="AnswersStackPanel" Orientation="Vertical" Visibility="Collapsed"/>
+                    <TextBox x:Name="OpenAnswerTextBox" HorizontalAlignment="Left" FontSize="16" Padding="0,3" Margin="0,0" Width="300" Visibility="Visible"/>
+                    <Controls:ViewMultiAnswer x:Name="ViewMultiAnswer" Visibility="Collapsed"/>
+                </StackPanel>
+            </Grid>
         </ScrollViewer>
     </DockPanel>
 </Page>

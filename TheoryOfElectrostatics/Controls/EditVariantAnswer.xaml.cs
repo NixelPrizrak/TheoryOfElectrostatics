@@ -70,7 +70,7 @@ namespace TheoryOfElectrostatics.Controls
 
             if (image != null)
             {
-                if (image.Width > 400 || image.Height > 200)
+                if (image.Width > 100 || image.Height > 50)
                 {
                     MainImage.Stretch = Stretch.Uniform;
                 }

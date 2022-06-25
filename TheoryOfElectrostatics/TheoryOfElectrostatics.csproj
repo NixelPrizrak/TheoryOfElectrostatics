@@ -298,19 +298,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Electr.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Electr2.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Electr3.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Electr4.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Electr5.jpg" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
@@ -379,6 +367,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\ArrowRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Guide1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Guide2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DefaultIcon.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

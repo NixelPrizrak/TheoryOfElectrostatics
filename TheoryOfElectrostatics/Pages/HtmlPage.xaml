@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:TheoryOfElectrostatics.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Lection">
+      Title="Lection" Unloaded="Page_Unloaded">
 
     <Grid Background="AliceBlue">
         <WebBrowser x:Name="LectionWebBrowser"/>

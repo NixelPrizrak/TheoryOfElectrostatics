@@ -29,6 +29,9 @@ namespace TheoryOfElectrostatics
         public AdministrationWindow()
         {
             InitializeComponent();
+
+            DataManager.Edit = true;
+
             DataManager.AdministrationFrame = AdministrationFrame;
             DataManager.AdministrationFrame.Navigate(new Pages.EditHtmlPage(true));
 
@@ -111,25 +114,28 @@ namespace TheoryOfElectrostatics
         {
             try
             {
-                using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
+                if (MessageBox.Show("При удалении темы будут удалены все загруженные файлы. Удалить?", "Информация", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    Regex reg = new Regex($"^{DataManager.CurrentTheme}");
-                    var entries = zip.Entries.ToList();
-                    foreach (var entry in entries)
+                    using (ZipFile zip = DataManager.OpenZip(DataManager.DataPath))
                     {
-                        if (reg.IsMatch(entry.FileName))
+                        Regex reg = new Regex($"^{DataManager.CurrentTheme}");
+                        var entries = zip.Entries.ToList();
+                        foreach (var entry in entries)
                         {
-                            zip.RemoveEntry(entry);
+                            if (reg.IsMatch(entry.FileName))
+                            {
+                                zip.RemoveEntry(entry);
+                            }
                         }
+                        zip.Save();
                     }
-                    zip.Save();
+
+                    themes.Remove(DataManager.CurrentTheme);
+                    ThemesListView.Items.Refresh();
+                    ThemesListView.SelectedIndex = 0;
+
+                    MessageBox.Show("Тема удалена.", "Информация");
                 }
-
-                themes.Remove(DataManager.CurrentTheme);
-                ThemesListView.Items.Refresh();
-                ThemesListView.SelectedIndex = 0;
-
-                MessageBox.Show("Тема удалена.", "Информация");
             }
             catch (Exception ex)
             {

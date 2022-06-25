@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TheoryOfElectrostatics.Classes;
 
 namespace TheoryOfElectrostatics
 {
@@ -24,11 +25,8 @@ namespace TheoryOfElectrostatics
             InitializeComponent();
             ResizeMode = ResizeMode.NoResize;
             ButtonsVisible = false;
-        }
 
-        private void AdministrationButton_Click(object sender, RoutedEventArgs e)
-        {
-            new AuthWindow().ShowDialog();
+            HelpTabControl.SelectedIndex = DataManager.Edit ? 1 : 0;
         }
     }
 }

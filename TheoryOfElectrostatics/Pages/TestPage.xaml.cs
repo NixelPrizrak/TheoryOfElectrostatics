@@ -199,6 +199,7 @@ namespace TheoryOfElectrostatics.Pages
             AnswersStackPanel.Children.Clear();
             TitleTextBlock.Text = $"Вопрос {idQuestion + 1}";
             QuestionTextBlock.Text = questions[idQuestion].Quest.Text;
+            ChangeImage(questions[idQuestion].Quest.Image);
             ViewMultiAnswer.FirstAnswers.Clear();
             ViewMultiAnswer.SecondAnswers.Clear();
             ViewMultiAnswer.ComparionsAnswers.Clear();
@@ -269,6 +270,30 @@ namespace TheoryOfElectrostatics.Pages
                 default:
                     break;
             }
+        }
+
+        private void ChangeImage(string name)
+        {
+            name = $"{DataManager.ImagesPath}/{name}";
+            var image = DataManager.GetImage(name);
+
+            if (image != null)
+            {
+                if (image.Width > 500 || image.Height > 180)
+                {
+                    QuestionImage.Stretch = Stretch.Uniform;
+                }
+                else
+                {
+                    QuestionImage.Stretch = Stretch.None;
+                }
+
+                QuestionImage.Source = image;
+                QuestionImage.Visibility = Visibility.Visible;
+                return;
+            }
+
+            QuestionImage.Visibility = Visibility.Collapsed;
         }
 
         private void FinishButton_Click(object sender, RoutedEventArgs e)

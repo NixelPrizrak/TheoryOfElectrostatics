@@ -8,12 +8,17 @@
 
     <DockPanel>
         <Grid DockPanel.Dock="Top">
-            <ListView x:Name="ComparisonsListView" Background="AliceBlue" AlternationCount="10" Margin="30,0" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <ListView x:Name="ComparisonsListView" Background="AliceBlue" AlternationCount="10" Margin="30,0" BorderThickness="0">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
+                <ListView.Template>
+                    <ControlTemplate>
+                        <ItemsPresenter></ItemsPresenter>
+                    </ControlTemplate>
+                </ListView.Template>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Focusable" Value="False"/>
@@ -39,6 +44,11 @@
                                         <WrapPanel Orientation="Horizontal"/>
                                     </ItemsPanelTemplate>
                                 </ListBox.ItemsPanel>
+                                <ListBox.Template>
+                                    <ControlTemplate>
+                                        <ItemsPresenter></ItemsPresenter>
+                                    </ControlTemplate>
+                                </ListBox.Template>
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="ListBoxItem">
                                         <Setter Property="Template">
@@ -98,12 +108,17 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <ListView x:Name="FirstListView" Background="{x:Null}" AlternationCount="10" BorderThickness="0" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ListView x:Name="FirstListView" Background="{x:Null}" AlternationCount="10" BorderThickness="0">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
+                    <ListView.Template>
+                        <ControlTemplate>
+                            <ItemsPresenter></ItemsPresenter>
+                        </ControlTemplate>
+                    </ListView.Template>
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Focusable" Value="False"/>
@@ -134,7 +149,7 @@
                                     </Grid>
                                     <StackPanel Margin="50,5,0,0" Orientation="Horizontal">
                                         <TextBox x:Name="ImageTextBox" Text="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="Collapsed" TextChanged="ImageTextBox_TextChanged" Loaded="ImageTextBox_Loaded"/>
-                                        <Image x:Name="ItemImage" Source="/Resources/NoImage.png" Margin="20,0,10,0" Height="50" MaxWidth="100" HorizontalAlignment="Left"/>
+                                        <Image x:Name="ItemImage" Source="/Resources/NoImage.png" Margin="0,0,10,0" Height="50" MaxWidth="100" HorizontalAlignment="Left"/>
                                         <Grid>
                                             <Button Width="26" Height="26" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddImageButton_Click">
                                                 <Image Source="/Resources/AddImage.png" Margin="3"/>
@@ -149,14 +164,19 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListView>
-                <ListView x:Name="SecondListView" Grid.Column="1" Background="{x:Null}" AlternationCount="10" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ListView x:Name="SecondListView" Grid.Column="1" Background="{x:Null}" AlternationCount="10" BorderThickness="0">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
+                    <ListView.Template>
+                        <ControlTemplate>
+                            <ItemsPresenter></ItemsPresenter>
+                        </ControlTemplate>
+                    </ListView.Template>
                     <ListView.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
+                        <Style TargetType="ListViewItem">
                             <Setter Property="Focusable" Value="False"/>
                             <Setter Property="Template">
                                 <Setter.Value>
@@ -170,7 +190,7 @@
                         </Style>
                     </ListView.ItemContainerStyle>
 
-                    <ListBox.ItemTemplate>
+                    <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>
                                 <TextBlock Text="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Mode=OneWay, Converter={StaticResource IndexConverter}}" Margin="10,14,0,0" FontWeight="Bold"/>
@@ -185,7 +205,7 @@
                                     </Grid>
                                     <StackPanel Margin="50,5,0,0" Orientation="Horizontal">
                                         <TextBox x:Name="ImageTextBox" Text="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="Collapsed" TextChanged="ImageTextBox_TextChanged" Loaded="ImageTextBox_Loaded"/>
-                                        <Image x:Name="ItemImage" Source="/Resources/NoImage.png" Margin="20,0,10,0" Height="50" MaxWidth="100" HorizontalAlignment="Left"/>
+                                        <Image x:Name="ItemImage" Source="/Resources/NoImage.png" Margin="0,0,10,0" Height="50" MaxWidth="100" HorizontalAlignment="Left"/>
                                         <Grid>
                                             <Button Width="26" Height="26" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddImageButton_Click">
                                                 <Image Source="/Resources/AddImage.png" Margin="3"/>
@@ -198,7 +218,7 @@
                                 </DockPanel>
                             </Grid>
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
             </Grid>
         </DockPanel>

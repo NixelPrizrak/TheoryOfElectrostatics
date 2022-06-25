@@ -34,7 +34,6 @@ namespace TheoryOfElectrostatics.Pages
         private string questImage = "";
         private int idQuestion = -1;
         private bool save = false;
-        private double offset;
         private string theme = "";
 
         public EditTestPage()
@@ -95,7 +94,6 @@ namespace TheoryOfElectrostatics.Pages
 
         private void QuestionsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            offset = HeaderScrollViewer.HorizontalOffset;
             SaveChanges(idQuestion);
             if (QuestionsListView.SelectedIndex > -1)
             {
@@ -160,7 +158,7 @@ namespace TheoryOfElectrostatics.Pages
 
             if (image != null)
             {
-                if (image.Width > 400 || image.Height > 200)
+                if (image.Width > 100 || image.Height > 50)
                 {
                     QuestionImage.Stretch = Stretch.Uniform;
                 }
@@ -452,22 +450,6 @@ namespace TheoryOfElectrostatics.Pages
             DataManager.CurrentTheme = theme;
             SaveChanges(QuestionsListView.SelectedIndex);
             DataManager.CurrentTheme = newTheme;
-        }
-
-        private void HeaderScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            if (e.HorizontalOffset < 10)
-            {
-                try
-                {
-                    if (offset != 0)
-                    {
-                        HeaderScrollViewer.ScrollToHorizontalOffset(offset);
-                    }
-                    offset = double.NaN;
-                }
-                catch { }
-            }
         }
     }
 }

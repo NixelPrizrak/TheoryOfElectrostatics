@@ -29,7 +29,7 @@ namespace TheoryOfElectrostatics
         {
             if (AuthTextBox.Text == "12345")
             {
-                new AdministrationWindow().ShowDialog();
+                new AdministrationWindow().Show();
                 this.Close();
             }
             else

@@ -105,7 +105,7 @@ namespace TheoryOfElectrostatics.Controls
             }
             else
             {
-                if (SecondAnswers.Count < 6)
+                if (SecondAnswers.Count < 9)
                 {
                     SecondAnswers.Add(new Answer());
                     foreach (var answer in ComparionsAnswers)
@@ -146,7 +146,7 @@ namespace TheoryOfElectrostatics.Controls
 
             if (image != null)
             {
-                if (image.Width > 400 || image.Height > 200)
+                if (image.Width > 100 || image.Height > 50)
                 {
                     imageControl.Stretch = Stretch.Uniform;
                 }

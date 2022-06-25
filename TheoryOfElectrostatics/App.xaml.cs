@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -14,13 +15,31 @@ namespace TheoryOfElectrostatics
     /// </summary>
     public partial class App : Application
     {
-        private void Application_Startup(object sender, StartupEventArgs e)
+        protected Mutex Mutex;
+
+        protected override void OnStartup(StartupEventArgs e)
         {
-            //Process[] lprcTestApp = Process.GetProcessesByName(AppDomain.CurrentDomain.FriendlyName.Split('.')[0]);
-            //if (lprcTestApp.Length > 1)
-            //{
-            //    Current.Shutdown();
-            //}
+            Mutex = new Mutex(true, "TheryOfElectrostatics.exe");
+            if (!Mutex.WaitOne())
+            {
+                Current.Shutdown();
+                return;
+            }
+            else
+            {
+                ShutdownMode = ShutdownMode.OnLastWindowClose;
+            }
+            base.OnStartup(e);
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            if (Mutex != null)
+            {
+                Mutex.ReleaseMutex();
+            }
+
+            base.OnExit(e);
         }
     }
 }

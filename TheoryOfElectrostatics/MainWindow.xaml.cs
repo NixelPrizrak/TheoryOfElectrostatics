@@ -25,6 +25,7 @@ namespace TheoryOfElectrostatics
         {
             InitializeComponent();
             DataManager.CheckTempFolder();
+            DataManager.Edit = false;
 
             DataManager.MainFrame = MainFrame;
             DataManager.MainFrame.Navigate(new Pages.MainPage());

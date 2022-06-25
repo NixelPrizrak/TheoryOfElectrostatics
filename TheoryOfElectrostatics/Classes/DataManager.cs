@@ -15,11 +15,11 @@ namespace TheoryOfElectrostatics.Classes
     {
         static public Frame MainFrame { get; set; }
         static public Frame DataFrame { get; set; }
-        static public Frame HelpFrame { get; set; }
         static public Frame AdministrationFrame { get; set; }
+        static public bool Edit { get; set; }
         static public string CurrentTheme { get; set; }
         static public int Section { get; set; }
-        static public string DataPath { get => $"Data/Data.zip"; }
+        static public string DataPath { get => $"Data/Data.fir"; }
         static public string ImagesPath { get => $"{CurrentTheme}/Images"; }
 
         static public void CreateTempFolder()

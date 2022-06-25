@@ -32,17 +32,19 @@ namespace TheoryOfElectrostatics.Controls
             this.countCondensator = countCondensator;
             ClearLine = true;
             ElementScheme resistor = new ElementScheme();
+            resistor.Type = 0;
             int countColumn = Convert.ToInt32(Math.Floor(SchemeGrid.ActualWidth / (resistor.Width + 20)));
             int countRow = Convert.ToInt32(Math.Ceiling((double)countResistor / countColumn));
             int numElement = 1;
 
             for (int i = 0; i < countRow; i++)
             {
-                double height = i * (resistor.Height + 20)+ 20;
+                double height = i * (resistor.Height + 20) + 20;
                 double columns = (countResistor - i * countColumn) < countColumn ? countResistor % countColumn : countColumn;
                 for (int j = 0; j < columns; j++)
                 {
                     resistor = new ElementScheme();
+                    resistor.Type = 0;
                     resistor.Margin = new Thickness(j * (resistor.Width + 20) + 20, height, 0, 0);
                     resistor.Title = $"R{numElement}";
                     numElement++;
@@ -83,6 +85,19 @@ namespace TheoryOfElectrostatics.Controls
                     SchemeGrid.Children.Add(resistor);
                 }
             }
+
+            nextPosition += countRow * (resistor.Height + 20);
+            resistor = new ElementScheme();
+            resistor.Type = 2;
+            resistor.Margin = new Thickness(20, nextPosition + 20, 0, 0);
+            resistor.Title = $"S1";
+
+            resistor.LeftEnd.PreviewMouseLeftButtonDown += End_MouseLeftButtonDown;
+            resistor.RightEnd.PreviewMouseLeftButtonDown += End_MouseLeftButtonDown;
+            resistor.Body.MouseLeftButtonDown += Control_MouseLeftButtonDown;
+            resistor.Body.MouseLeftButtonUp += Control_MouseLeftButtonUp;
+            resistor.Body.MouseMove += Control_MouseMove;
+            SchemeGrid.Children.Add(resistor);
         }
 
         private void Control_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -230,24 +245,10 @@ namespace TheoryOfElectrostatics.Controls
                         return;
                     }
 
-                    if (CurrentEllipse.Name != ellipse.Name)
+                    if (CurrentEllipse.Name != ellipse.Name || resistor.Type == 2 || endResistor.Type == 2)
                     {
-                        if (CurrentEllipse.Name == "LeftEnd")
-                        {
-                            resistor.LeftElement = endResistor;
-                            resistor.LeftLineEnd = "Start";
-                            endResistor.RightElement = resistor;
-                            endResistor.RightLineEnd = "Finish";
-                            resistor.LeftLine = endResistor.RightLine = CurrentLine;
-                        }
-                        else
-                        {
-                            resistor.RightElement = endResistor;
-                            resistor.RightLineEnd = "Start";
-                            endResistor.LeftElement = resistor;
-                            endResistor.LeftLineEnd = "Finish";
-                            resistor.RightLine = endResistor.LeftLine = CurrentLine;
-                        }
+                        UnionElement(resistor,endResistor,CurrentEllipse,CurrentLine,"Start");
+                        UnionElement(endResistor, resistor, ellipse, CurrentLine, "Finish");
 
                         Union(ellipse, CurrentLine);
                         (CurrentEllipse.Parent as Grid).Children.Remove(CurrentEllipse);
@@ -255,6 +256,22 @@ namespace TheoryOfElectrostatics.Controls
                         CurrentEllipse = null;
                     }
                 }
+            }
+        }
+
+        private void UnionElement(ElementScheme firstElement,ElementScheme secondElement, Ellipse elementEnd,UnionLine line, string lineEnd)
+        {
+            if (elementEnd.Name == "LeftEnd")
+            {
+                firstElement.LeftElement = secondElement;
+                firstElement.LeftLineEnd = lineEnd;
+                firstElement.LeftLine = line;
+            }
+            else
+            {
+                firstElement.RightElement = secondElement;
+                firstElement.RightLineEnd = lineEnd;
+                firstElement.RightLine = line;
             }
         }
 

@@ -25,7 +25,7 @@ namespace TheoryOfElectrostatics.Pages
         {
             InitializeComponent();
             int procent = (int)Math.Ceiling((score / maxScore) * 100);
-            int value = procent > 84 ? 5 : (procent > 74 ? 4 : (procent > 59 ? 3 : 2));
+            int value = procent > 89 ? 5 : (procent > 79 ? 4 : (procent > 64 ? 3 : 2));
             TitleTextBlock.Text = $"Результат теста по теме «{DataManager.CurrentTheme}»";
             ScoreTextBlock.Text = $"● Количество баллов  {Math.Round(score, 1)}/{maxScore}";
             ProcentTextBlock.Text = $"● Правильных ответов {procent}%";

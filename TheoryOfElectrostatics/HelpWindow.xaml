@@ -5,28 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TheoryOfElectrostatics"
         mc:Ignorable="d"
-        Title="Помощь" Height="550" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Помощь" Height="550" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
     <DockPanel Background="AliceBlue">
         <!--<Grid DockPanel.Dock="Top" Height="60">
             <TextBlock TextWrapping="Wrap" Text="Руководство N" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"/>
         </Grid>-->
         <ScrollViewer>
-            <TabControl BorderBrush="{x:Null}" Background="AliceBlue" SelectedIndex="0">
+            <TabControl x:Name="HelpTabControl" BorderBrush="{x:Null}" Background="AliceBlue" SelectedIndex="0">
                 <TabItem Header="TabItem" Visibility="Collapsed">
-                    <TextBlock TextWrapping="Wrap" Margin="20" FontSize="14">
-                        На главной странице для выбора есть 4 раздела. В разделах «Лекции» и «Практика» при выборе из списка открывается просмотр HTML страницы.
-                        В разделе тестирование при выборе из списка открывается страница с описанием теста и кнопкой «Начать». После начала теста открывается страница с первым вопросом теста,
-                        При нажатии на кнопки с номерами можно перемещаться между вопросами, при нажатии на стрелки можно переместится в соответствующую сторону по списку вопросов.
-Есть 4 вида вопросов: в вопросах с одним вариантом и несколькими необходимо просто отметить правильные, в вопросе с открытым ответом необходимо вписать в текстовое поле правильный ответ,
-                        в вопросе установить соответствие предложено два списка, которые сопоставляются путём подбора вариантов к первому списку из второго.
-                        
-                    </TextBlock>
+                    <StackPanel Orientation="Vertical" Margin="50,20">
+                        <TextBlock TextWrapping="Wrap" FontSize="14" Margin="0,10" TextAlignment="Justify">
+                            <Run Text="        "></Run>На главной странице для выбора есть 4 раздела. В разделах «Лекции» и «Практика» при выборе из списка открывается просмотр данного материала.<LineBreak/>
+                            <Run Text="        "></Run>В разделе тестирование при выборе из списка открывается страница с описанием теста и кнопкой «Начать». В тесте, показанном на рисунке ниже, указаны:
+                            1 - список с номерами вопросов теста, 2 - кнопка для перехода к предыдущему доступному вопросу, 3 - время оставшееся на вопрос.
+                            Есть 4 вида вопросов: в вопросах с одним вариантом и несколькими необходимо просто отметить правильные, в вопросе с открытым ответом необходимо вписать в текстовое поле правильный ответ,
+                            в вопросе установить соответствие предложено два списка, которые сопоставляются путём подбора вариантов к первому списку из второго.
+                        </TextBlock>
+                        <Image Source="/Resources/Guide1.jpg" Margin="0,10"/>
+                        <TextBlock TextWrapping="Wrap" FontSize="14" Margin="0,10" TextAlignment="Justify">
+                            <Run Text="        "></Run>В разделе сборки схем предлагается условие согласно, которому необходимо составить схему и проверить, нажав на кнопку «Проверить».
+                            При нажатии на кнопку «Сменить» произойдёт смена условия и предложенных для сборки элементов. При нажатии на кнопку «Добавить соединитель» по центру области схемы добавится элемент соединитель.
+                            При нажатии на кнопку «Очистить» произойдёт сброс элементов к изначальному состоянию.<LineBreak/>
+                            <Run Text="        "></Run>Перемещение элементов схемы происходит посредством зажатия левой кнопки мыши и перемещением.
+                            Нажав на правый или левый край элемента, можно создать линию для соединения с другим элементом.
+                        </TextBlock>
+                    </StackPanel>
                 </TabItem>
                 <TabItem Header="TabItem" Visibility="Collapsed">
-                    <Grid Background="AliceBlue">
-
-                    </Grid>
+                    <StackPanel Orientation="Vertical" Margin="50,20">
+                        <TextBlock TextWrapping="Wrap" FontSize="14" Margin="0,10" TextAlignment="Justify">
+                            <Run Text="        "></Run>Вид окна с открытым разделом «Тест» показан на рисунке ниже и содержит:1 - список вопросов, 2 - кнопка добавления вопроса, 3 - список тем,
+                            4 - поле для ввода темы и кнопка добавления, кнопка «Удалить тему» удаляет тему и все составляющие файлы, кнопка «Удалить» удаляет выбранный вопрос,
+                            кнопка «Сохранить» сохраняет данные теста.
+                        </TextBlock>
+                        <Image Source="/Resources/Guide2.jpg" Margin="0,10"/>
+                        <TextBlock TextWrapping="Wrap" FontSize="14" Margin="0,10" TextAlignment="Justify">
+                            <Run Text="        "></Run>В разделах «Лекция» и «Практика» идёт работа с HTML файлами. При нажатии на кнопку «Загрузить» происходит загрузка выбранного файла с всеми связанными файлами.
+                            При нажатии на кнопку «Выгрузить» происходит выгрузка папки с html-файлом и всеми связанными файлами. Изображение слева является изображением темы,
+                            которое можно изменить при нажатии на кнопку «Изменить».
+                        </TextBlock>
+                    </StackPanel>
                 </TabItem>
             </TabControl>
         </ScrollViewer>

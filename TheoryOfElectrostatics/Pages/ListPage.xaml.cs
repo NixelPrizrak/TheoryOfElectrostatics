@@ -56,6 +56,7 @@ namespace TheoryOfElectrostatics.Pages
 
         private void ListViewItemBorderOnMouseDown(object sender, MouseButtonEventArgs e)
         {
+            DataManager.DataFrame.Refresh();
             if ((sender as Border).DataContext is KeyValuePair<TextImage, string> theme)
             {
                 switch (theme.Value)
@@ -92,7 +93,7 @@ namespace TheoryOfElectrostatics.Pages
                     return;
                 }
 
-                imageControl.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/NoImage.png"));
+                imageControl.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/DefaultIcon.jpg"));
             }
         }
     }

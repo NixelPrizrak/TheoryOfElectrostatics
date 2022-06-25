@@ -19,7 +19,10 @@ namespace TheoryOfElectrostatics.Controls
                     case 0:
                         Resistor.Visibility = Visibility.Visible;
                         Kondensator.Visibility = Visibility.Hidden;
+                        Source.Visibility = Visibility.Hidden;
                         this.Width = 160;
+                        this.Height = 40;
+                        TitleLabel.Visibility = Visibility.Visible;
                         TitleLabel.Margin = new Thickness(0, 0, 0, 0);
                         TitleLabel.HorizontalAlignment = HorizontalAlignment.Center;
                         TitleLabel.VerticalAlignment = VerticalAlignment.Center;
@@ -28,11 +31,22 @@ namespace TheoryOfElectrostatics.Controls
                     case 1:
                         Resistor.Visibility = Visibility.Hidden;
                         Kondensator.Visibility = Visibility.Visible;
+                        Source.Visibility = Visibility.Hidden;
                         this.Width = 88;
+                        this.Height = 40;
+                        TitleLabel.Visibility = Visibility.Visible;
                         TitleLabel.Margin = new Thickness(0, -6, 0, 0);
                         TitleLabel.HorizontalAlignment = HorizontalAlignment.Left;
                         TitleLabel.VerticalAlignment = VerticalAlignment.Top;
                         TitleLabel.SetValue(Grid.ColumnProperty, 4);
+                        break;
+                    case 2:
+                        Resistor.Visibility = Visibility.Hidden;
+                        Kondensator.Visibility = Visibility.Hidden;
+                        Source.Visibility = Visibility.Visible;
+                        this.Width = 130;
+                        this.Height = 50;
+                        TitleLabel.Visibility = Visibility.Hidden;
                         break;
                     default:
                         break;

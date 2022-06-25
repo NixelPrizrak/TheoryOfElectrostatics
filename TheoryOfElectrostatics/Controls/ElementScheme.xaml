@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TheoryOfElectrostatics.Controls"
-             mc:Ignorable="d" VerticalAlignment="Top" HorizontalAlignment="Left" Width="160" Height="40">
+             mc:Ignorable="d" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" Height="50">
     
     <UserControl.Resources>
         <Style TargetType="{x:Type Ellipse}">
@@ -28,19 +28,42 @@
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Label x:Name="TitleLabel" Content="R1" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
-        <Rectangle x:Name="Resistor" Fill="Transparent" Stroke="Black" StrokeThickness="2" Grid.Column="3" Grid.RowSpan="3" Visibility="Visible"/>
+        <Label x:Name="TitleLabel" Content="R1" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Visibility="Hidden"/>
+        <Rectangle x:Name="Resistor" Fill="Transparent" Stroke="Black" StrokeThickness="2" Grid.Column="3" Grid.RowSpan="3" Visibility="Hidden"/>
         <Grid x:Name="Kondensator" Grid.Column="3" Grid.RowSpan="3" Visibility="Hidden">
             <Rectangle Width="2" StrokeThickness="2" Fill="Black" HorizontalAlignment="Left"/>
             <Rectangle Width="2" StrokeThickness="2" Fill="Black" HorizontalAlignment="Right"/>
         </Grid>
+        <Grid x:Name="Source" Grid.Column="3" Grid.RowSpan="3" Visibility="Visible">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="16*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="16"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            <Ellipse Grid.ColumnSpan="2" Grid.RowSpan="3" Fill="Transparent" Stroke="Black" StrokeThickness="2"/>
+            <Line Grid.Row="1" X1="0" X2="12" Y1="8" Y2="0" StrokeThickness="2" Stroke="Black"/>
+            <Line Grid.Row="1" X1="0" X2="12" Y1="8" Y2="16" StrokeThickness="2" Stroke="Black"/>
+            <Rectangle Height="2" Fill="Black" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
+
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Height="12" Width="12" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-12,2,0,0">
+                <Rectangle Height="2" Fill="Black"/>
+                <Rectangle Width="2" Fill="Black"/>
+            </Grid>
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="3" Height="12" Width="12" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,-12,0">
+                <Rectangle Height="2" Fill="Black"/>
+            </Grid>
+        </Grid>
         <Rectangle x:Name="Body" Fill="Transparent" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="3" />
-        <Rectangle Height="2" StrokeThickness="2" Fill="Black" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"/>
-        <Rectangle Height="2" StrokeThickness="2" Fill="Black" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <Rectangle Height="2" Fill="Black" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <Rectangle Height="2" Fill="Black" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2"/>
         <Ellipse x:Name="LeftEnd" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
         <Ellipse x:Name="RightEnd" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="2"/>
     </Grid>

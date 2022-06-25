@@ -88,7 +88,7 @@ namespace TheoryOfElectrostatics.Controls
                     string name = $"{DataManager.ImagesPath}/{answer.Image}";
                     var image = DataManager.GetImage(name);
 
-                    if (image.Width > 400 || image.Height > 200)
+                    if (image.Width > 300 || image.Height > 140)
                     {
                         imageControl.Stretch = Stretch.Uniform;
                     }
